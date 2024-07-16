@@ -24,7 +24,7 @@ if(empty($templatelang)){
 }
 
 // Get Config to send to ConfigApi.php
-$configs = caasify_get_config();
+$configs = caasify_get_config_encoded();
 
 $systemUrl = rtrim($configs['systemUrl'], '/');
 $BackendUrl = $configs['BackendUrl'];

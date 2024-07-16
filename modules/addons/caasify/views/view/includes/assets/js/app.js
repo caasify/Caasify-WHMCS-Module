@@ -8,6 +8,7 @@ app = createApp({
 
             // new Charging sys
             InvoiceCreationStatus: null,
+            SelectedGetway: 'Stripe',
 
             
             // Mycaasify
@@ -220,47 +221,86 @@ app = createApp({
         fileName(newFielName) {
             if (newFielName != null) {
                 if (newFielName == "reseller.php") {
-                    this.readLanguageFirstTime();
-                    this.LoadWhmcsUser();
-                    this.LoadCaasifyResellerUser();
-                    this.LoadGetUserToken();
-                    this.loadPollingResellerUserPage()
+
+                    setTimeout(() => {
+                        this.LoadCaasifyResellerUser();
+                        this.LoadWhmcsCurrencies();
+                        setTimeout(() => {
+                            this.LoadGetUserToken();
+                            setTimeout(() => {
+                                this.LoadWhmcsUser();
+                                setTimeout(() => {
+                                    this.loadPollingResellerUserPage();
+                                }, 0.5 * 1000);
+                            }, 0.5 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
 
                 } else if (newFielName == "index.php") {
-                    this.LoadUserOrders();
-                    this.readLanguageFirstTime();
-                    this.LoadCaasifyUser();
-                    this.LoadWhmcsUser();
-                    this.LoadWhmcsCurrencies();
-                    this.loadPollingIndex()
+                    
+                    setTimeout(() => {
+                        this.LoadCaasifyUser();
+                        setTimeout(() => {
+                            this.LoadUserOrders();
+                            setTimeout(() => {
+                                this.LoadWhmcsUser();
+                                setTimeout(() => {
+                                    this.LoadWhmcsCurrencies();
+                                    setTimeout(() => {
+                                        this.loadPollingIndex();
+                                    }, 0.5 * 1000);
+                                }, 0.5 * 1000);
+                            }, 0.5 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
 
                 } else if (newFielName == "create.php") {
-                    this.CreateRandomHostName()
-                    this.LoadCaasifyUser();
-                    this.LoadWhmcsUser();
-                    this.LoadWhmcsCurrencies();
-                    this.loadDataCenters();
-                    this.readLanguageFirstTime();
-                    this.loadPollingCreate()
+
+                    setTimeout(() => {
+                        this.loadDataCenters();
+                        setTimeout(() => {
+                            this.LoadCaasifyUser();
+                            setTimeout(() => {
+                                this.LoadWhmcsUser();
+                                setTimeout(() => {
+                                    this.LoadWhmcsCurrencies();
+                                    setTimeout(() => {
+                                        this.CreateRandomHostName();
+                                        this.loadPollingCreate();
+                                    }, 0.5 * 1000);
+                                }, 0.5 * 1000);
+                            }, 0.5 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
 
                 } else if (newFielName == "view.php") {
-                    this.readLanguageFirstTime();
-                    this.LoadWhmcsUser();
-                    this.LoadWhmcsCurrencies();
+                    
                     this.orderId();
-                    this.LoadCaasifyUser();
-                    this.LoadTheOrder();
-
                     setTimeout(() => {
-                        this.LoadOrderViews();
-                        this.LoadActionsHistory();
-                        this.LoadOrderTraffics();
-                    }, 3 * 1000);
-
-                    setTimeout(() => {
-                        this.loadPollingViewMachine()
-                    }, 5 * 1000);
-
+                        this.LoadTheOrder();
+                        setTimeout(() => {
+                            this.LoadCaasifyUser();
+                            setTimeout(() => {
+                                this.LoadWhmcsUser();
+                                setTimeout(() => {
+                                    this.LoadWhmcsCurrencies();
+                                    setTimeout(() => {
+                                        this.LoadOrderViews();
+                                        setTimeout(() => {
+                                            this.LoadActionsHistory();
+                                            setTimeout(() => {
+                                                this.LoadOrderTraffics();
+                                                setTimeout(() => {
+                                                    this.loadPollingViewMachine();
+                                                }, 2 * 1000);
+                                            }, 0.5 * 1000);
+                                        }, 0.5 * 1000);
+                                    }, 2 * 1000);
+                                }, 0.5 * 1000);
+                            }, 0.5 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
+                    
                 }
             }
         },
@@ -297,6 +337,7 @@ app = createApp({
     mounted() {
         this.scrollToTop();
         this.fetchModuleConfig();
+        this.readLanguageFirstTime();
     },
 
     computed: {
@@ -598,7 +639,6 @@ app = createApp({
         },
 
         loadPollingResellerUserPage() {
-            setInterval(this.readLanguageFirstTime, 20 * 1000)
             setInterval(this.LoadWhmcsUser, 20 * 1000)
             setInterval(this.LoadCaasifyUser, 20 * 1000)
             setInterval(this.LoadGetUserToken, 20 * 1000)
@@ -1252,6 +1292,41 @@ app = createApp({
 
             if (NewChargingValidity == 'fine') {
                 RequestLink = this.CreateRequestLink(action = 'CreateNewUnpaidInvoice');
+                let response = await axios.post(RequestLink, params);
+                if (response?.data.result == 'success') {
+                    this.invoiceId = response?.data?.invoiceid
+                    setTimeout(() => {
+                        this.InvoiceCreationStatus = 'success';
+                        if(this.invoiceId){
+                            setTimeout(() => {
+                                this.openInvoicePage()
+                            }, 0.2 * 1000);
+                        }
+                    }, 1 * 1000);
+                } else {
+                    setTimeout(() => {
+                        this.InvoiceCreationStatus = 'fail';
+                    }, 2000);
+                }
+            } else {
+                return null
+            }
+        },
+        
+        async ResellerNewCreateUnpaidInvoice() {
+            let Chargeamount = this.chargeAmountinWhmcs;
+            let SelectedGetway = this.SelectedGetway;
+            let NewChargingValidity = this.NewChargingValidity;
+            this.InvoiceCreationStatus = 'start';
+
+            const params = { 
+                Chargeamount: Chargeamount,
+                SelectedGetway: SelectedGetway,
+                R: this.CurrenciesRatioWhmcsToCloud.toFixed(8)
+             };
+
+            if (NewChargingValidity == 'fine') {
+                RequestLink = this.CreateRequestLink(action = 'ResellerCreateNewUnpaidInvoice');
                 let response = await axios.post(RequestLink, params);
                 if (response?.data.result == 'success') {
                     this.invoiceId = response?.data?.invoiceid

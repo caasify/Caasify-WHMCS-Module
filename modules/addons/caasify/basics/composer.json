@@ -12,12 +12,5 @@
     "require": {
         "php": ">=5.6",
         "persgeek/request": "@dev"
-    },
-    "autoload": {
-        "files": [
-            "config.php",
-            "controller.php",
-            "hooks.php"
-        ]
     }
 }

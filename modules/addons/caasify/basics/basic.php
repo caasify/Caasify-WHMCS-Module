@@ -107,33 +107,6 @@ function caasify_generate_string($length = 10)
     return $result;
 }
 
-// Find the service identity
-$serviceId = caasify_get_query('avmServiceId');
-
-// Find action
-$action = caasify_get_query('avmAction');
-
-// Find the current logged in client
-$client = caasify_get_session('uid');
-
-if ($client) {
-    $client = Client::find($client);
-    if ($client) {
-        $service = $client->services()->find($serviceId);
-    }
-}
-
-$admin = caasify_get_session('adminid');
-
-if ($admin) {
-    $service = Service::find($serviceId);
-}
-
-if ($service) {
-    $controller = new AVMController($serviceId);
-    $controller->handle($action);
-} 
-
 function get_config_array_temp(){
     $ModuleConfigArray = [
         'BackendUrl' => null,
@@ -162,7 +135,7 @@ function get_config_array_temp(){
     return $ModuleConfigArray;
 }
 
-function caasify_get_config(){
+function caasify_get_config_encoded(){
     try {
         $configTable = Capsule::table('tbladdonmodules')->where('module', 'caasify')->get();
     } catch (\Exception $e) {
@@ -189,6 +162,32 @@ function caasify_get_config(){
         $encodedCommission = base64_encode($Commission);
         $ModuleConfigArray['Commission'] = $encodedCommission;
     }
+
+    $ModuleConfigArray['systemUrl'] = caasify_get_systemUrl();
+    return $ModuleConfigArray;
+}
+
+function caasify_get_config_decoded(){
+    try {
+        $configTable = Capsule::table('tbladdonmodules')->where('module', 'caasify')->get();
+    } catch (\Exception $e) {
+        echo "Can not access caasify tables";
+        return false;
+    }
+
+    $ModuleConfigArray = get_config_array_temp(); 
+    if(!empty($configTable)){
+        foreach($ModuleConfigArray as $key => $value){
+            foreach($configTable as $items){
+                if($items->setting == $key){
+                    $ModuleConfigArray[$key] = $items->value;
+                    if(!isset($items->value) || $items->value === ''){
+                        $ModuleConfigArray['errorMessage'] = $key . ' is empty';
+                    }
+                }
+            }
+        }
+    }    
 
     $ModuleConfigArray['systemUrl'] = caasify_get_systemUrl();
     return $ModuleConfigArray;
@@ -288,7 +287,7 @@ function caasify_create_currency_options(){
 }
 
 function caasify_GetDefaulLanguage(){
-    $CaasifyConfig = caasify_get_config();
+    $CaasifyConfig = caasify_get_config_decoded();
     $allowedLanguages = ['English', 'Farsi', 'Turkish', 'Russian', 'French', 'Deutsch', 'Brizilian', 'Italian'];
     
     // Find DefLang

@@ -3,7 +3,7 @@
         'name' => 'autovm-company/whmcs',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '91b1220688b4d62833a707935db29a4b481cec15',
+        'reference' => 'b15dbf9191eae66eab5527b14764df38904cfc03',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'autovm-company/whmcs' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '91b1220688b4d62833a707935db29a4b481cec15',
+            'reference' => 'b15dbf9191eae66eab5527b14764df38904cfc03',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

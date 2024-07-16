@@ -155,13 +155,13 @@ function caasify_output($vars) {
 
     
     // show error if config is empty or there is any error
-    $ModuleConfigArray = caasify_get_config();
+    $ModuleConfigArray = caasify_get_config_decoded();
     if($ModuleConfigArray['errorMessage']){
         $text = '<pre><p style="color:red" class="h5">' . $ModuleConfigArray['errorMessage'] . '</p></pre>';
         echo($text);
     }
     
-    $configs = caasify_get_config();
+    $configs = caasify_get_config_decoded();
     $systemUrl = $configs['systemUrl'];
     if(empty($systemUrl)){
         $systemUrl = '/';
@@ -193,7 +193,7 @@ function caasify_clientarea($vars){
         return false;
     }    
 
-    $configs = caasify_get_config();
+    $configs = caasify_get_config_decoded();
     $BackendUrl = $configs['BackendUrl'];
     if(empty($BackendUrl)){
         echo 'can not find BackendUrl to construct controller <br>';

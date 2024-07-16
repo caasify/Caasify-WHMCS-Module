@@ -38,7 +38,7 @@
                         <div class="row m-0 p-0 mt-4">            
                             <div class="col-12 m-0 p-0">
                                 <div class="row m-0 p-0">
-                                    <div class="col-12 col-md-7 m-0 p-0">
+                                    <div class="col-12 col-md-7 m-0 p-0 mb-2">
                                         <div class="row m-0 p-0 pe-md-2">
                                             <div class="col-12 m-0 p-0 input-group">
                                                 <span class="input-group-text bg-body-secondary border-secondary" id="chargecredit" style="width: 140px !important;">
@@ -53,6 +53,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <?php if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'): ?>
+                                        <div class="col-12 col-md-5 m-0 p-0 mb-2">
+                                            <div class="row m-0 p-0 pe-md-2">
+                                                <div class="col-12 m-0 p-0 input-group">
+                                                    <span class="input-group-text" id="gateway">
+                                                        {{ lang('Gateway') }}
+                                                    </span>
+                                                    <select class="form-select" aria-label="Default select example" style="max-width: 150px;" v-model="SelectedGetway">
+                                                        <option value="Stripe" selected>Stripe</option>
+                                                        <option value="Crypto">Crypto</option>
+                                                        <option value="BankTransfer">Bank Transfer</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
@@ -170,30 +186,61 @@
                 </div>
                 <div class="d-flex flex-row justify-content-between">
                     <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal" aria-label="Close">{{ lang('close') }}</button>
-                    <!-- BTN -->
-                    <div class="m-0 p-0 ps-2" v-if="chargeAmountinWhmcs && NewChargingValidity == 'fine'">
-                        <a v-if="InvoiceCreationStatus == null" class="btn btn-primary col-auto px-4" @click="NewCreateUnpaidInvoice">
-                            <span>{{ lang('starttransferring') }}</span>
-                        </a>
-                        <a v-if="InvoiceCreationStatus == 'start'" class="btn btn-primary col-auto px-4" disabled>
-                            <span>
-                                {{ lang('Creating invoice') }}
-                            </span>
-                            <span>
-                                <?php include('./includes/baselayout/threespinner.php'); ?>
-                            </span>
-                        </a>
-                        <a v-if="InvoiceCreationStatus == 'fail'" class="btn btn-danger col-auto px-4" @click="NewCreateUnpaidInvoice">
-                            <span>
-                                {{ lang('tryagain') }}
-                            </span>
-                        </a>
-                        <button v-if="InvoiceCreationStatus == 'success'" class="btn btn-primary col-auto px-4" target="_parent" @click="openInvoicePage">
-                            <span>
-                                {{ lang('Go to invoice payment') }}
-                            </span>
-                        </button>
-                    </div>
+                    
+                    <!-- BTN Reseller mycaasify -->
+                    <?php if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'): ?>
+
+                        <div class="m-0 p-0 ps-2" v-if="chargeAmountinWhmcs && NewChargingValidity == 'fine'">
+                            <a v-if="InvoiceCreationStatus == null" class="btn btn-primary col-auto px-4" @click="ResellerNewCreateUnpaidInvoice">
+                                <span>{{ lang('starttransferring') }}</span>
+                            </a>
+                            <a v-if="InvoiceCreationStatus == 'start'" class="btn btn-primary col-auto px-4" disabled>
+                                <span>
+                                    {{ lang('Creating invoice') }}
+                                </span>
+                                <span>
+                                    <?php include('./includes/baselayout/threespinner.php'); ?>
+                                </span>
+                            </a>
+                            <a v-if="InvoiceCreationStatus == 'fail'" class="btn btn-danger col-auto px-4" @click="ResellerNewCreateUnpaidInvoice">
+                                <span>
+                                    {{ lang('tryagain') }}
+                                </span>
+                            </a>
+                            <button v-if="InvoiceCreationStatus == 'success'" class="btn btn-primary col-auto px-4" target="_parent" @click="openInvoicePage">
+                                <span>
+                                    {{ lang('Go to invoice payment') }}
+                                </span>
+                            </button>
+                        </div>
+                    
+                    <?php else: ?>
+                        <!-- BTN ordinary -->
+                        <div class="m-0 p-0 ps-2" v-if="chargeAmountinWhmcs && NewChargingValidity == 'fine'">
+                            <a v-if="InvoiceCreationStatus == null" class="btn btn-primary col-auto px-4" @click="NewCreateUnpaidInvoice">
+                                <span>{{ lang('starttransferring') }}</span>
+                            </a>
+                            <a v-if="InvoiceCreationStatus == 'start'" class="btn btn-primary col-auto px-4" disabled>
+                                <span>
+                                    {{ lang('Creating invoice') }}
+                                </span>
+                                <span>
+                                    <?php include('./includes/baselayout/threespinner.php'); ?>
+                                </span>
+                            </a>
+                            <a v-if="InvoiceCreationStatus == 'fail'" class="btn btn-danger col-auto px-4" @click="NewCreateUnpaidInvoice">
+                                <span>
+                                    {{ lang('tryagain') }}
+                                </span>
+                            </a>
+                            <button v-if="InvoiceCreationStatus == 'success'" class="btn btn-primary col-auto px-4" target="_parent" @click="openInvoicePage">
+                                <span>
+                                    {{ lang('Go to invoice payment') }}
+                                </span>
+                            </button>
+                        </div>
+                    <?php endif ?>
+
                 </div>
             </div>
         </div>  

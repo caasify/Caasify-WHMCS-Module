@@ -7,7 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'b41be569c48b1947114fd50c1b47bf80' => $vendorDir . '/persgeek/request/helpers.php',
-    '08e60ab0c5c0d2474192303ebd36205d' => $baseDir . '/config.php',
-    '77c22f5ec4ece5b040661a860085613e' => $baseDir . '/controller.php',
-    '3a171750649aac87781d81f2eae35cfc' => $baseDir . '/hooks.php',
 );

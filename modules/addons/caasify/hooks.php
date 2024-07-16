@@ -161,7 +161,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
     add_hook('ClientAreaPrimaryNavbar', 1, function ($primaryNavbar) {
         /** @var \WHMCS\View\Menu\Item $primaryNavbar */
 
-        $config = caasify_get_config();
+        $config = caasify_get_config_decoded();
 
         $CaasifyMenuTitle = $config['CaasifyMenuTitle'];
         if (!isset($CaasifyMenuTitle) || !is_string($CaasifyMenuTitle)) {
@@ -193,7 +193,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         if (!is_null($primaryNavbar->getChild('Services'))) {
             $servicesMenu = $primaryNavbar->getChild('Services');
             
-            $config = caasify_get_config();
+            $config = caasify_get_config_decoded();
 
             $CaasifyMenuTitle = $config['CaasifyMenuTitle'];
             if (!isset($CaasifyMenuTitle) || !is_string($CaasifyMenuTitle)) {
@@ -230,7 +230,7 @@ add_hook('ClientAreaPage', 100, function ($params) {
         return false;
     }
 
-    $config = caasify_get_config();
+    $config = caasify_get_config_decoded();
     $ResellerToken = caasify_get_reseller_token();
     $BackendUrl = $config['BackendUrl'];
 
@@ -265,7 +265,7 @@ add_hook('AdminAreaClientSummaryPage', 1, function ($vars) {
         return false;
     }
 
-    $config = caasify_get_config();
+    $config = caasify_get_config_decoded();
     $ResellerToken = caasify_get_reseller_token();
     $BackendUrl = $config['BackendUrl'];
     $WhUserId = $vars['userid'];
@@ -570,6 +570,16 @@ add_hook('InvoicePaid', 1, function($vars) {
         $invoice = localAPI($command, $postData, $adminUsername);
     }
 
+    $items = $invoice['items']['item'];
+    foreach ($items as $item) {
+        if($item['description'] == 'Cloud Account Charging'){
+            $RawAmountCharge = $item['amount'];
+        }
+    }
+    if(!isset($RawAmountCharge)){
+        return false;
+    }
+
     $WhUserId = $invoice['userid'];
     if(!isset($WhUserId)){
         return false;
@@ -590,12 +600,7 @@ add_hook('InvoicePaid', 1, function($vars) {
     preg_match('/R([0-9]+\.[0-9]+)POAWMM/', $notes, $matches);
     $Ratio = $matches[1];
 
-    $RawAmountCharge = $invoice['subtotal'];
-    if(!isset($RawAmountCharge)){
-        return false;
-    }
-
-    $config = caasify_get_config();
+    $config = caasify_get_config_decoded();
     $Commission = $config['Commission'];
 
     $ChargeAmountInCloudCurr = 100* ($RawAmountCharge * $Ratio)/(100 + $Commission);

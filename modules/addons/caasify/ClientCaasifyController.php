@@ -509,6 +509,68 @@ class ClientCaasifyController
             $this->response($results); 
         } 
     }
+    
+    public function ResellerCreateNewUnpaidInvoice()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);        
+        if(isset($requestData['Chargeamount'])){
+            $Chargeamount = $requestData['Chargeamount'];
+        } else {
+            echo 'can not access charge amount (NE01-Create Invoice)';
+            return false;
+        }
+        
+        if(isset($requestData['R'])){
+            $R = $requestData['R'];
+        } else {
+            echo 'can not access Ratio amount (NE02-Create Invoice)';
+            return false;
+        }
+        
+        if(isset($requestData['SelectedGetway'])){
+            $SelectedGetway = $requestData['SelectedGetway'];
+        } else {
+            echo 'can not access SelectedGetway (NE03-Create Invoice)';
+            return false;
+        }
+
+        if(isset($SelectedGetway) && $SelectedGetway == 'Stripe' && isset($Chargeamount)){
+            $GatewayCommisionLabel = 'Stripe Commission 2.9% + 0.30 Euro';
+            $GatewayCommisionValue = 0.30 + (0.029 * $Chargeamount);
+        } else {
+            $GatewayCommisionLabel = 'Gateway Commission';
+            $GatewayCommisionValue = 0;
+        }
+
+        $notes = 'R' . $R . 'POAWMM';
+
+        $WhUserId = $this->WhUserId;
+        $currentDateTime = date('Y-m-d');
+        $nextDay = date('Y-m-d', strtotime($currentDateTime . ' +1 day'));
+
+        if(isset($Chargeamount) && isset($WhUserId) && isset($notes)){
+            $command = 'CreateInvoice';
+            $postData = array(
+                'userid' => $WhUserId,
+                'status' => 'Unpaid',
+                'paymentmethod' => 'stripe',
+                'taxrate' => '0',
+                'date' => $currentDateTime,
+                'duedate' => $nextDay,
+                'itemdescription1' => 'Cloud Account Charging',
+                'itemamount1' => $Chargeamount,
+                'itemtaxed1' => '0',
+                'itemdescription2' => $GatewayCommisionLabel,
+                'itemamount2' => $GatewayCommisionValue,
+                'itemtaxed2' => '0',
+                'notes' => $notes,
+                'autoapplycredit' => '0',
+            );
+
+            $results = localAPI($command, $postData);
+            $this->response($results); 
+        } 
+    }
 
     public function CreateUnpaidInvoice()
     {
