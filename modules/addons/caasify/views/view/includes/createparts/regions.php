@@ -45,7 +45,7 @@
                 </p>    
             </div>
         </div> 
-        <div class="row">
+        <div class="row" style="direction: ltr;">
             <div v-for="region in regions" class="col-12 col-md-6 col-lg-4 col-xl-3 p-2 m-0">
                 <div 
                 style="--bs-bg-opacity: 0.5 !important; height: 70px !important;"

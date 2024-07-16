@@ -445,8 +445,11 @@ let common = {
     "SpotAlert06" : "Spot VM'ler için kullanılabilirlik veya çalışma süresi garantisi yoktur.",
     "SpotAlert07" : "En İyi Kullanım Alanları:",
     "SpotAlert08" : "Toplu işlem, geliştirme, test ve diğer kritik olmayan iş yükleri için uygundur.",
-    "SpotAlert09" : "Kararlı, güvenilir ve garantili performans için standart VM tekliflerini seçmenizi öneririz."
+    "SpotAlert09" : "Kararlı, güvenilir ve garantili performans için standart VM tekliflerini seçmenizi öneririz.",
     
+    
+    "Product Detail" : "Product Detail ",
+    "Price is in" : "Price is in ",
     
 }
 

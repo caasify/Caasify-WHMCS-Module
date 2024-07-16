@@ -1740,9 +1740,11 @@ app = createApp({
                 return NaN
             }
 
-            return FormattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-            // return FormattedPrice
+            if(FormattedPrice<1){
+                return (Math.floor(FormattedPrice * 10000) / 10000).toFixed(4);
+            } else {
+                return FormattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
 
         },
 
