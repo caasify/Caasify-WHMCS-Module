@@ -446,8 +446,11 @@ let common = {
     "SpotAlert06" : "Não há garantia de disponibilidade ou tempo de atividade para VMs Spot.",
     "SpotAlert07" : "Melhores Casos de Uso:",
     "SpotAlert08" : "Adequado para processamento em lote, desenvolvimento, teste e outras cargas de trabalho não críticas.",
-    "SpotAlert09" : "Para desempenho estável, confiável e garantido, recomendamos escolher as ofertas padrão de VM."    
+    "SpotAlert09" : "Para desempenho estável, confiável e garantido, recomendamos escolher as ofertas padrão de VM."    ,
 
+    
+    "Product Detail" : "Product Detail ",
+    "Price is in" : "Price is in ",
 
 
 

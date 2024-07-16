@@ -446,8 +446,11 @@ let common = {
     "SpotAlert06" : "Es gibt keine Garantie für Verfügbarkeit oder Betriebszeit für Spot-VMs.",
     "SpotAlert07" : "Beste Anwendungsfälle:",
     "SpotAlert08" : "Geeignet für Batch-Verarbeitung, Entwicklung, Testen und andere nicht-kritische Arbeitslasten.",
-    "SpotAlert09" : "Für stabile, zuverlässige und garantierte Leistung empfehlen wir die Wahl der Standard-VM-Angebote."    
+    "SpotAlert09" : "Für stabile, zuverlässige und garantierte Leistung empfehlen wir die Wahl der Standard-VM-Angebote.",    
 
+    
+    "Product Detail" : "Product Detail ",
+    "Price is in" : "Price is in ",
 }
 
 const words = {

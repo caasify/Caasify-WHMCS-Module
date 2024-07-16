@@ -58,7 +58,7 @@
                                             <div class="row m-0 p-0 pe-md-2">
                                                 <div class="col-12 m-0 p-0 input-group">
                                                     <span class="input-group-text" id="gateway">
-                                                        {{ lang('Gateway') }}
+                                                        {{ lang('gateway') }}
                                                     </span>
                                                     <select class="form-select" aria-label="Default select example" style="max-width: 150px;" v-model="SelectedGetway">
                                                         <option value="Stripe" selected>Stripe</option>

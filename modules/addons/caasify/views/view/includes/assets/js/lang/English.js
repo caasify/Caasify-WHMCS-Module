@@ -449,6 +449,8 @@ let common = {
     "SpotAlert09" : "For stable, reliable, and guaranteed performance, we recommend choosing the standard VM offerings.",
     
     
+    "Product Detail" : "Product Detail ",
+    "Price is in" : "Price is in ",
     
 }
 

@@ -446,9 +446,10 @@ let common = {
     "SpotAlert06" : "Non c'è garanzia di disponibilità o uptime per le VM Spot.",
     "SpotAlert07" : "Migliori Casi d'Uso:",
     "SpotAlert08" : "Adatto per l'elaborazione batch, lo sviluppo, i test e altri carichi di lavoro non critici.",
-    "SpotAlert09" : "Per prestazioni stabili, affidabili e garantite, consigliamo di scegliere le offerte VM standard."
-    
+    "SpotAlert09" : "Per prestazioni stabili, affidabili e garantite, consigliamo di scegliere le offerte VM standard.",
 
+    "Product Detail": "Ürün Detayı",
+    "Price is in": "Fiyat şurada",
     
 }
 

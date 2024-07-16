@@ -110,6 +110,9 @@
                                                 :
                                             </span>
                                             {{ formatTotalMachinePrice(TotalMachinePrice) }} {{ userCurrencySymbolFromWhmcs }}
+                                            <span class="px-1">
+                                                /{{ lang('monthly') }}
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
