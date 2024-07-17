@@ -62,6 +62,32 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                 $primaryNavbar->removeChild('Domains');
             }
 
+
+
+            if (!is_null($primaryNavbar->getChild('Support'))) {
+                $servicesMenu = $primaryNavbar->getChild('Support');
+                if (!is_null($servicesMenu->getChild('Announcements'))){
+                    $servicesMenu->removeChild('Announcements');
+                }
+                if (!is_null($servicesMenu->getChild('Knowledgebase'))){
+                    $servicesMenu->removeChild('Knowledgebase');
+                }
+                if (!is_null($servicesMenu->getChild('Downloads'))){
+                    $servicesMenu->removeChild('Downloads');
+                }
+                if (!is_null($servicesMenu->getChild('Network Status'))){
+                    $servicesMenu->removeChild('Network Status');
+                }
+            }
+            
+            if (!is_null($primaryNavbar->getChild('Billing'))) {
+                $BillingMenu = $primaryNavbar->getChild('Billing');
+                if (!is_null($BillingMenu->getChild('My Quotes'))){
+                    $BillingMenu->removeChild('My Quotes');
+                }
+            }
+            
+            
         });        
 
         // Reseller menu
