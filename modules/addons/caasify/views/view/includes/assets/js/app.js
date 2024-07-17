@@ -614,6 +614,45 @@ app = createApp({
 
     methods: {
 
+        showTrafficPriceInWhmcsUint(price) {
+            if (isNaN(price) || price == null) {
+                console.error('Price in showTrafficPriceInWhmcsUint is null')
+                return NaN
+            }
+
+            let FloatPrice = parseFloat(price);
+            if (isNaN(FloatPrice) || FloatPrice == null) {
+                console.error('FloatPrice in showTrafficPriceInWhmcsUint is not Float')
+                return NaN
+            }
+
+            let PriceWithCommission = this.addCommision(FloatPrice)
+            if (isNaN(PriceWithCommission) || PriceWithCommission == null) {
+                console.error('PriceWithCommission is null in showTrafficPriceInWhmcsUint')
+                return NaN
+            }
+
+            let PriceInWhCurrency = this.ConvertFromCaasifyToWhmcs(PriceWithCommission)
+            if (isNaN(PriceInWhCurrency)) {
+                console.error('PriceInWhCurrency is null in showTrafficPriceInWhmcsUint')
+                return NaN
+            }
+
+            let FormattedPrice = this.formatCostMonthly(PriceInWhCurrency)
+
+            if (isNaN(FormattedPrice) || FormattedPrice == null) {
+                console.error('FormattedPrice is null in showTrafficPriceInWhmcsUint')
+                return NaN
+            }
+
+            if(FormattedPrice < 1){
+                return (Math.floor(FormattedPrice * 10000) / 10000).toFixed(4);
+            } else {
+                return FormattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+        },
+
         showBalanceAlertModal() {
             $('#BalanceAlertModal').modal('show');
         },
@@ -1721,7 +1760,7 @@ app = createApp({
                 return NaN
             }
 
-            let PriceWithCommission = this.addCommision(price)
+            let PriceWithCommission = this.addCommision(FloatPrice)
             if (isNaN(PriceWithCommission) || PriceWithCommission == null) {
                 console.error('PriceWithCommission is null')
                 return NaN

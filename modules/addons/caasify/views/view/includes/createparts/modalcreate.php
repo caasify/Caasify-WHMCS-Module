@@ -64,6 +64,29 @@
                                                     </span>
                                                 </td>
                                             </tr>
+                                            
+                                            <!-- Extra Traffic Cost -->
+                                            <tr v-if="SelectedPlan">
+                                                <td class="m-0 p-0">
+                                                    <i class="bi bi-check-circle-fill me-1"></i>
+                                                    <span>
+                                                        {{ lang('tabeltraffic') }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-primary fw-medium m-0 p-0">
+                                                    <span v-if="SelectedPlan?.traffic_price" class="m-0 p-0 pe-2">
+                                                        <span>
+                                                            {{ showTrafficPriceInWhmcsUint(SelectedPlan?.traffic_price) }}
+                                                        </span>
+                                                        <span class="px-1">
+                                                            {{ userCurrencySymbolFromWhmcs }}/{{ lang('gb') }}
+                                                        </span>
+                                                    </span>
+                                                    <span v-else class="m-0 p-0 pe-2">
+                                                        ...
+                                                    </span>
+                                                </td>
+                                            </tr>
 
                                             
                                             <!-- Section Configs -->
