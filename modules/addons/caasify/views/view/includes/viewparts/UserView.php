@@ -56,14 +56,11 @@
                             <i class="bi bi-currency-exchange pe-4"></i>
                             {{ lang('finance') }}
                         </p>
-                        <!-- Price -->
-                        <div class="row m-0 p-0">
+                        <!-- Monthly Price -->
+                        <div class="row m-0 p-0 align-items-center">
                             <div class="col-auto m-0 p-0" style="min-width: 120px;">
                                 <span class="text-secondary align-middle m-0 p-0">
                                     {{ lang('Product Price') }}
-                                    <span class="px-1">
-                                        :
-                                    </span>
                                 </span>
                             </div>
                             <div class="col-auto m-0 p-0">
@@ -73,7 +70,7 @@
                                             {{ formatUserBalance(thisOrder.records[thisOrder.records.length - 1].price) }}
                                         </span>
                                         <span v-if="userCurrencySymbolFromWhmcs" class="ms-1">
-                                            {{ userCurrencySymbolFromWhmcs }}
+                                            {{ userCurrencySymbolFromWhmcs }}/{{ lang('monthly') }}
                                         </span>
                                     </span>
                                     <span v-else>
@@ -90,15 +87,33 @@
                                 </span>
                             </div>
                         </div>
+                        
+                        <!-- Hourly Price -->
+                        <div class="row m-0 p-0  align-items-center">
+                            <div class="col-auto m-0 p-0" style="min-width: 120px;">
+                            </div>
+                            <div class="col-auto m-0 p-0">
+                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].hourly_price">
+                                    <span v-if="CommissionIsValid">
+                                        <span>
+                                            {{ formatUserBalance(thisOrder.records[thisOrder.records.length - 1].hourly_price) }}
+                                        </span>
+                                        <span v-if="userCurrencySymbolFromWhmcs" class="ms-1">
+                                            {{ userCurrencySymbolFromWhmcs }}/{{ lang('hourly') }}
+                                        </span>
+                                    </span>
+                                    <span v-else>
+                                        NAN
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
 
                         <!-- Balance -->
-                        <div class="row m-0 p-0">
+                        <div class="row m-0 p-0 mt-5">
                             <div class="col-auto m-0 p-0" style="min-width: 120px;">
                                 <span class="text-secondary align-middle m-0 p-0">
                                     {{ lang('cloudbalance') }}
-                                    <span class="px-1">
-                                        :
-                                    </span>
                                 </span>
                             </div>
                             <div class="col-auto m-0 p-0">
@@ -128,9 +143,6 @@
                             <div class="col-auto m-0 p-0" style="min-width: 120px;">
                                 <span class="text-secondary align-middle m-0 p-0">
                                     {{ lang('yourcredit') }}
-                                    <span class="px-1">
-                                        :
-                                    </span>
                                 </span>
                             </div>
                             <div class="col-auto m-0 p-0">
