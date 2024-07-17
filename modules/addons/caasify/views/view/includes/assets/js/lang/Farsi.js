@@ -125,7 +125,7 @@ let common = {
         "setlanguage" : "تنظیم زبان",
         "traffics" : "اطلاعات ترافیک",
         "buytraffics" : "خرید ترافیک",
-        "tabeltraffic" : "حجم ترافیک: ",
+        "tabeltraffic" : " ترافیک: ",
         "traffictype" : "نوع ترافیک : ",
         "trafficusage" : "ترافیک مصرف شده: ",
         "trafficdate" : "زمان شروع ترافیک: ",
