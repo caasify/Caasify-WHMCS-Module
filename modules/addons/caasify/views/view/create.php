@@ -49,7 +49,7 @@
         </div>
         <div class="bg-white rounded-4 border border-2 border-body-secondary p-4" v-cloak v-else>
             <p class="h5 p-4 alert alert-danger">
-                Error 670: call your admin
+                Error 670: Commission is not valid, enter a valid value (ENGLISH Number) in WHMCS Setting -> Addons
             </p>
         </div>
     </div>
