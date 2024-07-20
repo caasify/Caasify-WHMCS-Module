@@ -267,7 +267,7 @@ let common = {
     "totalcostis" : "The total cost of creating order is ",
     "firstselectone": "Please, first select one of the above products",
     "createorder" : "Create order",
-    "hourly" : "hourly",
+    "hourly" : "Hourly",
     "cancel": "Cancel",
     "createthisorder": "Create This order",
     "youarecreating" : "You are creating a new order with the following configuration!",
