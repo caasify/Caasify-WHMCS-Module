@@ -176,7 +176,7 @@
                         </div>
                         <div class="row" v-else>
                             <p class="h5 p-4 alert alert-danger">
-                                {{ lang('Commission is Wrong') }}
+                                Error 670: Commission is not valid, enter a valid value (ENGLISH Number) in WHMCS Setting -> Addons
                             </p>
                         </div>
                     </div><!-- User Details -->
