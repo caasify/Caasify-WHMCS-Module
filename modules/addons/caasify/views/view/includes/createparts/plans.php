@@ -35,12 +35,6 @@
                             <span>
                                 {{ lang('Product Detail') }}
                             </span>
-                            <span class="ps-1">
-                                ({{ lang('Price is in') }}
-                            </span>
-                            <span class="ps-1">
-                                {{userCurrencySymbolFromWhmcs}})
-                            </span>
                         </th>
                         <th scope="col" style="width: 120px;" class="fs-5 fw-medium text-center">
                             <span>
@@ -50,7 +44,7 @@
                         <th scope="col" style="width: 120px;" class="fs-5 fw-medium text-center">
                             <span >
                                 <span>
-                                    {{ lang('monthly') }}
+                                    {{ lang('monthly') }}/{{userCurrencySymbolFromWhmcs}}
                                 </span>
                             </span>
                         </th>

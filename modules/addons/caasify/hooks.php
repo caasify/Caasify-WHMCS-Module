@@ -641,8 +641,19 @@ add_hook('InvoicePaid', 1, function($vars) {
     if(!isset($ResellerToken) || !isset($BackendUrl) || !isset($CaasifyUserId)){
         return false;
     }
+    
+    $MyCaasifyStatus = caasify_get_mycaasify_status();
+    if(!isset($MyCaasifyStatus) || $MyCaasifyStatus != 'on'){
+        $MyCaasifyStatus = 'off';
+    } else {
+        $MyCaasifyStatus = 'on';
+    }
 
-    $CreateTransaction = caasify_charge_user_from_invoice_hook($ResellerToken, $BackendUrl, $CaasifyUserId, $ChargeAmountInCloudCurr, $invoiceid);
+    if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
+        $CreateTransaction = caasify_charge_Reseller_from_invoice_hook($ResellerToken, $BackendUrl, $CaasifyUserId, $ChargeAmountInCloudCurr, $invoiceid);
+    } else {
+        $CreateTransaction = caasify_charge_user_from_invoice_hook($ResellerToken, $BackendUrl, $CaasifyUserId, $ChargeAmountInCloudCurr, $invoiceid);
+    }
 
     $KeyMsg = 'CaasifyChargingMsg' . $invoiceid;
     $KeyStatus = 'CaasifyChargingStatus' . $invoiceid;

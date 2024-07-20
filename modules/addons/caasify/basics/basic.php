@@ -600,6 +600,27 @@ function caasify_charge_user_from_invoice_hook($ResellerToken, $BackendUrl, $Caa
 
 }
 
+function caasify_charge_Reseller_from_invoice_hook($ResellerToken, $BackendUrl, $CaasifyUserId, $chargeamount, $invoiceid){
+    
+    $params = [
+        'amount' => $chargeamount,
+        'type' => 'balance',
+        'invoiceid' => $invoiceid,
+        'status' => 'paid'
+    ];
+
+    $headers = [
+        'Accept' =>  'application/json',
+        'Authorization' => 'Bearer ' . $ResellerToken
+    ];
+    
+    $address = [
+        $BackendUrl, 'api', 'backend', 'users', $CaasifyUserId, 'transactions', 'increase'
+    ];
+    
+    return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
+
+}
 
 function Caasify_Set_Log($message = 'Unknown error'){
     $uid = caasify_get_session('uid');
