@@ -130,30 +130,6 @@ function caasify_config(){
 // Show in admin panel in addon menu page
 function caasify_output($vars) {
 
-    if(!empty($vars['version'])){
-        $version = $vars['version'];
-        $text = '<h2> Version : ' . $version . '</h2>';
-        echo($text);
-    }
-
-    $text = '
-            <p>
-                <span style="font-weight: 800 !important;">Caasify</span> is an unique solution for Data Centers and Hosting companies to meet in unified hosting marketplace.
-            </p>
-        ';
-    echo($text);
-    
-    $text = '
-            <p>You can always get the latest version from the <a href="https://github.com/caasify/Caasify-WHMCS-Module" style="font-weight: 800 !important;" target="_blank">Caasify git repository</a></p>
-            <p>To learn how to use Caasify modules, please check out the 
-                <a href="https://caasify.com/documentation?topic=3#topic" style="font-weight: 800 !important;" target="_blank"> Caasify documentation page</a> 
-                or download
-                <a href="https://update.caasify.com/whmcs/howtoinstall.pdf" style="font-weight: 800 !important;" target="_blank">installation document</a>
-            </p>
-            ';
-    echo($text);
-
-    
     // show error if config is empty or there is any error
     $ModuleConfigArray = caasify_get_config_decoded();
     if($ModuleConfigArray['errorMessage']){
@@ -167,10 +143,47 @@ function caasify_output($vars) {
         $systemUrl = '/';
     }
 
-    $iframe = '<iframe src="' . $systemUrl . '/caasifyupdatepage.php" frameborder="0" class="iframe"></iframe><style>.iframe{width:100%; height: 550px;}</style>';
-    echo $iframe;
+    if(!empty($vars['version'])){
+        $version = $vars['version'];
+        $text = '<h2> Version : ' . $version . '</h2>';
+        echo($text);
+    }
+    
+    $text = '
+            <p>
+                <span style="font-weight: 800 !important;">Caasify</span> is an unique solution for Data Centers and Hosting companies to meet in unified hosting marketplace.
+            </p>
+        ';
+    echo($text);
 
     
+    $text = '
+            <p>You can always get the latest version from the <a href="https://github.com/caasify/Caasify-WHMCS-Module" style="font-weight: 800 !important;" target="_blank">Caasify git repository</a></p>
+            <p>To learn how to use Caasify modules, please check out the 
+                <a href="https://caasify.com/documentation?topic=3#topic" style="font-weight: 800 !important;" target="_blank"> Caasify documentation page</a> 
+                or download
+                <a href="https://update.caasify.com/whmcs/howtoinstall.pdf" style="font-weight: 800 !important;" target="_blank">installation document</a>
+            </p>
+            ';
+    echo($text);
+        
+    $text = '
+                <div  style="padding:80px 0px;">
+                    <h4>
+                        See Transaction Error logs
+                    </h4>
+                    <p>
+                        Transaction error page contains errors where the invoice has payes but the Caasify acccount did not charge duo to the error
+                    </p>
+                    <a class="btn btn-primary" href="' . $SystemUrl . '/admin/systemactivitylog.php?description=243">
+                        Go to see Transactions error logs
+                    </a>
+                </div>
+            ';
+    echo($text);
+
+    $iframe = '<iframe src="' . $systemUrl . '/caasifyupdatepage.php" frameborder="0" class="iframe"></iframe><style>.iframe{width:100%; height: 550px;}</style>';
+    echo $iframe;
 
 }
 
@@ -243,5 +256,3 @@ function caasify_clientarea($vars){
         }
     }
 }
-
-
