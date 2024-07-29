@@ -36,7 +36,11 @@
 
         <div class="d-flex flex-row justify-content-start align-items-center m-0 p-0 flex-wrap">
             <div class="m-0 p-0 d-none d-md-block ms-2">
-                <span class="btn btn-outline-secondary py-2 d-flex flex-row align-items-center px-4 btn-sm fw-medium">
+                <span 
+                    class="btn btn-outline-secondary py-2 d-flex flex-row align-items-center px-4 btn-sm fw-medium" 
+                    @click="HandleOpenConsoleModal" 
+                    v-if="thisProductHasConsole"
+                >
                     {{ lang('consoleaction') }}
                 </span>
             </div>

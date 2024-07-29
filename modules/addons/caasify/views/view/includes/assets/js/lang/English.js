@@ -82,7 +82,7 @@ let common = {
         "currentkey": "Current Key: ",
         "upgradecloud": "Upgrade Cloud Server",
         "setup": "Setup",
-        "waittofetch": "Wait please, it takes some second to fetch all data ... !",
+        "waittofetch": "Wait please, it takes more than 30 seconds to fetch all data !",
         "lastactionpending" : "Your last action is yet pending ... !",
         
         "waitforsetup" : "Please wait for setup to finish ... !",
@@ -451,6 +451,10 @@ let common = {
     
     "Product Detail" : "Product Detail ",
     "Price is in" : "Price is in ",
+    "Reguest Console Link" : "Reguest Console Link",
+    "Can not get Console button ID, call your admin" : "Can not get Console button ID, call your admin",
+    "This product has no console" : "This product has no console",
+    "Console Is Running" : "Console is running ",
     
 }
 
