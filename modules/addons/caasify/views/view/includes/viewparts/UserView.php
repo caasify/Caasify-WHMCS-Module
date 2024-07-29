@@ -64,7 +64,7 @@
                                 </span>
                             </div>
                             <div class="col-auto m-0 p-0">
-                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].price">
+                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].price && CurrenciesRatioCloudToWhmcs">
                                     <span v-if="CommissionIsValid">
                                         <span>
                                             {{ formatUserBalance(thisOrder.records[thisOrder.records.length - 1].price) }}
@@ -93,7 +93,7 @@
                             <div class="col-auto m-0 p-0" style="min-width: 120px;">
                             </div>
                             <div class="col-auto m-0 p-0">
-                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].hourly_price">
+                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].hourly_price && CurrenciesRatioCloudToWhmcs">
                                     <span v-if="CommissionIsValid">
                                         <span>
                                             {{ formatUserBalance(thisOrder.records[thisOrder.records.length - 1].hourly_price) }}
@@ -118,7 +118,7 @@
                             </div>
                             <div class="col-auto m-0 p-0">
                                 <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="balance">
-                                    <span v-if="CommissionIsValid">
+                                    <span v-if="CommissionIsValid && CurrenciesRatioCloudToWhmcs">
                                         <span>
                                             {{ formatUserBalance(balance) }}
                                         </span>

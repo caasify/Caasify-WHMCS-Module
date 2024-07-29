@@ -7,7 +7,7 @@
         <?php include('./includes/baselayout/balancealertmodal.php');?>
         <div class="bg-white rounded-4 border border-2 border-body-secondary" v-cloak v-if="CommissionIsValid">
             <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
-                <?php  include('./includes/baselayout/DemoHeader.php');   ?>
+                <?php  include('./includes/baselayout/demoheader.php');   ?>
             <?php endif ?>
             <?php include('./includes/indexparts/headtitle.php');     ?>
             <?php include('./includes/indexparts/orderslist.php');    ?>

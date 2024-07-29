@@ -82,7 +82,7 @@ let common = {
         "currentkey": "کلید فعلی: ",
         "upgradecloud": "ارتقاء سرور ابری",
         "setup": "نصب سیستم",
-        "waittofetch": "لطفاً صبر کنید، چند ثانیه برای دریافت تمام اطلاعات لازم است ... !",
+        "waittofetch": "لطفاً صبر کنید، ۳۰ ثانیه برای دریافت تمام اطلاعات لازم است !",
         "lastactionpending" : "درخواست آخر شما هنوز در حال اجرا است ... !",
         
         "waitforsetup" : "لطفاً منتظر پایان تنظیمات باشید ... !",
@@ -445,6 +445,12 @@ let common = {
 
     "Product Detail" : "جزئیات سرویس‌ها ",
     "Price is in" : "قیمت به واحد ",
+    "Reguest Console Link" : "درخواست کنسول",
+    "Can not get Console button ID, call your admin" : "اکشن کنسول یافت نشد. با ادمین تماس بگیرید",
+    "This product has no console" : "این محصول امکان کنسول را ندارد",
+    "Console Is Running" : "در حال دریافت مسیر کنسول",
+    "Link is Valid for" : "این ادرس برای ",
+    "seconds" : "ثانیه معتبر است",
 
 }
 

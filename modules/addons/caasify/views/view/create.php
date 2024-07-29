@@ -14,7 +14,7 @@
             <div class="col-12 bg-white rounded-4 border border-2 border-body-secondary m-0 p-0 mt-5"
                 style="min-height: 1800px">
                 <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
-                    <?php  include('./includes/baselayout/DemoHeader.php');   ?>
+                    <?php  include('./includes/baselayout/demoheader.php');   ?>
                 <?php endif ?>
                 <!-- lang BTN     -->
                 <div class="row">
