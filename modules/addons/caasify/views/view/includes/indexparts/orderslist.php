@@ -60,7 +60,7 @@
                         <!-- record -->
                         <td class="fw-medium d-none d-md-block py-3">
                             <span v-for="record in order.records" class="m-0 p-0">
-                                <span v-if="record.price" class="ms-2 text-primary">
+                                <span v-if="record.price != null" class="ms-2 text-primary">
                                     {{ formatPlanPrice(record.price) }} {{ userCurrencySymbolFromWhmcs }}
                                 </span>
                                 <span v-else class="fw-medium"> --- </span>

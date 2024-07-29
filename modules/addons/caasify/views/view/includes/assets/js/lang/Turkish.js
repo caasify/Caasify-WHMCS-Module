@@ -450,6 +450,14 @@ let common = {
     
     "Product Detail" : "Product Detail ",
     "Price is in" : "Price is in ",
+    "Reguest Console Link" : "Reguest Console Link",
+    "Can not get Console button ID, call your admin" : "Can not get Console button ID, call your admin",
+    "This product has no console" : "This product has no console",
+    "Console Is Running" : "Console is running ",
+    "Link is Valid for" : "Link is Valid for",
+    "seconds" : "seconds",
+
+
     
 }
 

@@ -6,37 +6,30 @@
     <script src="./includes/assets/js/axios.min.js"></script>
     
     <?php     
-        
-        if(isset($DevelopeMode) && $DevelopeMode == 'on'){
-            $environ = 'dev'; 
-        } else {
-            $environ = 'prod'; 
-        }
-        
+        // Language
         if (empty($templatelang)) {
             $templatelang = 'English';
         }
 
-        if($environ == 'dev'){
-            echo ('<script src="./includes/assets/js/vue.global.js"></script>');
-            echo ('<script src="./includes/assets/js/lang/' . $templatelang . '.js?v=' . time() . '"></script>');
-            if(isset($parentFileName) && $parentFileName == 'admin'){
-                echo ('<script src="./includes/assets/js/adminapp.js?v=' . time() . '"></script>');
-            } else {
-                echo ('<script src="./includes/assets/js/app.js?v=' . time() . '"></script>');
-            }
-        }
+        echo ('<script src="./includes/assets/js/lang/' . $templatelang . '.js?v=' . time() . '"></script>');
 
-        if($environ == 'prod'){
+        
+        // Dev or Build version of Vue
+        if(isset($DevelopeMode) && $DevelopeMode == 'on'){
+            $environ = 'dev'; 
+            echo ('<script src="./includes/assets/js/vue.global.js"></script>');
+        } else {
+            $environ = 'prod'; 
             echo ('<script src="./includes/assets/js/vue.global.prod.js"></script>');
-            echo ('<script src="./includes/assets/js/lang/' . $templatelang. '.js"></script>');
-            if(isset($parentFileName) && $parentFileName == 'admin'){
-                echo ('<script src="./includes/assets/js/adminapp.js"></script>');
-            } else {
-                echo ('<script src="./includes/assets/js/app.js"></script>');
-            }
         }
         
+        // app or admin version of vue app
+        if(isset($parentFileName) && $parentFileName == 'admin'){
+            echo ('<script src="./includes/assets/js/adminapp.js?v=' . time() . '"></script>');
+        } else {
+            echo ('<script src="./includes/assets/js/app.js?v=' . time() . '"></script>');
+        }
+
     ?>
 
 </footer>

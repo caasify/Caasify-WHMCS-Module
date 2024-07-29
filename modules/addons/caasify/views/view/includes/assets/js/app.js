@@ -9,7 +9,11 @@ app = createApp({
             // new Charging sys
             InvoiceCreationStatus: null,
             SelectedGetway: 'Stripe',
-
+            popupMessage: null,
+            WaitForConsoleRoute: false,
+            ConsoleTimer: null,
+            latestConsoleRequestId: null,
+            endLoadHistoryForConsole: false,
             
             // Mycaasify
             ResellerChargeAmount: null,
@@ -20,16 +24,8 @@ app = createApp({
             maskedToken: '**********',
             BtnCopyTokenPushed: false,
 
-
-
-
-
-
-
             CaasifyResellerUserIsLoaded: false,
             CaasifyResellerUserInfo: null,
-
-
 
             ChargeMSG: '',
             configIsLoaded: false,
@@ -81,13 +77,7 @@ app = createApp({
             ActionHistory: null,
             ActionHistoryIsLoaded: null,
 
-
             PassVisible: false,
-
-
-
-
-
 
             // Generals
             fileName: null,
@@ -101,7 +91,6 @@ app = createApp({
             CaasifyUserInfo: null,
             WhmcsUserInfo: null,
 
-
             // index
             OrdersLoaded: false,
 
@@ -109,7 +98,6 @@ app = createApp({
             UserOrders: [],
             userHasNoOrder: false,
             ConstUserId: null,
-
 
             chargeAmountinWhmcs: null,
             ConstChargeamountInWhmcs: null,
@@ -126,7 +114,6 @@ app = createApp({
             TransactionError: null,
             GlobalError: null,
 
-
             // Create
             PanelLanguage: null,
             moduleConfig: null,
@@ -136,7 +123,6 @@ app = createApp({
             checkboxconfirmation: null,
             CreateMSG: null,
             RullesText: null,
-
 
             DataCenters: [],
             SelectedDataCenter: null,
@@ -163,8 +149,6 @@ app = createApp({
             messageDialog: false,
             messageText: null,
 
-
-
             themachinename: null,
             MachineNameValidationError: false,
             SshNameValidationError: false,
@@ -178,10 +162,8 @@ app = createApp({
             createActionIsInQueue: false,
             userClickedCreationBtn: false,
             CreateIsLoading: false,
-            showAlertModal: false,
-            
+            showAlertModal: false,            
             CLBlanaceChecked: false,
-
 
         } 
     },
@@ -274,7 +256,7 @@ app = createApp({
                     }, 0.5 * 1000);
 
                 } else if (newFielName == "view.php") {
-                    
+
                     this.orderId();
                     setTimeout(() => {
                         this.LoadTheOrder();
@@ -341,6 +323,58 @@ app = createApp({
     },
 
     computed: {
+
+        ConsoleParams(){
+            if(this.latestConsoleRequestId != null){
+                let references = null;
+                for (let index in this.ActionHistory) {                    
+                    if (this.ActionHistory[index].id == this.latestConsoleRequestId){
+                        references = this.ActionHistory[index].references;
+                    }
+                }
+
+                let ConsoleParams = {};
+
+                if(references != ''){
+                    for(let key in references){
+                        ConsoleParams [references[key]?.reference?.type] = references[key]?.value 
+                        this.endLoadHistoryForConsole = true
+                        this.ConsoleTimer = 60
+                        this.CountDownConsoleTimer()
+                        this.WaitForConsoleRoute = false
+                    }
+                }
+
+                return ConsoleParams
+            }
+            return null
+        },
+
+        ConsoleLinkIsValid(){
+            if(this.ConsoleTimer != null && this.ConsoleTimer > 0){
+                return true
+            } else {
+                return false
+            }
+        },
+
+        thisProductHasConsole(){
+            if(this.thisOrder){
+                let buttons = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.groups[1]?.buttons
+                let button = null;
+                for (let key in buttons) {
+                    if (buttons.hasOwnProperty(key)) {
+                        button = buttons[key];
+                        if(button.type.toLowerCase() == 'console'){
+                            return true;
+                        }
+                    }
+                }
+                console.error('Order has no Console')
+                return false
+            }
+            return null;
+        },
 
         sortedPlans() {
             return this.plans.slice().sort((a, b) => a.price - b.price);
@@ -614,6 +648,17 @@ app = createApp({
 
     methods: {
 
+        CountDownConsoleTimer() {
+            const intervalId = setInterval(() => {
+                if (this.ConsoleTimer > 0) {
+                    this.ConsoleTimer -= 1;
+                } else {
+                    this.ConsoleTimer = null
+                    clearInterval(intervalId);
+                }
+            }, 1000);
+        },
+        
         showTrafficPriceInWhmcsUint(price) {
             if (isNaN(price) || price == null) {
                 console.error('Price in showTrafficPriceInWhmcsUint is null')
@@ -657,7 +702,6 @@ app = createApp({
             $('#BalanceAlertModal').modal('show');
         },
 
-        // MyCaasify
         changeVisibility() {
             this.showToken = !this.showToken
         },
@@ -1565,7 +1609,6 @@ app = createApp({
                 this.SshNamePreviousValue = this.themachinessh;
             }
         },
- 
 
         openConfirmDialog(action) {
             this.actionWouldBeHappened = action
@@ -1616,7 +1659,6 @@ app = createApp({
 
         formatUserBalanceInEuro(UserBalnce) {
             if (isNaN(UserBalnce) || UserBalnce == null) {
-                console.error('UserBalnce is null')
                 return NaN
             }
 
@@ -1644,7 +1686,6 @@ app = createApp({
         
         formatUserBalance(UserBalnce) {
             if (isNaN(UserBalnce) || UserBalnce == null) {
-                console.error('UserBalnce is null')
                 return NaN
             }
 
@@ -1680,31 +1721,26 @@ app = createApp({
 
         formatTotalMachinePrice(TotalMachinePrice) {
             if (isNaN(TotalMachinePrice) || TotalMachinePrice == null) {
-                console.error('TotalMachinePrice is null')
                 return NaN
             }
 
             let FloatTotalMachinePrice = parseFloat(TotalMachinePrice);
             if (isNaN(FloatTotalMachinePrice) || FloatTotalMachinePrice == null) {
-                console.error('FloatTotalMachinePrice is not Float')
                 return NaN
             }
 
             let TotalMachinePriceWithCommission = this.addCommision(FloatTotalMachinePrice)
             if (isNaN(TotalMachinePriceWithCommission) || TotalMachinePriceWithCommission == null) {
-                console.error('TotalMachinePriceWithCommission is null')
                 return NaN
             }
 
             let TotalPriceInWhCurrency = this.ConvertFromCaasifyToWhmcs(TotalMachinePriceWithCommission)
             if (isNaN(TotalPriceInWhCurrency) || TotalPriceInWhCurrency == null) {
-                console.error('TotalPriceInWhCurrency is null')
                 return NaN
             }
 
             let FormattedTotalPrice = this.formatCostMonthly(TotalPriceInWhCurrency)
             if (isNaN(FormattedTotalPrice) || FormattedTotalPrice == null) {
-                console.error('FormattedTotalPrice is null')
                 return NaN
             }
 
@@ -1716,31 +1752,26 @@ app = createApp({
 
         formatConfigPrice(ConfigPrice) {
             if (isNaN(ConfigPrice) || ConfigPrice == null) {
-                console.error('ConfigPrice is null')
                 return NaN
             }
 
             let FloatConfigPrice = parseFloat(ConfigPrice);
             if (isNaN(FloatConfigPrice) || FloatConfigPrice == null) {
-                console.error('FloatConfigPrice is not Float')
                 return NaN
             }
 
             let ConfigPriceWithCommission = this.addCommision(FloatConfigPrice)
             if (isNaN(ConfigPriceWithCommission) || ConfigPriceWithCommission == null) {
-                console.error('ConfigPriceWithCommission is null')
                 return NaN
             }
 
             let ConfigPriceInWhCurrency = this.ConvertFromCaasifyToWhmcs(ConfigPriceWithCommission)
             if (isNaN(ConfigPriceInWhCurrency) || ConfigPriceInWhCurrency == null) {
-                console.error('ConfigPriceInWhCurrency is null')
                 return NaN
             }
 
             let FormattedConfigePrice = this.formatCostMonthly(ConfigPriceInWhCurrency)
             if (isNaN(FormattedConfigePrice) || FormattedConfigePrice == null) {
-                console.error('FormattedConfigePrice is null')
                 return NaN
             }
 
@@ -1750,32 +1781,26 @@ app = createApp({
 
         formatPlanPrice(price) {
             if (isNaN(price) || price == null) {
-                console.error('Price in formatPlanPrice is null')
                 return NaN
             }
 
             let FloatPrice = parseFloat(price);
             if (isNaN(FloatPrice) || FloatPrice == null) {
-                console.error('FloatPrice in formatPlanPrice is not Float')
                 return NaN
             }
 
             let PriceWithCommission = this.addCommision(FloatPrice)
             if (isNaN(PriceWithCommission) || PriceWithCommission == null) {
-                console.error('PriceWithCommission is null')
                 return NaN
             }
 
             let PriceInWhCurrency = this.ConvertFromCaasifyToWhmcs(PriceWithCommission)
             if (isNaN(PriceInWhCurrency)) {
-                console.error('PriceInWhCurrency is null')
                 return NaN
             }
 
             let FormattedPrice = this.formatCostMonthly(PriceInWhCurrency)
-
             if (isNaN(FormattedPrice) || FormattedPrice == null) {
-                console.error('FormattedPrice is null')
                 return NaN
             }
 
@@ -2276,6 +2301,151 @@ app = createApp({
                     }
                 }
             }
+        },
+
+        async PushButtonConsole() { 
+            this.WaitForConsoleRoute = true
+            let button_id = this.findConsoleButtonID()
+            let orderID = this.orderID;
+            this.latestConsoleRequestId = null
+            
+            if (orderID != null && button_id != null) {
+                let formData = new FormData();
+                formData.append('orderID', orderID);
+                formData.append('button_id', button_id);
+
+
+                if (this.config?.DemoMode != null) {
+                    if (this.config?.DemoMode.toLowerCase() == 'off') {
+                        RequestLink = this.CreateRequestLink(action = 'CaasifyOrderDoAction');
+                        let response = await axios.post(RequestLink, formData);
+
+                        if (response?.data?.message) {
+                            this.WaitForConsoleRoute = false
+                            $('#RequestConsoleModal').modal('hide');
+                            this.showAlertModal = true;
+                            this.ActionAlertStatus = 'failed'
+                            this.ActionAlert = response?.data?.message
+                            console.error('Console Error: ' + response?.data?.message);
+                        }
+
+                        if (response?.data?.data) {
+                            this.latestConsoleRequestId = response?.data?.data?.id
+                            setInterval(this.LoadActionsHistoryForConsole, 10 * 1000)
+                        }
+                    } else {
+                        this.popupMessage = 'You can get Console inside Demo Mode';
+                        this.openMessageModal('themessagemodal', this.popupMessage);
+                        return false
+                    }
+                } else {
+                    this.popupMessage = 'Mode is Unknown';
+                    this.openMessageModal('themessagemodal', this.popupMessage);
+                    console.error('Mode is Unknown');
+                    return false
+                }
+            }
+        },
+        
+        LoadActionsHistoryForConsole(){
+            if(this.endLoadHistoryForConsole == false){
+                if(Object.keys(this.ConsoleParams).length === 0){
+                    this.LoadActionsHistory();
+                }
+            }
+        },
+
+        openMessageModal(ModalName, ModalMsg){
+            if(ModalName != null){
+                this.ModalMessage = ModalMsg
+                $('#'+ModalName).modal('show');
+            } else {
+                console.error('No modal : ' + ModalName);
+            }
+
+            setTimeout(() => {
+                $('#'+ModalName).modal('hide');
+                ModalMsg = null
+                this.ModalMessage = null
+            }, 3000);
+        },
+
+        HandleOpenConsoleModal(){
+            let button_id = null
+            this.actionWouldBeHappened = 'Console'
+            if(this.thisProductHasConsole == true){
+                button_id = this.findConsoleButtonID()
+                if(button_id == null){
+                    this.popupMessage = 'Can not get Console button ID, call your admin';
+                    this.openMessageModal('themessagemodal', this.popupMessage);
+                    return false
+                }
+                $('#RequestConsoleModal').modal('show');
+                return false
+
+            } else if(this.thisProductHasConsole == false){
+                this.popupMessage = 'This product has no console';
+                this.openMessageModal('themessagemodal', this.popupMessage);
+                return false
+
+            } else {
+                this.popupMessage = 'waittofetch';
+                this.openMessageModal('themessagemodal', this.popupMessage);
+                return false
+            }
+        },
+
+        findConsoleButtonID(){
+            if(this.thisOrder){
+                let buttons = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.groups[1]?.buttons
+                if(buttons){
+                    for (const key in buttons) {
+                        if (buttons.hasOwnProperty(key)) {
+                            if(buttons[key].type.toLowerCase() == 'console'){
+                                return buttons[key].id;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        },
+
+        OpenConsoleUrl(){
+            
+            if(this.ConsoleParams?.address != null){
+                let ConsoleParams = this.ConsoleParams
+                let url = new URL(ConsoleParams.address);
+                let host = url.host;
+                
+                let params = new URLSearchParams(url.search);
+                let queryParams = {};
+                let queryParamsAddress = '';
+                
+                for (let [key, value] of params) {
+                    queryParams[key] = value;
+                    queryParamsAddress += '&' + key + '=' + value
+                }
+
+                let port = '443'; 
+                let password = ConsoleParams.password;
+
+                let ConsoleUrl = this.systemUrl + "/modules/addons/caasify/views/view/includes/viewparts/noVNC/vnc_lite.html?host=" + host + '&port=' + port
+
+                if(password != null && password != ''){
+                    ConsoleUrl += '&password=' + password
+                }
+
+                if(queryParamsAddress != ''){
+                    ConsoleUrl += queryParamsAddress
+                }
+                
+                window.open(ConsoleUrl);
+            } else {
+                console.error('can not find console params');
+                
+            }
+
         },
 
         loadPollingViewMachine() {
