@@ -5,8 +5,8 @@
 <body class="container-fluid p-1 p-md-3" style="background-color: #ff000000 !important;">
     <div id="app" class="row px-1 px-md-2 py-5 mx-auto" style="max-width: 1200px;">
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak v-if="CommissionIsValid">
-            <?php include('./includes/baselayout/balancealertmodal.php');     ?>
-            <?php  include('./includes/baselayout/backflash.php');     ?>
+            <?php include('./includes/baselayout/balanceAlertModal.php');     ?>
+            <?php  include('./includes/baselayout/backFlash.php');     ?>
             <?php  include('./includes/createparts/modalcreate.php');     ?>
             <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                 <?php  include('./includes/baselayout/modalDemo.php');     ?>
@@ -14,7 +14,7 @@
             <div class="col-12 bg-white rounded-4 border border-2 border-body-secondary m-0 p-0 mt-5"
                 style="min-height: 1800px">
                 <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
-                    <?php  include('./includes/baselayout/demoheader.php');   ?>
+                    <?php  include('./includes/baselayout/demoHeader.php');   ?>
                 <?php endif ?>
                 <!-- lang BTN     -->
                 <div class="row">

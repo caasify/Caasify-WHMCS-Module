@@ -5,15 +5,15 @@
 <body class="container-fluid p-1 p-md-3 bg-body-secondary">
 <div id="app" class="row py-5 mx-auto px-0 px-md-2 px-lg-4" style="max-width: 1200px;">
     <div class="" v-cloak>
-        <?php include('./includes/viewparts/modalactions.php');  ?>
-        <?php include('./includes/baselayout/themessagemodal.php');     ?>
+        <?php include('./includes/viewparts/modalActions.php');  ?>
+        <?php include('./includes/baselayout/TheMessageModal.php');     ?>
         <?php include('./includes/viewparts/modalrequestconsole.php');     ?>
-        <?php include('./includes/baselayout/balancealertmodal.php'); ?>
+        <?php include('./includes/baselayout/balanceAlertModal.php'); ?>
         <?php if(isset($DemoMode) && $DemoMode == 'on' ):             ?>
-            <?php  include('./includes/baselayout/demoheader.php');   ?>
+            <?php  include('./includes/baselayout/demoHeader.php');   ?>
             <p class="mt-4"></p>
         <?php endif ?>
-        <?php include('./includes/baselayout/backflash.php');        ?>
+        <?php include('./includes/baselayout/backFlash.php');        ?>
         <div class="col-12 m-0 p-0 mt-5" style="min-height: 1000px">
             <div class="row m-0 p-0">
                 <div class="col-12 m-0 p-0">

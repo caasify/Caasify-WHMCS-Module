@@ -7,7 +7,7 @@ $AssetsPath = __DIR__;
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Caasify</title>
+        <title>Cloud VPS</title>
         <script src="./includes/assets/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
