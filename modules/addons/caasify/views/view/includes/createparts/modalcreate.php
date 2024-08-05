@@ -166,8 +166,11 @@
                                         </div>
                                         <div>
                                             <a class="btn btn-outline-secondary float-end py-2 btn-sm"
-                                            href="<?php echo($PersonalRootDirectoryURL); ?>/index.php?m=caasify&action=pageIndex"
-                                            target='_top'>{{ lang('movebalance') }}</a>
+                                                href="<?php echo($systemUrl . '/index.php?m=caasify&action=pageIndex'); ?>"
+                                                target='_top'
+                                            >
+                                            {{ lang('movebalance') }}
+                                        </a>
                                         </div>
                                     </div>
                                 </div>
@@ -185,9 +188,14 @@
                                             {{ lang('createsuccessmsg') }}
                                         </p>
                                     </div>
-                                    <div class="row d-flex flex-row justify-content-end p-0 m-0">
+                                    <div v-if="newMachineCreated == null || NewMcahineCreatedViewLink == null" class="row d-flex flex-row justify-content-end p-0 m-0">
                                         <a class="col-auto btn btn-primary px-4 py-2"
-                                            href="<?php echo($PersonalRootDirectoryURL); ?>/index.php?m=caasify&action=pageIndex"
+                                            href="<?php echo($systemUrl . '/index.php?m=caasify&action=pageIndex'); ?>"
+                                            target='_top'>{{ lang('Machine View') }}</a>
+                                    </div>
+                                    <div v-else class="row d-flex flex-row justify-content-end p-0 m-0">
+                                        <a class="col-auto btn btn-primary px-4 py-2"
+                                            :href="NewMcahineCreatedViewLink"
                                             target='_top'>{{ lang('Machine View') }}</a>
                                     </div>
                                 </div>
