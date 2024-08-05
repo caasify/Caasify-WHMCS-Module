@@ -5,6 +5,8 @@ app = createApp({
     data() {
         return {
 
+            newMachineCreated: null,
+            NewMcahineCreatedViewLink: null,
 
             // new Charging sys
             InvoiceCreationStatus: null,
@@ -1994,6 +1996,8 @@ app = createApp({
                         this.CreateIsLoading = false;
                         this.createActionSucced = true
                         this.createActionFailed = false
+                        this.newMachineCreated = response?.data?.data
+                        this.NewMcahineCreatedViewLink = this.systemUrl + '/modules/addons/caasify/views/view/view.php?id=' + this.newMachineCreated.id
                     } else if (response?.data?.message) {
                         this.userClickedCreationBtn = true
                         this.CreateIsLoading = false;
