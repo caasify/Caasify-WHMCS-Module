@@ -29,7 +29,7 @@
                     <span class="input-group-text" id="basic-addon1" style="width: 100px;">
                         {{ lang('username') }}
                     </span>
-                    <input type="text" class="form-control" value="root / administrator" disabled>
+                    <input type="text" class="form-control" value="root" disabled>
                 </div>
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="basic-addon1" style="width: 100px;">
@@ -169,7 +169,7 @@
         <div class="row m-0 p-0">
             <div class="col-12 col-md-6 m-0 p-0 mb-2">
                 <div class="row m-0 p-0 h-100">
-                    <div class="col-12 border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0" style="height: 150px;">
+                    <div class="col-12 border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0 h-100" style="height: 150px;">
                         <div class="row">
                             <div class="d-flex flex-row justify-content-between align-items-center mb-2">
                                 <div class="d-flex flex-row justify-content-between align-items-center">

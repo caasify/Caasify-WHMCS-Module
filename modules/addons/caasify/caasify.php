@@ -30,6 +30,13 @@ function caasify_activate(){
 
     }
     
+    // create invoice data base in admin panel
+    $invoiceDatabaseStatus = cassify_create_invoice_table_database();
+    if(isset($invoiceDatabaseStatus) && $invoiceDatabaseStatus != true){
+        echo('<h4 style="color:red;">can not fine invoice table, call your admin</h4>');
+        return false;
+    }
+
 }
 
 // Module Config
@@ -99,7 +106,7 @@ function caasify_config(){
     $configarray = array(
         "name" => "Caasify",
         "description" => "This addon utility allows you to easily connect to Caasify Marketpalce to sell almost everything",
-        "version" => "1.2.1",
+        "version" => "1.2.0",
         "author" => "Caasify",
         "fields" => array(
             "BackendUrl" => array ("FriendlyName" => "Backend URL", "Type" => "dropdown", "Options" => 'https://api.caasify.com', "Description" => $BackendUrlLabel, "Default" => 'https://api.caasify.com'),

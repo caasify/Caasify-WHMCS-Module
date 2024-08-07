@@ -633,3 +633,63 @@ function Caasify_Set_Log($message = 'Unknown error'){
     $results = localAPI($command, $postData);
     return true;
 }
+
+function cassify_create_invoice_table_database(){
+    $hasTable = Capsule::schema()->hasTable('tblcaasify_invoices');
+
+    if(empty($hasTable)) {
+        try {
+
+            Capsule::schema()->create('tblcaasify_invoices', function ($table) {
+                $table->increments('id');
+                $table->unsignedInteger('whuserid')->nullable();
+                $table->unsignedBigInteger('caasifyid')->nullable();
+                $table->decimal('ratio', 30, 10)->nullable();
+                $table->unsignedInteger('invoiceid')->nullable();
+                $table->decimal('chargeamount', 30, 2)->nullable();
+                $table->unsignedInteger('transactionid')->nullable();
+                $table->timestamps();
+            });
+
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function cassify_getinfo_invoice_table($invoiceid){
+    $hasTable = Capsule::schema()->hasTable('tblcaasify_invoices');
+
+    if(!empty($hasTable)) {
+        try {
+            $invoiceData = Capsule::table('tblcaasify_invoices')->where('invoiceid', $invoiceid)->first();
+            return ($invoiceData);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+function cassify_create_invoice_table_databdase($invoiceid, $TransactionId){
+    $hasTable = Capsule::schema()->hasTable('tblcaasify_invoices');
+    
+    if(!empty($hasTable)) {
+        try {
+            $updateData = Capsule::table('tblcaasify_invoices')
+            ->where('invoiceid', $invoiceid)
+            ->update(['transactionid' => $TransactionId]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    if(isset($updateData)){
+        return true;
+    } else {
+        return false;
+    }
+}
