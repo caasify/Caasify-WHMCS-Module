@@ -224,6 +224,7 @@ app = createApp({
                     
                     setTimeout(() => {
                         this.LoadCaasifyUser();
+                        this.LoadCaasifyResellerUser();
                         setTimeout(() => {
                             this.LoadUserOrders();
                             setTimeout(() => {
@@ -813,7 +814,6 @@ app = createApp({
                 chargeamount: ChargeAmount,
                 id: id,
                 invoiceid: invoiceid,
-
             };
 
             if (id > 0) {
@@ -1367,12 +1367,14 @@ app = createApp({
 
         async NewCreateUnpaidInvoice() {
             let Chargeamount = this.chargeAmountinWhmcs;
+            let CaasifyUserId = this.CaasifyUserInfo?.id;
             let NewChargingValidity = this.NewChargingValidity;
             this.InvoiceCreationStatus = 'start';
 
             const params = { 
                 Chargeamount: Chargeamount,
-                R: this.CurrenciesRatioWhmcsToCloud.toFixed(8)
+                CaasifyUserId: CaasifyUserId,
+                Ratio: this.CurrenciesRatioWhmcsToCloud.toFixed(8)
              };
 
             if (NewChargingValidity == 'fine') {
@@ -1402,12 +1404,14 @@ app = createApp({
             let Chargeamount = this.chargeAmountinWhmcs;
             let SelectedGetway = this.SelectedGetway;
             let NewChargingValidity = this.NewChargingValidity;
+            let CaasifyUserId = this.CaasifyResellerUserInfo?.id;
             this.InvoiceCreationStatus = 'start';
 
             const params = { 
                 Chargeamount: Chargeamount,
                 SelectedGetway: SelectedGetway,
-                R: this.CurrenciesRatioWhmcsToCloud.toFixed(8)
+                CaasifyUserId: CaasifyUserId,
+                Ratio: this.CurrenciesRatioWhmcsToCloud.toFixed(8)
              };
 
             if (NewChargingValidity == 'fine') {
@@ -1479,7 +1483,6 @@ app = createApp({
                 chargeamount: chargeamountInAutovm,
                 id: id,
                 invoiceid: invoiceid,
-
             };
 
             if (id > 0) {

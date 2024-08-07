@@ -468,46 +468,103 @@ class ClientCaasifyController
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
+    // create invoie form modal in caasify
+    // create invoice and record it on database
     public function CreateNewUnpaidInvoice()
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
         if(isset($requestData['Chargeamount'])){
             $Chargeamount = $requestData['Chargeamount'];
         } else {
-            echo 'can not access charge amount (NE01-Create Invoice)';
+            $message = 'charge amount did not send';
+            $this->response($message); 
             return false;
         }
         
-        if(isset($requestData['R'])){
-            $R = $requestData['R'];
+        if(isset($requestData['Ratio'])){
+            $Ratio = $requestData['Ratio'];
         } else {
-            echo 'can not access charge amount (NE02-Create Invoice)';
+            $message = 'Ratio did not send';
+            $this->response($message); 
             return false;
         }
         
-        $notes = 'R' . $R . 'POAWMM';
-
+        if(isset($requestData['CaasifyUserId'])){
+            $CaasifyUserId = $requestData['CaasifyUserId'];
+        } else {
+            $message = 'CaasifyUserId did not send';
+            $this->response($message); 
+            return false;
+        }
+                
         $WhUserId = $this->WhUserId;
-        $currentDateTime = date('Y-m-d');
-        $nextDay = date('Y-m-d', strtotime($currentDateTime . ' +1 day'));
 
-        if(isset($Chargeamount) && isset($WhUserId) && isset($notes)){
-            $command = 'CreateInvoice';
-            $postData = array(
-                'userid' => $WhUserId,
-                'taxrate' => '0',
-                'date' => $currentDateTime,
-                'duedate' => $nextDay,
-                'itemdescription1' => 'Cloud Account Charging',
-                'itemamount1' => $Chargeamount,
-                'itemtaxed1' => '0',
-                'notes' => $notes,
-                'autoapplycredit' => '0',
-            );
+        if(empty($Ratio) || empty($Chargeamount) || empty($WhUserId) | empty($CaasifyUserId)){
+            $message = 'ratio, or amount, or user id is not defined';
+            $this->response($message); 
+            return false;
+        }
 
-            $results = localAPI($command, $postData);
-            $this->response($results); 
-        } 
+        $currentDateTime = date('Y-m-d H:i:s');
+        $nextDay = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +1 day'));
+
+        if(empty($currentDateTime)){
+            $currentDateTime = null;
+        }
+        
+        if(empty($nextDay)){
+            $nextDay = null;
+        }
+
+        $command = 'CreateInvoice';
+        $postData = array(
+            'userid' => $WhUserId,
+            'status' => 'Unpaid',
+            'taxrate' => '0',
+            'date' => $currentDateTime,
+            'duedate' => $nextDay,
+            'itemdescription1' => 'Cloud Account Charging',
+            'itemamount1' => $Chargeamount,
+            'itemtaxed1' => '0',
+            'autoapplycredit' => '0',
+        );
+
+        $results = localAPI($command, $postData);
+
+        if($results['result'] == 'success'){
+            $invoiceid = $results['invoiceid'];
+        } else {
+            $message = $results['result'];
+            $this->response($message); 
+            return false;
+        }
+
+        if(empty($invoiceid)){
+            $message = 'did not fetch inovice ID form whmcs';
+            $this->response($message); 
+            return false;
+        }
+        
+        $params = [
+            'whuserid' => $WhUserId, 
+            'caasifyid' => $CaasifyUserId, 
+            'ratio' => $Ratio, 
+            'invoiceid' => $invoiceid, 
+            'chargeamount' => $Chargeamount,
+            'transactionid' => null,
+            'created_at' => $currentDateTime,
+            'updated_at' => $nextDay,
+        ];
+
+        try {
+            Capsule::table('tblcaasify_invoices')->insert($params);
+        } catch (\Exception $e) {
+            $message = 'Error inserting user info into data base in handling  <br>';
+            $this->response($message); 
+            return false;
+        }
+    
+        $this->response($results); 
     }
     
     public function ResellerCreateNewUnpaidInvoice()
@@ -516,21 +573,32 @@ class ClientCaasifyController
         if(isset($requestData['Chargeamount'])){
             $Chargeamount = $requestData['Chargeamount'];
         } else {
-            echo 'can not access charge amount (NE01-Create Invoice)';
+            $message = 'Charge amount did not send';
+            $this->response($message); 
             return false;
         }
         
-        if(isset($requestData['R'])){
-            $R = $requestData['R'];
+        if(isset($requestData['Ratio'])){
+            $Ratio = $requestData['Ratio'];
         } else {
-            echo 'can not access Ratio amount (NE02-Create Invoice)';
+            $message = 'Ratio did not send';
+            $this->response($message); 
             return false;
         }
-        
+
         if(isset($requestData['SelectedGetway'])){
             $SelectedGetway = $requestData['SelectedGetway'];
         } else {
-            echo 'can not access SelectedGetway (NE03-Create Invoice)';
+            $message = 'Can not access SelectedGetway';
+            $this->response($message); 
+            return false;
+        }
+
+        if(isset($requestData['CaasifyUserId'])){
+            $CaasifyUserId = $requestData['CaasifyUserId'];
+        } else {
+            $message = 'CaasifyUserId did not send';
+            $this->response($message); 
             return false;
         }
 
@@ -542,34 +610,77 @@ class ClientCaasifyController
             $GatewayCommisionValue = 0;
         }
 
-        $notes = 'R' . $R . 'POAWMM';
-
         $WhUserId = $this->WhUserId;
-        $currentDateTime = date('Y-m-d');
-        $nextDay = date('Y-m-d', strtotime($currentDateTime . ' +1 day'));
+        if(empty($Ratio) || empty($Chargeamount) || empty($WhUserId) | empty($CaasifyUserId)){
+            $message = 'ratio, or amount, or user id is not defined';
+            $this->response($message); 
+            return false;
+        }
 
-        if(isset($Chargeamount) && isset($WhUserId) && isset($notes)){
-            $command = 'CreateInvoice';
-            $postData = array(
-                'userid' => $WhUserId,
-                'status' => 'Unpaid',
-                'paymentmethod' => 'stripe',
-                'taxrate' => '0',
-                'date' => $currentDateTime,
-                'duedate' => $nextDay,
-                'itemdescription1' => 'Cloud Account Charging',
-                'itemamount1' => $Chargeamount,
-                'itemtaxed1' => '0',
-                'itemdescription2' => $GatewayCommisionLabel,
-                'itemamount2' => $GatewayCommisionValue,
-                'itemtaxed2' => '0',
-                'notes' => $notes,
-                'autoapplycredit' => '0',
-            );
+        $currentDateTime = date('Y-m-d H:i:s');
+        $nextDay = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +1 day'));
 
-            $results = localAPI($command, $postData);
-            $this->response($results); 
-        } 
+        if(empty($currentDateTime)){
+            $currentDateTime = null;
+        }
+        
+        if(empty($nextDay)){
+            $nextDay = null;
+        }
+
+        $command = 'CreateInvoice';
+        $postData = array(
+            'userid' => $WhUserId,
+            'status' => 'Unpaid',
+            'taxrate' => '0',
+            'paymentmethod' => $SelectedGetway,
+            'date' => $currentDateTime,
+            'duedate' => $nextDay,
+            'itemdescription1' => 'Cloud Account Charging',
+            'itemamount1' => $Chargeamount,
+            'itemtaxed1' => '0',
+            'itemdescription2' => $GatewayCommisionLabel,
+            'itemamount2' => $GatewayCommisionValue,
+            'itemtaxed2' => '0',
+            'autoapplycredit' => '0',
+        );
+        $results = localAPI($command, $postData);
+
+        if($results['result'] == 'success'){
+            $invoiceid = $results['invoiceid'];
+        } else {
+            $message = $results['result'];
+            $this->response($message); 
+            return false;
+        }
+
+        if(empty($invoiceid)){
+            $message = 'did not fetch inovice ID form whmcs';
+            $this->response($message); 
+            return false;
+        }
+        
+        $params = [
+            'whuserid' => $WhUserId, 
+            'caasifyid' => $CaasifyUserId, 
+            'ratio' => $Ratio, 
+            'invoiceid' => $invoiceid, 
+            'chargeamount' => $Chargeamount,
+            'transactionid' => null,
+            'created_at' => $currentDateTime,
+            'updated_at' => $nextDay,
+        ];
+
+        try {
+            Capsule::table('tblcaasify_invoices')->insert($params);
+        } catch (\Exception $e) {
+            $message = 'Error inserting user info into data base in handling  <br>';
+            $this->response($message); 
+            return false;
+        }
+
+        $this->response($results); 
+    
     }
 
     public function CreateUnpaidInvoice()
@@ -675,7 +786,7 @@ class ClientCaasifyController
         $params = [
             'amount' => $chargeamount,
             'type' => 'balance',
-            'invoiceid' => $invoiceid,
+            'reference' => $invoiceid,
             'status' => 'paid'
         ];
 
@@ -726,7 +837,7 @@ class ClientCaasifyController
         $params = [
             'amount' => $chargeamount,
             'type' => 'balance',
-            'invoiceid' => $invoiceid,
+            'reference' => $invoiceid,
             'status' => 'paid'
         ];
 

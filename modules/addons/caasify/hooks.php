@@ -250,6 +250,13 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 }
 
 add_hook('ClientAreaPage', 100, function ($params) {
+    // create invoice data base in client side
+    $invoiceDatabaseStatus = cassify_create_invoice_table_database();
+    if(isset($invoiceDatabaseStatus) && $invoiceDatabaseStatus != true){
+        echo('<h4 style="color:red;">can not fine invoice table, call your admin</h4>');
+        return false;
+    }
+
     $WhUserId = caasify_get_session('uid');
     if (empty($WhUserId)) {
         // echo 'can not find WhUserId to construct controller  in ClientAreaPage';
@@ -284,6 +291,13 @@ add_hook('ClientAreaPage', 100, function ($params) {
 });
 
 add_hook('AdminAreaClientSummaryPage', 1, function ($vars) {
+
+    // create invoice data base in admin panel
+    $invoiceDatabaseStatus = cassify_create_invoice_table_database();
+    if(isset($invoiceDatabaseStatus) && $invoiceDatabaseStatus != true){
+        echo('<h4 style="color:red;">can not fine invoice table, call your admin</h4>');
+        return false;
+    }
 
     // Check if it is admin
     $admin = caasify_get_session('adminid');
@@ -611,20 +625,12 @@ add_hook('InvoicePaid', 1, function($vars) {
         return false;
     }
 
-    $notes = $invoice['notes'];
-    if(!empty($notes)){
-        if(strpos($notes, 'POAWMM') == false){
-            return false;
-        }    
-        if(strpos($notes, 'R') == '0'){
-            //
-        } else {
-            return false;
-        }
+    $invoiceTable = cassify_getinfo_invoice_table($invoiceid);
+    $Ratio = $invoiceTable->ratio;
+    if(empty($Ratio)){
+        echo('can not find Ratio in invoiceTable');
+        return false;
     }
-
-    preg_match('/R([0-9]+\.[0-9]+)POAWMM/', $notes, $matches);
-    $Ratio = $matches[1];
 
     $config = caasify_get_config_decoded();
     $Commission = $config['Commission'];
@@ -657,49 +663,68 @@ add_hook('InvoicePaid', 1, function($vars) {
 
     $KeyMsg = 'CaasifyChargingMsg' . $invoiceid;
     $KeyStatus = 'CaasifyChargingStatus' . $invoiceid;
-
-
+    $apiChargeResponse = 'apiChargeResponse' . $invoiceid;
+    
     $message = property_exists($CreateTransaction, 'message');
     if (!empty($message) || empty($CreateTransaction)) {     
-        $logMsg = 'Error 243: Invoice ' . $invoiceid . ' for WHMCS User ' . $WhUserId . ' has failed to charge the Cloud Account';
+        $logMsg = 'E243: Invoice ' . $invoiceid . ' for User ' . $WhUserId . ' has failed';
         Caasify_Set_Log($logMsg . ' (Error: ' . $CreateTransaction->message . ')');
         session_start();
         unset($_SESSION[$KeyStatus]);
         unset($_SESSION[$KeyMsg]);
         $_SESSION[$KeyStatus] = "fail";
         $_SESSION[$KeyMsg] = $logMsg;
+        $_SESSION[$apiChargeResponse] = $CreateTransaction->message;
     } else {
         session_start();
         unset($_SESSION[$KeyStatus]);
         $_SESSION[$KeyStatus] = "success";
     }
     
+    
+    // write transaction id on data base
+    if (empty($message) && isset($CreateTransaction)) {
+        if(isset($CreateTransaction->data->id)){
+            $TransactionId = $CreateTransaction->data->id;
+            $writeSuccessState = cassify_create_invoice_table_databdase($invoiceid, $TransactionId);
+            if(isset($writeSuccessState) && $writeSuccessState == false){
+                echo('can not write invoice id into data base');
+            }
+        }
+    }
+
 });
 
 // send alert on invoice page
 add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
-
     $invoiceid = $vars['invoiceid'];
     $KeyMsg = 'CaasifyChargingMsg' . $invoiceid;
     $KeyStatus = 'CaasifyChargingStatus' . $invoiceid;    
+    $apiChargeResponse = 'apiChargeResponse' . $invoiceid;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'clearalert') {
-        unset($_SESSION[$KeyStatus]);
         unset($_SESSION[$KeyMsg]);
+        unset($_SESSION[$KeyStatus]);
+        unset($_SESSION[$apiChargeResponse]);
         return false;
     }
-
-    if(isset($_SESSION[$KeyMsg])){
-        $log = $_SESSION[$KeyMsg];
-    } else {
-        $log = '';
+    
+    // find home page 
+    $config = caasify_get_config_decoded();
+    $systemUrl = $config['systemUrl'];
+    if (empty($systemUrl)) {
+        $systemUrl = '';
     }
-
     if(isset($systemUrl)){
         $HomePageAddress = $systemUrl . '/index.php?m=caasify&action=pageIndex';
     } else {
         $HomePageAddress = '/index.php?m=caasify&action=pageIndex';
+    } 
+
+    if(isset($_SESSION[$apiChargeResponse]) && ($_SESSION[$apiChargeResponse] == "The amount field must be at least 0.2." || $_SESSION[$apiChargeResponse] == "The amount field must be at least 0.1.")){
+        $_SESSION[$apiChargeResponse] = "Charge amount must be larger than 0.50 €";
     }
+
     $SuccessMsg = '
                 <div class="container" style="max-width: 920px;">
                     <div style="padding: 30px;background-color: #2c64c4eb;color: #f1fcff;text-align: center;ter;border: 1px solid;margin: 20px;border-radius: 10px;max-width: 960px;">
@@ -714,28 +739,31 @@ add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
                 </div>   
         '
     ;
-
-
     
-    $FailMsg = '
-            <div class="container" style="max-width: 920px;">
-                <div style="padding: 30px;background-color: #c42c2ceb;color: #f1fcff;text-align: center;ter;border: 1px solid;margin: 20px;border-radius: 10px;max-width: 960px;">
-                    <div class="row">
+    $FailMsg = "
+            <div class='container' style='max-width: 920px;'>
+                <div style='padding: 30px; background-color: #c42c2ceb;color: #f1fcff; text-align: center; border: 1px solid; margin: 20px; border-radius: 10px; max-width: 960px;'>
+                    <div class=''>
                         <h3>
-                            Charging the Cloud Account Failed !!!
+                            Failed !!!
                         </h3>
                         <h6>Payment for cloud account failed, Please send a support ticket with a screenshot of this page. </h6>
-                        <h6>' . $log . '</h6>
+                        <h6 class='alert alert-danger my-4 py-2'> $_SESSION[$KeyMsg] ($_SESSION[$apiChargeResponse])</h6>
                     </div>
-                    <div class="row" style="padding-top: 20px;">
-                        <form method="POST" action="">
-                            <input type="hidden" name="action" value="clearalert">
-                            <button type="submit" class="btn btn-dark btn-sm">Do not show again</button>
+                    <div class='' style='padding-top: 20px;'>
+                        <form method='POST' action=''>
+                            <input type='hidden' name='action' value='clearalert'>
+                            <button type='submit' class='btn btn-outline-light btn-sm'>
+                                Do not show again
+                            </button>
+                            <a href='$HomePageAddress' class='btn btn-light btn-sm'>
+                                Go to Home Page
+                            </a>
                         </form>
                     </div>
                 </div>
             </div>   
-        '
+        "
     ;
 
     if (isset($_SESSION[$KeyStatus])) {
