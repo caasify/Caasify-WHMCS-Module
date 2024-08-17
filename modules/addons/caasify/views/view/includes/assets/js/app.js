@@ -6,11 +6,11 @@ app = createApp({
         return {
             parentCategories: 
                 [ 
-                    {name : 'VM', icon: 'bi bi-pc-display-horizontal'},
-                    {name : 'VPS', icon: 'bi bi-pc-display'},
-                    {name : 'VPN', icon: 'bi bi-router'},
-                    {name : 'SASS', icon: 'bi bi-server'},
-                    {name : 'LASS', icon: 'bi bi-hdd-network'},
+                    {name : 'Virtual Machine', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/vm.png'},
+                    {name : 'DataBase', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/database.png'},
+                    {name : 'Storage', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/storage.png'},
+                    {name : 'Kubernetes', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/kubernetes.png'},
+                    // {name : 'VPN', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/vpn.png'},
                 ],
             SelectedCategory: null,
 

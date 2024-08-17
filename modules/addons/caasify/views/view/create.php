@@ -33,7 +33,7 @@
                     <div class="col-12">
                         <div class="px-0 px-md-2">
                             <!-- TODO: make it back to live -->
-                            <?php  // include('./includes/createparts/parentcategories.php');   ?>
+                            <?php  include('./includes/createparts/parentcategories.php');   ?>
                             <?php  include('./includes/createparts/datacenters.php');   ?>
                             <?php  include('./includes/createparts/regions.php');       ?>
                             <?php  include('./includes/createparts/plans.php');         ?>
