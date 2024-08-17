@@ -16,7 +16,9 @@
                 :class="isCategory(Category) ? 'shadow-lg border border-2 border-secondary' : ''"
                 @click="selectCategory(Category)">
                     <div class="m-0 p-0">
-                        <i class="h1 p-4" :class="Category.icon"></i>                        
+                               
+                        <img :src="Category.icon" class="img-fluid rounded-top" alt=""/ style="width:40px;">
+                        
                     </div>
                     <div class="text-start ps-3 pt-2">
                         <p v-if="Category" class="h3 m-0 p-0">
