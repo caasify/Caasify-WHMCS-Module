@@ -456,6 +456,7 @@ let common = {
     "Console Is Running" : "Console is running ",
     "Link is Valid for" : "Link is Valid for",
     "seconds" : "seconds",
+    "extraTraffic" : "Extra Traffic : ",
 
 
     
