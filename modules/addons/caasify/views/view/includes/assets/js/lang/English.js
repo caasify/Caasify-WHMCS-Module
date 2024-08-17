@@ -455,6 +455,7 @@ let common = {
     "Can not get Console button ID, call your admin" : "Can not get Console button ID, call your admin",
     "This product has no console" : "This product has no console",
     "Console Is Running" : "Console is running ",
+    "extraTraffic" : "Extra Traffic : ",
     
 }
 

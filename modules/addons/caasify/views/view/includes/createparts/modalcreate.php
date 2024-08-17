@@ -70,7 +70,7 @@
                                                 <td class="m-0 p-0">
                                                     <i class="bi bi-check-circle-fill me-1"></i>
                                                     <span>
-                                                        {{ lang('tabeltraffic') }}
+                                                        {{ lang('extraTraffic') }}
                                                     </span>
                                                 </td>
                                                 <td class="text-primary fw-medium m-0 p-0">

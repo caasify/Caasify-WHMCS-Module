@@ -173,7 +173,7 @@ let common = {
         "destroying": "در حال حذف ",
         "destroyaction": "حذف",
         "fetching" : "در حال دریافت اطلاعات",
-        "payasyougo" : "پرداخت به ازای مصرف",
+        "payasyougo" : " پرداخت به ازای مصرف",
     // End Unique for this cloud
     
 // end order View 
@@ -284,7 +284,7 @@ let common = {
     "producttemplate" : "قالب",
     "sshkeytitle" : "کلید SSH : ",
     "price" : "قیمت : ",
-    "monthly" : "ماهیانه",
+    "monthly" : "ماهیانه ",
     "youdidntchoose" : "هیچ پیکربندی‌ای را انتخاب نکرده‌اید",
     "entersshkey" : "کلید را وارد کنید",
     "required" : "ضروری",
@@ -451,6 +451,7 @@ let common = {
     "Console Is Running" : "در حال دریافت مسیر کنسول",
     "Link is Valid for" : "این ادرس برای ",
     "seconds" : "ثانیه معتبر است",
+    "extraTraffic" : "ترافیک مازاد : ",
 
 }
 

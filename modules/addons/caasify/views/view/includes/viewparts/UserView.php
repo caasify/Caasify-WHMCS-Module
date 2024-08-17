@@ -170,6 +170,7 @@
             <div class="col-12 col-md-6 m-0 p-0 mb-2">
                 <div class="row m-0 p-0 h-100">
                     <div class="col-12 border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0 h-100" style="height: 150px;">
+                        <!-- header -->
                         <div class="row">
                             <div class="d-flex flex-row justify-content-between align-items-center mb-2">
                                 <div class="d-flex flex-row justify-content-between align-items-center">
@@ -188,6 +189,8 @@
                         <div class="m-0 p-0 pb-2">
                             <hr class="text-secondary border-2 border-secondary m-0 p-0">
                         </div>
+                        
+                        <!-- inbound outbond -->
                         <div v-if="trafficsIsLoaded == true" class="row pt-2">
                             <div class="row fw-medium py-1">
                                 <span>
@@ -225,6 +228,27 @@
                                 </span>
                             </div>
                         </div>
+                        
+                        <!-- extra traffic -->
+                        <div class="row pt-5" v-if="thisOrder?.records[thisOrder.records.length-1]?.traffic_price && trafficsIsLoaded == true">
+                            <div class="d-flex flex-row justify-content-between align-items-center border py-3 px-3 rounded-3">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <span class="m-0 p-0 text-secondary ps-2">
+                                        {{ lang('extraTraffic') }}
+                                    </span>
+                                </div>
+                                <div class="text-end text-primary fw-medium p-0 m-0">
+                                    <span>
+                                    {{ formatUserBalance(thisOrder?.records[thisOrder.records.length-1]?.traffic_price) }}
+                                    </span>
+                                    <span class="px-1">
+                                        {{ userCurrencySymbolFromWhmcs }}/{{ lang('gb') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Loading -->
                         <div v-if="trafficsIsLoaded != true" class="row pt-2 text-primary">
                             <span>
                                 <span class="pe-2">

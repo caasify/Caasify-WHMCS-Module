@@ -3,7 +3,7 @@
 <?php  include('./includes/baselayout/header.php');   ?>
 
 <body class="container-fluid p-1 p-md-3 bg-body-secondary">
-<div id="app" class="row py-5 mx-auto px-0 px-md-2 px-lg-4" style="max-width: 1200px;">
+<div id="app" class="row py-5 mx-auto px-0 px-md-2 px-lg-4" style="max-width: 1350px;">
     <div class="" v-cloak>
         <?php include('./includes/viewparts/modalactions.php');  ?>
         <?php include('./includes/baselayout/themessagemodal.php');     ?>
