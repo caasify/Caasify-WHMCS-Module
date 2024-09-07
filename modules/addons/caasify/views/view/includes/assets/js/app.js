@@ -7,10 +7,10 @@ app = createApp({
             parentCategories: 
                 [ 
                     {name : 'Virtual Machine', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/vm.png'},
-                    {name : 'DataBase', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/database.png'},
-                    {name : 'Storage', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/storage.png'},
-                    {name : 'Kubernetes', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/kubernetes.png'},
-                    // {name : 'VPN', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/vpn.png'},
+                    {name : 'Kubernetes As A Service', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/kubernetes.png'},
+                    {name : 'AI GPU ', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/aigpu.png'},
+                    {name : 'Database As A Service', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/database.png'},
+                    {name : 'S3 Storage', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/storage.png'},
                 ],
             SelectedCategory: null,
 
