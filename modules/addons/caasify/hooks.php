@@ -62,7 +62,16 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                 $primaryNavbar->removeChild('Domains');
             }
 
+            if (!is_null($primaryNavbar->getChild('Billing'))){
+                $primaryNavbar->removeChild('Billing');
+            }
 
+            if (!is_null($primaryNavbar->getChild('Support'))){
+                $primaryNavbar->removeChild('Support');
+            }
+            if (!is_null($primaryNavbar->getChild('Open Ticket'))){
+                $primaryNavbar->removeChild('Open Ticket');
+            }
 
             if (!is_null($primaryNavbar->getChild('Support'))) {
                 $servicesMenu = $primaryNavbar->getChild('Support');
@@ -86,67 +95,90 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                     $BillingMenu->removeChild('My Quotes');
                 }
             }
-            
-            
         });        
-
-        // Reseller menu
-        add_hook('ClientAreaPrimaryNavbar', 1, function ($primaryNavbar) {
-            /** @var \WHMCS\View\Menu\Item $primaryNavbar */
-
-            $newMenu = $primaryNavbar->addChild(
-                'uniqueMenuItemNameReseller',
-                array(
-                    'name' => 'Reseller',
-                    'label' => 'Reseller',
-                    'uri' => '/index.php?m=caasify&action=pageReseller',
-                    'order' => 1,
-                    'icon' => 'fas fa-home fa-fw',
-                )
-            );
-        });
 
         // Cloud VPS menu
         add_hook('ClientAreaPrimaryNavbar', 1, function ($primaryNavbar) {
             /** @var \WHMCS\View\Menu\Item $primaryNavbar */
-        
-            $parentMenu = $primaryNavbar->addChild(
-                'uniqueParentMenuItemNameCloudVPS',
-                [
-                    'name' => 'CloudVPS',
-                    'label' => 'CloudVPS',
-                    'uri' => '#',  // '#' makes it act as a dropdown trigger
-                    'order' => 2,
-                    'icon' => 'fas fa-cube fa-fw',
-                ]
+
+            // Dashboard (index page)
+            $primaryNavbar->addChild(
+                'CaasifyDashboard',
+                array(
+                    'name' => 'Dashboard',
+                    'label' => 'Dashboard',
+                    'uri' => '/clientarea.php',
+                    'order' => 1,
+                    'icon' => '',
+                )
             );
-        
-            // Add the first child menu item
-            $parentMenu->addChild(
-                'CreateVPS',
-                [
+
+
+            // Create VPS
+            $primaryNavbar->addChild(
+                'CaasifyCreateVPS',
+                array(
                     'name' => 'Create VPS',
                     'label' => 'Create VPS',
                     'uri' => '/modules/addons/caasify/views/view/create.php',
-                    'order' => 1,
-                    'icon' => '',
-                ]
-            );
-        
-            // Add the second child menu item
-            $parentMenu->addChild(
-                'uniqueSubMenuItemNameViewVPS',
-                [
-                    'name' => 'View VPS',
-                    'label' => 'View VPS',
-                    'uri' => '/index.php?m=caasify&action=pageIndex',
                     'order' => 2,
                     'icon' => '',
-                ]
+                )
             );
+        
+
+            // Reseller Program (profile)
+            $primaryNavbar->addChild(
+                'CaasifyReseller',
+                array(
+                    'name' => 'Reseller',
+                    'label' => 'Reseller Program',
+                    'uri' => '/index.php?m=caasify&action=pageReseller',
+                    'order' => 3,
+                    'icon' => '',
+                )
+            );
+
+            // My Invoices
+            $primaryNavbar->addChild(
+                'CaasifyMyInvoices',
+                array(
+                    'name' => 'My Invoices',
+                    'label' => 'My Invoices',
+                    'uri' => '/clientarea.php?action=invoices',
+                    'order' => 4,
+                    'icon' => '',
+                )
+            );
+            
+            // Ticket list
+            $primaryNavbar->addChild(
+                'CaasifyTiketList',
+                array(
+                    'name' => 'Ticket list',
+                    'label' => 'Ticket list',
+                    'uri' => '/supporttickets.php',
+                    'order' => 5,
+                    'icon' => '',
+                )
+            );
+            
+            // New Ticket
+            $primaryNavbar->addChild(
+                'CaasifyNewTicket',
+                array(
+                    'name' => 'New Ticket',
+                    'label' => 'New Ticket',
+                    'uri' => '/submitticket.php',
+                    'order' => 6,
+                    'icon' => '',
+                )
+            );
+
         });
 
     } else {
+        
         // Remove extra menu
         add_hook('ClientAreaPrimaryNavbar', 1, function($primaryNavbar) {
             /** @var \WHMCS\View\Menu\Item $primaryNavbar */
@@ -248,27 +280,6 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
             }
         }
     });
-
-
-
-    // Caasify Marketplace menu as submenu item in Secondary sidebar of services page
-    // add_hook('ClientAreaSecondarySidebar', 1, function($sidebar) {
-    //     /** @var \WHMCS\View\Menu\Item $sidebar */
-
-    //     $config = caasify_get_config_decoded();
-    //     $CaasifyMenuTitle = $config['CaasifyMenuTitle'];
-    //     if (!isset($CaasifyMenuTitle) || !is_string($CaasifyMenuTitle)) {
-    //         $CaasifyMenuTitle = 'Marketplace';
-    //     }
-
-    //     if ($categoriesMenu = $sidebar->getChild('Categories')) {
-    //         $categoriesMenu->addChild('New Menu Item', array(
-    //             'label' => $CaasifyMenuTitle,
-    //             'uri' => '/index.php?m=caasify&action=pageIndex', 
-    //             'order' => 99, 
-    //         ));
-    //     }
-    // });
 
 }
 

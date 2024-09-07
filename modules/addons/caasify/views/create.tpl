@@ -1,4 +1,4 @@
-<iframe src="{$systemUrl}/modules/addons/caasify/views/view/create.php" class="caasify"></iframe>
+<iframe src="{$systemUrl}modules/addons/caasify/views/view/create.php" class="caasify"></iframe>
 <style type="text/css">
     .caasify {
         width: 100%;

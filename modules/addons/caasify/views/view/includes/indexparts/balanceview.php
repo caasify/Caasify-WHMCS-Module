@@ -14,7 +14,7 @@
                 <div class="">        
                     <span v-if="user.balance != null && CurrenciesRatioCloudToWhmcs != null" class="text-primary fw-medium ps-2">
                         <span class="">
-                            {{ formatUserBalance(user.balance) }}
+                            {{ formatUserBalance(user.balance - user.debt) }}
                         </span>
                         <span v-if="userCurrencySymbolFromWhmcs != null" class="px-1">
                             {{ userCurrencySymbolFromWhmcs }}
@@ -29,7 +29,7 @@
             <div class="row d-block d-md-none">
                 <div class="">        
                     <span v-if="user.balance != null && CurrenciesRatioCloudToWhmcs != null" class="text-primary fw-medium">
-                        <span class="px-1">{{ formatUserBalance(user.balance) }}</span> 
+                        <span class="px-1">{{ formatUserBalance(user.balance - user.debt) }}</span> 
                         <span v-if="userCurrencySymbolFromWhmcs">
                             {{ userCurrencySymbolFromWhmcs }}
                         </span>

@@ -36,7 +36,7 @@
                     <span v-if="user.balance != null && CurrenciesRatioCloudToWhmcs != null" class="">
                         <span class="fw-medium">
                             <span class="">
-                                {{ formatUserBalance(user.balance) }}
+                                {{ formatUserBalance(user.balance - user.debt) }}
                             </span>
                             <span v-if="userCurrencySymbolFromWhmcs != null" class="px-1">
                                 {{ userCurrencySymbolFromWhmcs }}

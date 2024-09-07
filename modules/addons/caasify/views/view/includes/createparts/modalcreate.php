@@ -158,7 +158,7 @@
 
                                 <!-- Low Balance -->
                                 <div class="" v-if="user?.balance && CaasifyConfigs?.MinBalanceAllowToCreate" >
-                                    <div v-if="user.balance < CaasifyConfigs?.MinBalanceAllowToCreate" class="d-flex flex-row justify-content-between align-items-center mt-5">
+                                    <div v-if="(user.balance - user.debt) < CaasifyConfigs?.MinBalanceAllowToCreate" class="d-flex flex-row justify-content-between align-items-center mt-5">
                                         <div class="flex-grow-1 me-4">
                                             <p class="alert alert-warning text-start m-0 p-0 px-3 py-1">
                                                 {{ lang('balanceisnotenough') }}
@@ -232,7 +232,6 @@
 
             <!-- Modal Footer -->
             <div class="d-flex flex-row modal-footer justify-content-between">
-
                 <!-- Balance -->
                 <div class="m-0 p-0 mx-3">
                     <span class="fw-medium me-2" :class="CreateIsLoading ? 'text-secondary' : 'text-dark'">
@@ -240,7 +239,7 @@
                     </span>
                     <span v-if="user?.balance" class="fw-medium" :class="CreateIsLoading ? 'text-secondary' : 'text-primary'">
                         <span v-if="CurrenciesRatioCloudToWhmcs != null">
-                            {{ formatUserBalance(user.balance) }} {{ userCurrencySymbolFromWhmcs }}
+                            {{ formatUserBalance(user.balance - user.debt) }} {{ userCurrencySymbolFromWhmcs }}
                         </span>
                         <span v-else>
                             <?php include('./includes/baselayout/threespinner.php'); ?>

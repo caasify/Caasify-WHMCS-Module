@@ -1,4 +1,4 @@
-<iframe src="{$systemurl}/modules/addons/caasify/views/view/index.php" class="caasify" style="padding-top: 50px !important;"></iframe>
+<iframe src="{$systemurl}modules/addons/caasify/views/view/index.php" class="caasify"></iframe>
 <style type="text/css">
 .caasify{
     width: 100%;

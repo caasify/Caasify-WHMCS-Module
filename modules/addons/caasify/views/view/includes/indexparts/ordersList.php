@@ -80,7 +80,7 @@
                 </tbody>
             </table>
             <div class="" v-else>
-                <p class="fs-6 ps-3 text-danger">
+                <p class="alert alert-danger h5">
                     {{ lang('noactiveorder') }}
                 </p>
             </div>

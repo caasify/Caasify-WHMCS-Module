@@ -2,14 +2,14 @@
 <?php  include('config.php');   ?>
 <?php  include_once('./includes/baselayout/header.php');   ?>
 <body class="container-fluid m-0 p-0" style="background-color: #ff000000 !important;">
-    <div class="bg-light rounded-2 border border-body-secondary px-0 px-md-4 py-4" style="min-height: 300px;">
+    <div class="bg-light rounded-2 border border-body-secondary px-0 px-md-4 py-2" style="min-height: 300px;">
         <div class="adminapp col-12" v-cloak>
             <?php  include_once('./includes/baselayout/modaladmincharging.php');   ?>
             <p class="alert alert-danger" v-if="config?.errorMessage"> {{ config?.errorMessage }}</p>
             <div class="m-0 p-0" v-cloak>
                 <div class="row">
                     <div class="col-12">
-                        <div class="row m-0 p-0" v-if="CommissionIsValid">
+                        <div class="row m-0 p-0" v-if="CommissionIsValid" style="max-height: 260px; overflow: scroll;">
                             <!-- Col01 -->
                             <div class="col-12 col-md-5 mt-lg-0">                                
                                 <!-- User Finance -->

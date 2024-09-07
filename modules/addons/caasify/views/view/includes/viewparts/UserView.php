@@ -120,7 +120,7 @@
                                 <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="balance">
                                     <span v-if="CommissionIsValid && CurrenciesRatioCloudToWhmcs">
                                         <span>
-                                            {{ formatUserBalance(balance) }}
+                                            {{ formatUserBalance(user.balance - user.debt) }}
                                         </span>
                                         <span v-if="userCurrencySymbolFromWhmcs" class="ms-1">
                                             {{ userCurrencySymbolFromWhmcs }}
