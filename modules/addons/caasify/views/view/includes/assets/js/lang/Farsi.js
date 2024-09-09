@@ -453,6 +453,13 @@ let common = {
     "seconds" : "ثانیه معتبر است",
     "extraTraffic" : "ترافیک مازاد : ",
 
+
+    "Cloud invoices" : "فاکتورها",
+    "Select a Date" : "یک تاریخ را انتخاب کنید",
+    "Order Name" : "نام ماشین",
+    "Expenses in" : "تراکنش های ماه  ",
+    "Amount" : "هزینه",
+
 }
 
 const words = {

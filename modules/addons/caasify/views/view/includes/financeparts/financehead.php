@@ -1,4 +1,4 @@
-<!-- Finance Head -->
+<!-- Finance Head --> 
 <div class="row m-0 p-0 p-1 p-sm-2 p-md-3">
     <div class="col-12 m-0 p-0" style="--bs-bg-opacity: 0.1;">
         <!-- title -->
@@ -84,7 +84,7 @@
                     <div class="col-12 mb-3">
                         <p>
                             <span class="h4">
-                                {{ lang('Expenses in ') }}
+                                {{ lang('Expenses in') }}
                             </span>
                             <span class="h5 text-primary ps-1">
                                 <span>
@@ -143,11 +143,11 @@
                             <div class="d-flex flex-row align-items-center justify-content-between mb-2 text-secondary fs-5 fw-light px-1" style="--bs-text-opacity: 0.6;">
                                 <!-- Machine id -->
                                 <div class="">
-                                    Order Name
+                                    {{ lang('Order Name') }}
                                 </div>
                                 <!-- amount -->
                                 <div class="">
-                                    Amount ({{ userCurrencySymbolFromWhmcs }})
+                                    {{ lang('Amount') }} ({{ userCurrencySymbolFromWhmcs }})
                                 </div>
                             </div>
                         </div>

@@ -457,6 +457,14 @@ let common = {
     "Console Is Running" : "Console is running ",
     "extraTraffic" : "Extra Traffic : ",
     
+    
+    
+    "Cloud invoices" : "Cloud invoices",
+    "Select a Date" : "Select a Date",
+    "Order Name" : "Order Name",
+    "Expenses in" : "Expenses in ",
+    "Amount" : "Amount",
+    
 }
 
 const words = {
