@@ -917,26 +917,26 @@ class ClientCaasifyController
 
     public function CaasifyGetExpenses()
     {
-        $ResellerToken = $this->ResellerToken;
+        $UserToken = $this->UserToken;
         $response = null;
 
         $year = caasify_get_post('year');
         $month = caasify_get_post('month');
         
-        if($ResellerToken && $year && $month){
-            $response = $this->sendCaasifyGetExpensesRequest($ResellerToken, $year, $month);
+        if($UserToken && $year && $month){
+            $response = $this->sendCaasifyGetExpensesRequest($UserToken, $year, $month);
             $this->response($response);
         }
     }
 
-    public function sendCaasifyGetExpensesRequest($ResellerToken, $year, $month)
+    public function sendCaasifyGetExpensesRequest($UserToken, $year, $month)
     {
 
         $BackendUrl = $this->BackendUrl;
         
         $headers = [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $ResellerToken
+            'Authorization' => 'Bearer ' . $UserToken
         ];
         
         $address = [
