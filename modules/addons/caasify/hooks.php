@@ -96,8 +96,8 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                 }
             }
 
-            if (!is_null($primaryNavbar->getChild('affiliates'))){
-                $primaryNavbar->removeChild('affiliates');
+            if (!is_null($primaryNavbar->getChild('Affiliates'))){
+                $primaryNavbar->removeChild('Affiliates');
             }
         });        
 
@@ -437,18 +437,17 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
             return false;
         }
 
-        $invoiceItemAddFund = Capsule::table('tblinvoiceitems')
+        $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('type', 'AddFunds')
+            ->where('description', 'Cloud Account Charging')
             ->first();
 
-        if(empty($invoiceItemAddFund)){        
+        if(empty($CloudAccountChargingRecorde)){        
             return false;
         }
 
-
-        $AddFundsAmount = $invoiceItemAddFund->amount;
-        if(empty($AddFundsAmount) || $AddFundsAmount == 0){
+        $chargeAmount = $CloudAccountChargingRecorde->amount;
+        if(empty($chargeAmount) || $chargeAmount == 0){
             return false;
         }
 
@@ -467,15 +466,15 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
             return false;
         }
 
-
         $NewCommissionAmount = 0;
         $NewDescription = '';
 
+
         if ($paymentmethod == 'paypalcheckout') {
-            $NewCommissionAmount = ($AddFundsAmount * 0.034) + 0.35;
+            $NewCommissionAmount = ($chargeAmount * 0.034) + 0.35;
             $NewDescription = "Gateway Commission 3.4% + 0.35 Euro";
         } else if ($paymentmethod == 'stripe') {
-            $NewCommissionAmount = ($AddFundsAmount * 0.029) + 0.30;
+            $NewCommissionAmount = ($chargeAmount * 0.029) + 0.30;
             $NewDescription = "Gateway Commission 2.9% + 0.30 Euro";
         } else if ($paymentmethod == 'mailin') {
             $NewCommissionAmount = 0;
@@ -483,13 +482,13 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         }
 
 
-        if($AddFundsAmount && $NewCommissionAmount && $NewDescription ){
+        if($chargeAmount && $NewCommissionAmount && $NewDescription ){
             try{
                 $NewSubtotal = 0;
 
                 Capsule::table('tblinvoiceitems')
                     ->where('invoiceid', $invoiceid)
-                    ->where('type', 'commission')
+                    ->whereRaw('LOWER(description) LIKE ?', ['%commission%'])
                     ->delete();
                 
                 if($NewCommissionAmount != 0 && $NewDescription != ''){
@@ -502,7 +501,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                         'taxed' => 0
                     ]);
 
-                    $NewSubtotal = $AddFundsAmount + $NewCommissionAmount;
+                    $NewSubtotal = $chargeAmount + $NewCommissionAmount;
                 }
 
                 if($NewSubtotal != 0){
@@ -512,8 +511,8 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                     ]);
                 } else {
                     Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
-                        'subtotal' => $AddFundsAmount,
-                        'total' => $AddFundsAmount
+                        'subtotal' => $chargeAmount,
+                        'total' => $chargeAmount
                     ]);
                 }
                 
@@ -525,9 +524,6 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
     });
 
-
-
-
     add_hook('InvoiceChangeGateway', 1, function($vars) {
 
         $invoiceid = $vars['invoiceid'];
@@ -537,30 +533,31 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
             return false;
         }
         
-        $invoiceItemAddFund = Capsule::table('tblinvoiceitems')
+        $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('type', 'AddFunds')
+            ->where('description', 'Cloud Account Charging')
             ->first();
 
-        if(empty($invoiceItemAddFund)){        
+        if(empty($CloudAccountChargingRecorde)){        
             return false;
         }
 
-        $AddFundsAmount = $invoiceItemAddFund->amount;
-        if(empty($AddFundsAmount) || $AddFundsAmount == 0){
+        $ChargeAmount = $CloudAccountChargingRecorde->amount;
+        if(empty($ChargeAmount) || $ChargeAmount == 0){
             return false;
         }
 
         Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('type', 'commission')
+            ->whereRaw('LOWER(description) LIKE ?', ['%commission%'])
             ->delete();
 
         $result = Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
-            'subtotal' => $AddFundsAmount,
-            'total' => $AddFundsAmount
+            'subtotal' => $ChargeAmount,
+            'total' => $ChargeAmount
         ]);
 
+        
         CaasifyHandleCommissionDataBase($invoiceid, $paymentmethod);
 
     });
@@ -568,17 +565,17 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
     function CaasifyHandleCommissionDataBase($invoiceid, $paymentmethod){
 
-        $invoiceItemAddFund = Capsule::table('tblinvoiceitems')
+        $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('type', 'AddFunds')
+            ->where('description', 'Cloud Account Charging')
             ->first();
 
-        if(empty($invoiceItemAddFund)){        
+        if(empty($CloudAccountChargingRecorde)){        
             return false;
         }
 
-        $AddFundsAmount = $invoiceItemAddFund->amount;
-        if(empty($AddFundsAmount) || $AddFundsAmount == 0){
+        $ChargeAmount = $CloudAccountChargingRecorde->amount;
+        if(empty($ChargeAmount) || $ChargeAmount == 0){
             return false;
         }
 
@@ -596,20 +593,20 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         $NewDescription = '';
 
         if ($paymentmethod == 'paypalcheckout') {
-            $NewCommissionAmount = ($AddFundsAmount * 0.034) + 0.35;
+            $NewCommissionAmount = ($ChargeAmount * 0.034) + 0.35;
             $NewDescription = "Gateway Commission 3.4% + 0.35 Euro";
         } else if ($paymentmethod == 'stripe') {
-            $NewCommissionAmount = ($AddFundsAmount * 0.029) + 0.30;
+            $NewCommissionAmount = ($ChargeAmount * 0.029) + 0.30;
             $NewDescription = "Gateway Commission 2.9% + 0.30 Euro";
         }
         
-        if($AddFundsAmount && $NewCommissionAmount && $NewDescription ){
+        if($ChargeAmount && $NewCommissionAmount && $NewDescription ){
             try{
                 $NewSubtotal = 0;
 
                 Capsule::table('tblinvoiceitems')
                     ->where('invoiceid', $invoiceid)
-                    ->where('type', 'commission')
+                    ->whereRaw('LOWER(description) LIKE ?', ['%commission%'])
                     ->delete();
                 
                 if($NewCommissionAmount != 0 && $NewDescription != ''){
@@ -622,7 +619,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                         'taxed' => 0
                     ]);
 
-                    $NewSubtotal = $AddFundsAmount + $NewCommissionAmount;
+                    $NewSubtotal = $ChargeAmount + $NewCommissionAmount;
                 }
 
                 if($NewSubtotal != 0){
@@ -632,8 +629,8 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                     ]);
                 } else {
                     Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
-                        'subtotal' => $AddFundsAmount,
-                        'total' => $AddFundsAmount
+                        'subtotal' => $ChargeAmount,
+                        'total' => $ChargeAmount
                     ]);
                 }
                 

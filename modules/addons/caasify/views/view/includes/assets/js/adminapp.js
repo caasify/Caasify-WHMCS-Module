@@ -60,6 +60,7 @@ app = createApp({
         this.fetchModuleConfig();
         this.getUserId();
         this.loadPolling()
+        this.mountToolTips()
     },       
 
     watch: {
@@ -339,6 +340,26 @@ app = createApp({
                 }
             })
             return output
+        },
+        
+        mountToolTips() {
+            const intervalId = setInterval(() => {
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                tooltipTriggerList.forEach(tooltipTriggerEl => {
+                    // Check if the tooltip has already been initialized
+                    if (!tooltipTriggerEl._tooltipInstance) {
+                        // Initialize the tooltip only if it hasn't been initialized before
+                        tooltipTriggerEl._tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl, {
+                        trigger: 'hover focus'
+                        });
+                    }
+                });
+            }, 2 * 1000); // Run every 2 seconds
+        
+            // Stop the interval after 25 seconds
+            setTimeout(() => {
+                clearInterval(intervalId);
+            }, 25 * 1000); // 25 seconds = 25,000 milliseconds
         },
     }
 });

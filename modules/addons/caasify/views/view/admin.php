@@ -11,7 +11,7 @@
                     <div class="col-12">
                         <div class="row m-0 p-0" v-if="CommissionIsValid" style="max-height: 260px; overflow: scroll;">
                             <!-- Col01 -->
-                            <div class="col-12 col-md-5 mt-lg-0">                                
+                            <div class="col-12 col-md-5 mt-lg-0">      
                                 <!-- User Finance -->
                                 <div class="row">
                                     <div class="row" v-if="UserInfoIsLoaded && ResellerInfoIsLoaded && config?.Commission != null">
@@ -20,13 +20,25 @@
                                                 <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 230px;">
                                                     {{ lang('UserBalanceReal') }}
                                                 </span>
-                                                <input class="form-control bg-white text-start" :value="Number(CaasifyUserInfo?.balance).toFixed(2)" style="max-width: 80px;" disabled>
+                                                <input class="form-control bg-white text-start" 
+                                                    style="max-width: 80px;" disabled
+                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                    data-bs-custom-class="debt-tooltip"
+                                                    :value="Number(CaasifyUserInfo?.balance - CaasifyUserInfo?.debt).toFixed(2)" 
+                                                    :data-bs-title="'Debt : €' + Number(CaasifyUserInfo?.debt).toFixed(2)" 
+                                                >
                                             </div>
                                             <div class="input-group my-1">
                                                 <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 230px;">
                                                     {{ lang('UserBalanceWithCommission') }}
                                                 </span>
-                                                <input class="form-control bg-white text-start" :value="Number((CaasifyUserInfo?.balance)*(1+(config?.Commission/100))).toFixed(2)" style="max-width: 80px;" disabled>
+                                                <input class="form-control bg-white text-start" 
+                                                    style="max-width: 80px;" disabled
+                                                    data-bs-toggle="tooltip" data-bs-placement="right"
+                                                    data-bs-custom-class="debt-commission-tooltip"
+                                                    :value="Number((CaasifyUserInfo?.balance - CaasifyUserInfo?.debt)*(1+(config?.Commission/100))).toFixed(2)" 
+                                                    :data-bs-title="'Debt : €' + Number((CaasifyUserInfo?.debt)*(1+(config?.Commission/100))).toFixed(2)" 
+                                                >
                                             </div>
                                         </div>
                                     </div>

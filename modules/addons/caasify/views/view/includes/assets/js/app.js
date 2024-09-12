@@ -6,6 +6,8 @@ app = createApp({
         return {
 
             expenseDatesIsLoaded: false,
+            expenseDatesMessage: null,
+            ExpensesMessage: null,
             expenseDates: null,
             SelectedExpenseDate: null,
             expenses: {},
@@ -353,9 +355,11 @@ app = createApp({
     },
 
     mounted() {
+        // this.mountToolTips();
         this.scrollToTop();
         this.fetchModuleConfig();
         this.readLanguageFirstTime();
+        this.mountToolTips();
 
 
         // TODO: just for now
@@ -632,8 +636,8 @@ app = createApp({
 
         // Mycaasify
         ResellerUserBalance() {
-            if (this.CaasifyResellerUserInfo?.balance) {
-                let ResellerUserBalance = Number(this.CaasifyResellerUserInfo?.balance).toFixed(2)
+            if (this.CaasifyResellerUserInfo?.balance != null && this.CaasifyResellerUserInfo?.debt != null) {
+                let ResellerUserBalance = Number(this.CaasifyResellerUserInfo?.balance - this.CaasifyResellerUserInfo?.debt ).toFixed(2)
                 if (ResellerUserBalance) {
                     return ResellerUserBalance
                 }
@@ -641,6 +645,7 @@ app = createApp({
                 return null
             }
         },
+
 
         ResellerUserCredit() {
             if (this.WhmcsUserInfo?.credit) {
@@ -2764,20 +2769,24 @@ app = createApp({
         },
 
         async LoadExpenseDates() {
+            this.expenseDatesMessage = null
             RequestLink = this.CreateRequestLink(action = 'CaasifyExpenseDates');
             let response = await axios.get(RequestLink);
             
             if (response.data?.data != null) {
+                this.expenseDatesMessage = null
                 this.expenseDatesIsLoaded = true
                 this.expenseDates = response.data.data
 
             } else if (response.data?.message) {
                 this.expenseDatesIsLoaded = true
+                this.expenseDatesMessage = response?.data?.message
                 console.error('Expense Dates: ' + response.data.message);
             }
         },
 
         async loadExpenses() {
+            this.ExpensesMessage = null
             this.expenses = [];
 
             if (this.SelectedExpenseDate) {
@@ -2788,17 +2797,18 @@ app = createApp({
                 let response = await axios.post(RequestLink, formData);
                 
                 if (response?.data?.data) {
+                    this.ExpensesMessage = null
                     this.expensesAreLoaded = true;
                     this.expenses = response?.data?.data
                 }
                 if (response?.data?.message) {
                     this.expensesAreLoaded = true;
+                    this.ExpensesMessage = response?.data?.message;
                     console.error('Expenses: ' + response?.data?.message);
                 }
             }
         },
         
-
         selectExpenseDate(expenseDate) {
             if(this.SelectedExpenseDate != expenseDate){
                 this.SelectedExpenseDate = expenseDate
@@ -2858,6 +2868,25 @@ app = createApp({
 
         },
 
+        mountToolTips() {
+            const intervalId = setInterval(() => {
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                tooltipTriggerList.forEach(tooltipTriggerEl => {
+                    // Check if the tooltip has already been initialized
+                    if (!tooltipTriggerEl._tooltipInstance) {
+                        // Initialize the tooltip only if it hasn't been initialized before
+                        tooltipTriggerEl._tooltipInstance = new bootstrap.Tooltip(tooltipTriggerEl, {
+                        trigger: 'hover focus'
+                        });
+                    }
+                });
+            }, 2 * 1000); // Run every 2 seconds
+        
+            // Stop the interval after 25 seconds
+            setTimeout(() => {
+                clearInterval(intervalId);
+            }, 25 * 1000); // 25 seconds = 25,000 milliseconds
+        },
     }
 });
 
