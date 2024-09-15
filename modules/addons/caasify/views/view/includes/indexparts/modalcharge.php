@@ -61,9 +61,9 @@
                                                         {{ lang('gateway') }}
                                                     </span>
                                                     <select class="form-select" aria-label="Default select example" style="max-width: 150px;" v-model="SelectedGetway">
-                                                        <option value="Stripe" selected>Stripe</option>
-                                                        <option value="Crypto">Crypto</option>
-                                                        <option value="BankTransfer">Bank Transfer</option>
+                                                        <option value="plisio" selected>Crypto</option>
+                                                        <option value="mailin">Bank Transfer</option>
+                                                        <option v-if="WhmcsUserInfo?.countrycode != null && WhmcsUserInfo?.countrycode != 'IR'" value="stripe">Stripe</option>
                                                     </select>
                                                 </div>
                                             </div>

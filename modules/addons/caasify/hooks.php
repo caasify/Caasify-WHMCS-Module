@@ -599,45 +599,42 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
             $NewCommissionAmount = ($ChargeAmount * 0.029) + 0.30;
             $NewDescription = "Gateway Commission 2.9% + 0.30 Euro";
         }
+    
+        try{
+            $NewSubtotal = 0;
+            Capsule::table('tblinvoiceitems')
+                ->where('invoiceid', $invoiceid)
+                ->whereRaw('LOWER(description) LIKE ?', ['%commission%'])
+                ->delete();
+            
         
-        if($ChargeAmount && $NewCommissionAmount && $NewDescription ){
-            try{
-                $NewSubtotal = 0;
+            Capsule::table('tblinvoiceitems')->insert([
+                'invoiceid' => $invoiceid,
+                'userid' => $userid,
+                'description' => $NewDescription,
+                'type' => 'Commission',
+                'amount' => $NewCommissionAmount,
+                'taxed' => 0
+            ]);
 
-                Capsule::table('tblinvoiceitems')
-                    ->where('invoiceid', $invoiceid)
-                    ->whereRaw('LOWER(description) LIKE ?', ['%commission%'])
-                    ->delete();
-                
-                if($NewCommissionAmount != 0 && $NewDescription != ''){
-                    Capsule::table('tblinvoiceitems')->insert([
-                        'invoiceid' => $invoiceid,
-                        'userid' => $userid,
-                        'description' => $NewDescription,
-                        'type' => 'Commission',
-                        'amount' => $NewCommissionAmount,
-                        'taxed' => 0
-                    ]);
+            $NewSubtotal = $ChargeAmount + $NewCommissionAmount;
+        
 
-                    $NewSubtotal = $ChargeAmount + $NewCommissionAmount;
-                }
-
-                if($NewSubtotal != 0){
-                    Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
-                        'subtotal' => $NewSubtotal,
-                        'total' => $NewSubtotal
-                    ]);
-                } else {
-                    Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
-                        'subtotal' => $ChargeAmount,
-                        'total' => $ChargeAmount
-                    ]);
-                }
-                
-            } catch (Exception $e) {
-                echo('Error to run handleCommissionDataBase');
-                return false;
+            if($NewSubtotal != 0){
+                Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
+                    'subtotal' => $NewSubtotal,
+                    'total' => $NewSubtotal
+                ]);
+            } else {
+                Capsule::table('tblinvoices')->where('id', $invoiceid)->update([
+                    'subtotal' => $ChargeAmount,
+                    'total' => $ChargeAmount
+                ]);
             }
+            
+        } catch (Exception $e) {
+            echo('Error to run handleCommissionDataBase');
+            return false;
         }
 
     }

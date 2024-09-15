@@ -46,12 +46,13 @@
             </div>
         </div> 
         <div class="row" style="direction: ltr;">
-            <div v-for="region in regions" class="col-12 col-md-6 col-lg-4 col-xl-3 p-2 m-0">
+            <div v-for="region in regions" class="col-12 col-md-6 col-lg-4 col-xl-3 p-2 m-0" v-show="checkLocationCapacity(region?.capacity, region?.total)">
                 <div 
-                style="--bs-bg-opacity: 0.5 !important; height: 70px !important;"
-                class="d-flex flex-row align-items-center bg-light rounded-4 shadow-lg bg-white border"
-                :class="{ 'border border-2 border-dark': isRegion(region) }" 
-                @click="selectRegion(region)">
+                    style="--bs-bg-opacity: 0.5 !important; height: 70px !important;"
+                    class="d-flex flex-row align-items-center bg-light rounded-4 shadow-lg bg-white border"
+                    :class="{ 'border border-2 border-dark': isRegion(region) }" 
+                    @click="selectRegion(region)"
+                >
                     <div class="px-3">
                         <img :src="showImage(region?.image)" class="m-0 p-0 rounded-3" style="width: 55px; height: 40px">
                     </div>

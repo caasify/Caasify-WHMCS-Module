@@ -472,8 +472,6 @@ class ClientCaasifyController
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
-    // create invoie form modal in caasify
-    // create invoice and record it on database
     public function CreateNewUnpaidInvoice()
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
@@ -611,7 +609,7 @@ class ClientCaasifyController
             return false;
         }
 
-        if(isset($SelectedGetway) && $SelectedGetway == 'Stripe' && isset($Chargeamount)){
+        if(isset($SelectedGetway) && $SelectedGetway == 'stripe' && isset($Chargeamount)){
             $GatewayCommisionLabel = 'Stripe Commission 2.9% + 0.30 Euro';
             $GatewayCommisionValue = 0.30 + (0.029 * $Chargeamount);
         } else {

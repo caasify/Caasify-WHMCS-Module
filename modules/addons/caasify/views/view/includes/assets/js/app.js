@@ -28,7 +28,7 @@ app = createApp({
 
             // new Charging sys
             InvoiceCreationStatus: null,
-            SelectedGetway: 'Stripe',
+            SelectedGetway: 'plisio',
             popupMessage: null,
             WaitForConsoleRoute: false,
             ConsoleTimer: null,
@@ -1094,7 +1094,7 @@ app = createApp({
         },
 
         async LoadWhmcsUser() {
-            RequestLink = this.CreateRequestLink(action = 'WhmcsUserInfo');
+            RequestLink = this.CreateRequestLink(action = 'WhmcsUserInfo'); 
             let response = await axios.get(RequestLink);
 
             if (response?.data == null) {
@@ -2886,6 +2886,30 @@ app = createApp({
             setTimeout(() => {
                 clearInterval(intervalId);
             }, 25 * 1000); // 25 seconds = 25,000 milliseconds
+        },
+
+        checkDataCenterCapacity(capacity, total){
+            if(capacity == null || total == null){
+                return true
+            }
+            
+            if (capacity - total > 0){
+                return true
+            } else {
+                return false
+            }  
+        },
+        
+        checkLocationCapacity(capacity, total){
+            if(capacity == null || total == null){
+                return true
+            }
+            
+            if (capacity - total > 0){
+                return true
+            } else {
+                return false
+            }  
         },
     }
 });

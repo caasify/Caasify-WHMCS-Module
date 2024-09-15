@@ -438,10 +438,12 @@ function caasify_get_whmcs_user($WhUserId)
         $credit = $results['credit'];
         $currency = $results['currency_code'];
         $userCurrencyId = $results['currency'];
+        $countrycode = $results['countrycode'];
         $response = array(
             'credit' => $credit,
             'currency' => $currency,
             'userCurrencyId' => $userCurrencyId,
+            'countrycode' => $countrycode,
         );
         return $response; 
     } else {
