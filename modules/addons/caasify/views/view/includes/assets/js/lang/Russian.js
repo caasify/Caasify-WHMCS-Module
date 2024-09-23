@@ -247,7 +247,7 @@ let common = {
 
     // create order page
     "backtoorderlist": "Назад к списку машин",
-    "datacenters": "Облачные провайдеры * ",
+    "datacenters": "Облачный провайдер * ",
     "chooseregion": "Выберите регион облачного провайдера",
     "products": "Конфигурации * ",
     "selectaproduct": "Выберите конфигурацию из этого региона",
@@ -265,7 +265,7 @@ let common = {
     "totalcostis": "Общая стоимость создания машины ",
     "firstselectone": "Пожалуйста, сначала выберите один из вышеуказанных продуктов",
     "createorder": "Создать машину",
-    "hourly": "почасово",
+    "hourly": "Почасово",
     "cancel": "Отмена",
     "createthisorder": "Создать эту машину",
     "youarecreating": "Вы создаете новую машину с следующей конфигурацией!",
@@ -331,7 +331,7 @@ let common = {
 
 
     // new CAASIFY
-    "Locations" : "Места",
+    "Locations" : "Локации",
     "in" : "в",
     "machinecreatesuccessfully" : "Машина успешно создана",
     "createanothermachine" : "Создать другую машину",
@@ -449,7 +449,7 @@ let common = {
 
 
     
-    "Product Detail" : "Детали услуги ",
+    "Product Detail" : "Конфигурации ",
     "Price is in" : "Price is in ",
     "Reguest Console Link" : "Запросить доступ к VNC",
     "Can not get Console button ID, call your admin" : "Невозможно получить идентификатор кнопки консоли, сообщите администратору.",
