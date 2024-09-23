@@ -398,7 +398,7 @@ let common = {
 
     // New
     "Cloud Account" : "Облачный Аккаунт",
-    "InsertValidNumber" : "Для пополнения вашего облачного аккаунта, пожалуйста, введите действительный номер",
+    "InsertValidNumber" : "Для пополнения вашего облачного аккаунта, пожалуйста, введите сумму пополнения",
     "Creating invoice" : "Создание счета",
     "invoice created successfully" : "счет успешно создан",
     "Go to invoice payment" : "Перейти к оплате счета",
