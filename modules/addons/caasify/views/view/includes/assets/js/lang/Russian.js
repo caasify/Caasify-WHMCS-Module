@@ -11,8 +11,8 @@ let common = {
     // order view
 
     // from product
-    "download" : "Download",
-    "upload" : "Upload",
+    "download" : "Скачать",
+    "upload" : "Загрузить",
     "backtoservices": "Вернуться к услугам",
     "ghz" : "GHz",
     "mb": "MB",
@@ -25,9 +25,9 @@ let common = {
     "passive": "Пассивный",
     "online": "В сети",
     "offline": "Не в сети",
-    "memory": "ПАМЯТЬ",
-    "disk": "ДИСК",
-    "cpu": "ЦПУ",
+    "memory": "RAM",
+    "disk": "Хранилище",
+    "cpu": "CPU",
     "template": "ШАБЛОН",
     "uptime": "ВРЕМЯ РАБОТЫ",
     "and": " и ",
@@ -47,7 +47,7 @@ let common = {
     "login": "Вход",
     "username": "Имя пользователя",
     "password": "Пароль",
-    "rebootaction": "Перезагрузка",
+    "rebootaction": "Перезагрузить",
     "stopaction": "Остановить",
     "consoleaction": "Консоль",
     "startaction": "Запустить",
@@ -154,8 +154,8 @@ let common = {
     "trafficduration": "Продолжительность :",
     "remainingtime": "Оставшееся время :",
     "failactionmsg": "Последнее действие не было выполнено полностью, статус все еще неудачный. Пожалуйста, попробуйте новое действие!",
-    "snapshot": "Snapshot",
-    "traffic" : "TRAFFIC",
+    "snapshot": "Снепшот",
+    "traffic" : "Траффик",
     // end from Product
 
     // Unique for this cloud
@@ -181,11 +181,11 @@ let common = {
 
 
     // index page
-    "clicktoseeadmin" : "Click to see User account on Cloud",
+    "clicktoseeadmin" : "Нажмите, чтобы увидеть учетную запись пользователя в облаке",
     "orderlist": "Список машин",
     "topup": "Пополнить",
     "listofactiveorders": "Список активных машин",
-    "noactiveorder": "У вас сейчас нет активной машины. Чтобы иметь его, вы должны сначала зарядить свою учетную запись, а затем нажать [Создать машину].",
+    "noactiveorder": "У вас сейчас нет активных услуг.",
     "address": "Адрес",
     'hostnameontable': 'Имя хоста',
     "templateontable": "Шаблон",
@@ -203,7 +203,7 @@ let common = {
     "movebalance" : "Переместить баланс",
     "heretocharge" : "Здесь вы можете пополнить свой облачный аккаунт",
     "yourcredit" : "Ваш кредит",
-    "isnotenough" : "недостаточно средств, сначала перейдите в свой аккаунт и добавьте кредит",
+    "isnotenough" : "недостаточно средств, сначала перейдите в свой аккаунт и добавьте средства",
     "minimumis" : "Минимальный кредит для пополнения вашего облачного аккаунта составляет",
     "chargecloudaccount" : "Пополнить облачный аккаунт",
     "youcantransfercredit" : "Вы можете пополнить свой облачный аккаунт, используя кредит вашего аккаунта. С помощью этого действия вы переводите кредит вашего аккаунта в ваш облачный баланс.",
@@ -226,20 +226,20 @@ let common = {
     "accountcredit" : "Кредит аккаунта",
     "successful" : "Успешно",
     "chargingdonesuccessfully" : "Процесс пополнения завершился успешно, пожалуйста, перезагрузите страницу, чтобы увидеть результат",
-    "currentbalanceautovm" : "Current Caasify Balance",
-    "addorremove" : "Add/Remove Balance ±",
-    "increase" : "Increase",
-    "decrease" : "Decrease",
+    "currentbalanceautovm" : "Текущий баланс Caasify",
+    "addorremove" : "Добавить/убавить баланс ±",
+    "increase" : "Добавится",
+    "decrease" : "Убавится",
     "transid" : "TransId",
-    "hasrecordedsuccessfully" : "has recorded successfully",
-    "anerroroccurred" : "An error occurred",
-    "cannotfinduserid" : "Error: Can not find the user with this id",
-    "useminnuestoreduce" : "Use minus sign ( - ) to reduce balance",
-    "ittakesminutes" : "Note: It takes more than 30 seconds to be able to see the result on Balance in the User Profile ",
+    "hasrecordedsuccessfully" : "успешная запись",
+    "anerroroccurred" : "Какая-то ошибка",
+    "cannotfinduserid" : "Ошибка: Невозможно найти пользователя с этим идентификатором.",
+    "useminnuestoreduce" : "Используйте минус ( - ) чтобы уменьшить баланс",
+    "ittakesminutes" : "Примечание. Чтобы увидеть результат баланса в профиле пользователя, требуется более 30 секунд. ",
     "adjustusebalance" : "Adjust User Balance",
     "maketransaction" : "Record New Transaction",
     "email" : "Email",
-    "userdetailautovm" : "User Details in Caasify",
+    "userdetailautovm" : "Детали пользователя в Caasify",
     "taketimetoseeresult" : "Обычно требуется больше минуты, чтобы увидеть списание на вашем облачном балансе.",
     "noaction" : "No Action Recorded",
     // End index page
@@ -247,12 +247,12 @@ let common = {
 
     // create order page
     "backtoorderlist": "Назад к списку машин",
-    "datacenters": "Центры данных * ",
-    "chooseregion": "Выберите регион центра данных",
-    "products": "Продукты * ",
-    "selectaproduct": "Выберите продукт из этого региона",
-    "thereisnodatacenter": "В выбранном регионе нет продуктов",
-    "pleaseselect": "Пожалуйста, выберите сначала Центры данных из списка выше",
+    "datacenters": "Облачные провайдеры * ",
+    "chooseregion": "Выберите регион облачного провайдера",
+    "products": "Конфигурации * ",
+    "selectaproduct": "Выберите конфигурацию из этого региона",
+    "thereisnodatacenter": "В выбранном регионе нет конфигураций",
+    "pleaseselect": "Пожалуйста, выберите сначала облачного провайдера из списка выше",
     "bandwidth": "Пропускная способность: ",
     "operationsystem": "Операционная система *",
     "selectatemplate": "Выберите шаблон",
@@ -276,7 +276,7 @@ let common = {
     "templatemissed": "Пропущен шаблон",
     "allinfoprovided": "Предоставлена вся необходимая информация",
     "name": "Имя: ",
-    "datacenter": "Центр данных: ",
+    "datacenter": "Облачный провайдер: ",
     "product": "Продукт: ",
     "producttemplate": "Шаблон: ",
     "sshkeytitle": "SSH-ключ: ",
@@ -292,7 +292,7 @@ let common = {
     "createorderfailed": "Мы не смогли создать вашу машину, пожалуйста, попробуйте еще раз. Если это произойдет снова, пожалуйста, свяжитесь с нами для получения поддержки.",
     "createanotherorder": "Создать другую машину",
     "createsuccessmsg": "Теперь вы можете увидеть свою машину в списке машин, перейдя по следующей ссылке. Также вы можете создать другую машину.",
-    "onlyenglishletters": "Only English letters",
+    "onlyenglishletters": "Только английские символы",
 
     "cpucore" : "Ядро процессора",
     "cpufrequency" : "Частота процессора",
@@ -302,31 +302,31 @@ let common = {
     "balanceisnotenough" : "Ваш баланс недостаточен для продолжения, вам следует сначала пополнить свой счет",
     "billsummary" : "Сводка счета",
     "seeyourorderdetails" : "Просмотреть детали вашего заказа",
-    "costoneip" : "Cost for one IP address",
-    "costonegigtraffic" : "Cost for one GB traffic",
-    "freeprice" : "Free",
-    "pricestartsfrom" : "Price Starts From",
-    "confirmationtext" : "I affirm my agreement with all the terms and regulations for utilizing the global network cloud.",
-    "optional" : "Optional",
-    "readmore" : "Read More ...",
+    "costoneip" : "Стоимость за один IP",
+    "costonegigtraffic" : "Стоимость 1GB невходящего траффика в конфигурацию",
+    "freeprice" : "Бесплатно",
+    "pricestartsfrom" : "Цена от",
+    "confirmationtext" : "Я согласен с условиями использования",
+    "optional" : "Дополнительно",
+    "readmore" : "Подробнее ...",
 
-    "nanoconfiguration" : "Nano Configuration",
-    "basicconfiguration" : "Basic Configuration",
-    "standardconfiguration" : "Standard Configuration",
-    "advancedconfiguration" : "Advanced Configuration",
-    "enterpriseconfiguration" : "Enterprise Configuration",
+    "nanoconfiguration" : "Nano конфигурация",
+    "basicconfiguration" : "Basic конфигурация",
+    "standardconfiguration" : "Standart конфигурация",
+    "advancedconfiguration" : "Advanced конфигурация",
+    "enterpriseconfiguration" : "Enterprise конфигурация",
     "ipv" : "Internet Protocol version",
     "ipvversion4" : "",
     "ipvversion6" : "",
     "IPV6" : "IPV6",
-    "Create Machine" : "Create Machine",
-    "createmachinefailed" : "Create Machine Failed",
+    "Create Machine" : "Создать VM",
+    "createmachinefailed" : "Ошибка в создании VM",
     // end create order page
 
 
 
 // admin panel
-    "usertoken" : "User Token",
+    "usertoken" : "Токен пользователя",
 
 
 
@@ -350,7 +350,7 @@ let common = {
     "Confirmation" : "Подтверждение",
     "You are going to" : "Вы собираетесь ",
     "your machine, are you sure ?" : " вашу машину, вы уверены?",
-    "Something is in queue !" : "Что-то в очереди!",
+    "Something is in queue !" : "Уже выполняется действие! Попробуйте повторить действие через минуту",
 
     "Graphs" : "Графики",
     "BackUp" : "Резервное копирование",
@@ -366,8 +366,8 @@ let common = {
     "DELETE" : "УДАЛИТЬ",
     "SHOW" : "ПОКАЗАТЬ",
 
-    "DELIVERED" : "ДОСТАВЛЕНО",
-    "FAILED" : "НЕУДАЧА",
+    "DELIVERED" : "УСПЕШНО",
+    "FAILED" : "ОШИБКА",
     "PENDING" : "В ОЖИДАНИИ",
 
 
@@ -449,15 +449,15 @@ let common = {
 
 
     
-    "Product Detail" : "Product Detail ",
+    "Product Detail" : "Детали услуги ",
     "Price is in" : "Price is in ",
-    "Reguest Console Link" : "Reguest Console Link",
-    "Can not get Console button ID, call your admin" : "Can not get Console button ID, call your admin",
-    "This product has no console" : "This product has no console",
-    "Console Is Running" : "Console is running ",
-    "Link is Valid for" : "Link is Valid for",
-    "seconds" : "seconds",
-    "extraTraffic" : "Extra Traffic : ",
+    "Reguest Console Link" : "Запросить доступ к VNC",
+    "Can not get Console button ID, call your admin" : "Невозможно получить идентификатор кнопки консоли, сообщите администратору.",
+    "This product has no console" : "У этого продукта нет консоли",
+    "Console Is Running" : "VNC запущен ",
+    "Link is Valid for" : "Ссылка действует",
+    "seconds" : "секунд",
+    "extraTraffic" : "Дополнительный трафик : ",
     
 
 }
