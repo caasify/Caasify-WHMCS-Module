@@ -331,7 +331,7 @@ let common = {
 
 
     // new CAASIFY
-    "Locations" : "Локации",
+    "Locations" : "Локация",
     "in" : "в",
     "machinecreatesuccessfully" : "Машина успешно создана",
     "createanothermachine" : "Создать другую машину",
@@ -459,7 +459,11 @@ let common = {
     "seconds" : "секунд",
     "extraTraffic" : "Дополнительный трафик : ",
     
-
+    "Cloud invoices" : "Счета за использование",
+    "Select a Date" : "Выберите период",
+    "Order Name" : "Номер заказа",
+    "Expenses in" : "Расходы в ",
+    "Amount" : "Сумма",
 }
 
 const words = {
