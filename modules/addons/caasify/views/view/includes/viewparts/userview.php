@@ -3,6 +3,79 @@
     <div class="col-12 col-xl-6 p-0 m-0 mb-2 flex-grow-1 pe-xl-1">
         <div class="border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0 me-xl-1 pb-5 h-100">
             <div class="m-0 p-0">
+
+                <!-- user Info -->
+                <?php if(isset($DemoMode) && $DemoMode == 'off' ): ?>
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <div class="">
+                        <p class="text-secondary fs-5 m-0 p-0">
+                            <i class="bi bi-person-circle pe-2"></i>
+                            <span class="text-secondary m-0 p-0 ps-4">
+                                {{ lang('userdetailautovm') }}
+                            </span>
+                            <button v-if="user.id" class="small btn bg-primary btn-sm p-0 m-0 px-3 ms-3 py-1 text-primary" style="--bs-bg-opacity: 0.2;">
+                                <span class="p-0 m-0">
+                                    {{ user.id }}
+                                </span>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row m-0 p-0 mt-4">
+                    <!-- name -->
+                    <div class="input-group my-1" v-if="user.name">
+                        <span class="input-group-text" id="basic-addon1" style="width: 100px;">
+                            {{ lang('name') }}
+                        </span>
+                        <input type="text" class="form-control" :value="user.name" disabled>
+                    </div>
+                    <!-- email -->
+                    <div class="input-group my-1" v-if="user.email">
+                        <span class="input-group-text" id="basic-addon1" style="width: 100px;">
+                            {{ lang('email') }}
+                        </span>
+                        <input type="text" class="form-control" :value="user.email" disabled>
+                    </div>
+                    <!-- balance -->
+                    <div class="" v-if="CommissionIsValid && CurrenciesRatioCloudToWhmcs">
+                        <div class="input-group my-1" v-if="balance" >
+                            <span class="input-group-text" id="basic-addon1" style="width: 100px;">
+                                {{ lang('cloudbalance') }}
+                            </span>
+                            <input type="text" class="form-control" :value="formatUserBalance(user.balance - user.debt)" disabled>
+                            <span class="input-group-text" id="basic-addon1" style="width: 60px;">
+                                {{ userCurrencySymbolFromWhmcs }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WHMCS User Credit -->
+                <!-- <div class="row m-0 p-0">
+                    <div class="col-auto m-0 p-0" style="min-width: 120px;">
+                        <span class="text-secondary align-middle m-0 p-0">
+                            {{ lang('yourcredit') }}
+                        </span>
+                    </div>
+                    <div class="col-auto m-0 p-0">
+                        <span class="text-secondary align-middle m-0 p-0 fw-medium"
+                            v-if="WhmcsUserInfo?.credit">
+                            {{ showCreditWhmcsUnit(WhmcsUserInfo?.credit) }}
+                        </span>
+                        <span v-if="userCurrencySymbolFromWhmcs" class="ms-1" v-if="WhmcsUserInfo?.credit">
+                            {{ userCurrencySymbolFromWhmcs }}
+                        </span>
+                        <span class="text-secondary align-middle m-0 p-0 fw-medium" v-else>
+                            ---
+                        </span>
+                    </div>
+                </div> -->
+                <div class="m-0 p-0 pb-4 my-3">
+                    <hr class="text-secondary border-2 border-secondary m-0 p-0">
+                </div>
+                <?php endif ?>
+                <!-- machine Info -->
                 <div class="d-flex flex-row justify-content-between align-items-center">
                     <div class="">
                         <p class="text-secondary fs-5 m-0 p-0">
@@ -10,22 +83,16 @@
                             <span class="text-secondary m-0 p-0 ps-4">
                                 {{ lang('Machine Info') }}
                             </span>
-                        </p>
-                    </div>
-                    <!-- Datacenter and city -->
-                     <div class="d-none d-md-block">
-                        <div class="d-flex flex-row justify-content-end align-items-center flex-wrap pe-0" v-if="thisOrder?.records[thisOrder.records.length-1]?.product?.categories">
-                            <div class="d-flex flex-row justify-content-start align-items-center bg-secondary rounded-3 py-2 ms-2 px-3 mb-1" v-for="item in thisOrder.records[thisOrder.records.length-1].product.categories" style="max-width: 180px; --bs-bg-opacity: 0.1;">
-                                <img :src="showImage(item?.image)" alt="" style="height: 20px;" class="rounded-1">
-                                <span class="text-secondary ps-2" v-if="item?.name">
-                                    {{ item?.name }}
+                            <button v-if="thisOrder?.id" class="small btn bg-primary btn-sm p-0 m-0 px-3 ms-3 py-1 text-primary" style="--bs-bg-opacity: 0.2;">
+                                <span class="p-0 m-0">
+                                    {{ thisOrder?.id }}
                                 </span>
-                            </div>
-                        </div>
+                            </button>
+                        </p>
                     </div>
                 </div>
 
-                <div class="input-group mt-5 mb-2">
+                <div class="input-group mt-4 mb-2">
                     <span class="input-group-text" id="basic-addon1" style="width: 100px;">
                         {{ lang('username') }}
                     </span>
@@ -46,16 +113,9 @@
                         <i v-if="!PassVisible" class="bi bi-eye-slash-fill"></i>
                     </a>
                 </div>
-                <div class="m-0 p-0 pb-4 my-3">
-                    <hr class="text-secondary border-2 border-secondary m-0 p-0">
-                </div>
                 <!-- bottom slice -->
                 <div class="m-0 p-0 px-1">
                     <div class="m-0 p-0 mt-0">
-                        <p class="text-secondary mb-4 fs-5">
-                            <i class="bi bi-currency-exchange pe-4"></i>
-                            {{ lang('finance') }}
-                        </p>
                         <!-- Monthly Price -->
                         <div class="row m-0 p-0 align-items-center">
                             <div class="col-auto m-0 p-0" style="min-width: 120px;">
@@ -64,7 +124,7 @@
                                 </span>
                             </div>
                             <div class="col-auto m-0 p-0">
-                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].price && CurrenciesRatioCloudToWhmcs">
+                                <span class="text-secondary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].price && CurrenciesRatioCloudToWhmcs">
                                     <span v-if="CommissionIsValid">
                                         <span>
                                             {{ formatUserBalance(thisOrder.records[thisOrder.records.length - 1].price) }}
@@ -93,7 +153,7 @@
                             <div class="col-auto m-0 p-0" style="min-width: 120px;">
                             </div>
                             <div class="col-auto m-0 p-0">
-                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].hourly_price && CurrenciesRatioCloudToWhmcs">
+                                <span class="text-secondary align-middle m-0 p-0 fw-medium" v-if="thisOrder?.records[thisOrder.records.length - 1].hourly_price && CurrenciesRatioCloudToWhmcs">
                                     <span v-if="CommissionIsValid">
                                         <span>
                                             {{ formatUserBalance(thisOrder.records[thisOrder.records.length - 1].hourly_price) }}
@@ -108,57 +168,6 @@
                                 </span>
                             </div>
                         </div>
-
-                        <!-- Balance -->
-                        <div class="row m-0 p-0 mt-5">
-                            <div class="col-auto m-0 p-0" style="min-width: 120px;">
-                                <span class="text-secondary align-middle m-0 p-0">
-                                    {{ lang('cloudbalance') }}
-                                </span>
-                            </div>
-                            <div class="col-auto m-0 p-0">
-                                <span class="text-primary align-middle m-0 p-0 fw-medium" v-if="balance">
-                                    <span v-if="CommissionIsValid && CurrenciesRatioCloudToWhmcs">
-                                        <span>
-                                            {{ formatUserBalance(user.balance - user.debt) }}
-                                        </span>
-                                        <span v-if="userCurrencySymbolFromWhmcs" class="ms-1">
-                                            {{ userCurrencySymbolFromWhmcs }}
-                                        </span>
-                                    </span>
-                                    <span v-else>
-                                        Nan
-                                    </span>
-                                </span>
-                                <span class="text-secondary align-middle m-0 p-0 fw-medium" v-else>
-                                    <span>
-                                        ...
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- WHMCS User Credit -->
-                        <div class="row m-0 p-0">
-                            <div class="col-auto m-0 p-0" style="min-width: 120px;">
-                                <span class="text-secondary align-middle m-0 p-0">
-                                    {{ lang('yourcredit') }}
-                                </span>
-                            </div>
-                            <div class="col-auto m-0 p-0">
-                                <span class="text-secondary align-middle m-0 p-0 fw-medium"
-                                    v-if="WhmcsUserInfo?.credit">
-                                    {{ showCreditWhmcsUnit(WhmcsUserInfo?.credit) }}
-                                </span>
-                                <span v-if="userCurrencySymbolFromWhmcs" class="ms-1" v-if="WhmcsUserInfo?.credit">
-                                    {{ userCurrencySymbolFromWhmcs }}
-                                </span>
-                                <span class="text-secondary align-middle m-0 p-0 fw-medium" v-else>
-                                    ---
-                                </span>
-                            </div>
-                        </div>
-
                     </div>
                 </div><!-- end bottom --> 
             </div>
@@ -167,7 +176,7 @@
     <!-- Actions -->
     <div class="d-flex flex-column col-12 col-xl-6 p-0 m-0 mb-2 flex-grow-1">
         <div class="row m-0 p-0">
-            <div class="col-12 col-md-6 m-0 p-0 mb-2">
+            <div class="col-12 m-0 p-0 mb-2">
                 <div class="row m-0 p-0 h-100">
                     <div class="col-12 border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0 h-100" style="height: 150px;">
                         <!-- header -->
@@ -262,7 +271,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 m-0 p-0 mb-2">
+            <div class="col-12 m-0 p-0 mb-2">
                 <?php include('./includes/viewparts/buttons.php');   ?>
             </div>
         </div>

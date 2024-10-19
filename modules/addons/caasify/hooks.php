@@ -470,13 +470,16 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         $NewDescription = '';
 
 
-        if ($paymentmethod == 'paypalcheckout') {
-            $NewCommissionAmount = ($chargeAmount * 0.034) + 0.35;
-            $NewDescription = "Gateway Commission 3.4% + 0.35 Euro";
+        if ($paymentmethod == 'paypal') {
+            $NewCommissionAmount = $chargeAmount * 0.05;
+            $NewDescription = "Paypal Commission 5%";
         } else if ($paymentmethod == 'stripe') {
-            $NewCommissionAmount = ($chargeAmount * 0.029) + 0.30;
-            $NewDescription = "Gateway Commission 2.9% + 0.30 Euro";
-        } else if ($paymentmethod == 'mailin') {
+            $NewCommissionAmount = ($chargeAmount * 0.03) + 0.30;
+            $NewDescription = "Gateway Commission 3% + 0.30 Euro";
+        } else if ($SelectedGetway == 'cryptomusgateway'){
+            $GatewayCommisionLabel = 'Gateway Commission 2%';
+            $GatewayCommisionValue = 0.02 * $Chargeamount;
+        } else {
             $NewCommissionAmount = 0;
             $NewDescription = "Gateway has no Commission";
         }
@@ -592,14 +595,17 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         $NewCommissionAmount = 0;
         $NewDescription = '';
 
-        if ($paymentmethod == 'paypalcheckout') {
-            $NewCommissionAmount = ($ChargeAmount * 0.034) + 0.35;
-            $NewDescription = "Gateway Commission 3.4% + 0.35 Euro";
+        if ($paymentmethod == 'paypal') {
+            $NewCommissionAmount = $ChargeAmount * 0.05;
+            $NewDescription = "Paypal Commission 5%";
         } else if ($paymentmethod == 'stripe') {
-            $NewCommissionAmount = ($ChargeAmount * 0.029) + 0.30;
-            $NewDescription = "Gateway Commission 2.9% + 0.30 Euro";
+            $NewCommissionAmount = ($ChargeAmount * 0.03) + 0.30;
+            $NewDescription = "Gateway Commission 3% + 0.30 Euro";
+        } else if ($SelectedGetway == 'cryptomusgateway'){
+            $GatewayCommisionLabel = 'Gateway Commission 2%';
+            $GatewayCommisionValue = 0.02 * $Chargeamount;
         }
-    
+
         try{
             $NewSubtotal = 0;
             Capsule::table('tblinvoiceitems')
@@ -641,6 +647,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 }
 
 add_hook('InvoicePaid', 1, function($vars) {
+
     $invoiceid = $vars['invoiceid'];
     if(empty($invoiceid)){
         return false;
@@ -741,6 +748,7 @@ add_hook('InvoicePaid', 1, function($vars) {
 
 // send alert on invoice page
 add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
+
     $invoiceid = $vars['invoiceid'];
     $KeyMsg = 'CaasifyChargingMsg' . $invoiceid;
     $KeyStatus = 'CaasifyChargingStatus' . $invoiceid;    
@@ -766,22 +774,87 @@ add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
     } 
 
     if(isset($_SESSION[$apiChargeResponse]) && ($_SESSION[$apiChargeResponse] == "The amount field must be at least 0.2." || $_SESSION[$apiChargeResponse] == "The amount field must be at least 0.1.")){
-        $_SESSION[$apiChargeResponse] = "Charge amount must be larger than 0.50 €";
+        $_SESSION[$apiChargeResponse] = "Charge amount must be larger than 1 €";
     }
 
-    $SuccessMsg = '
-                <div class="container" style="max-width: 920px;">
-                    <div style="padding: 30px;background-color: #2c64c4eb;color: #f1fcff;text-align: center;ter;border: 1px solid;margin: 20px;border-radius: 10px;max-width: 960px;">
-                        <h3>
-                            Charging your cloud account was successful
-                        </h3>
-                        <br>
-                        <a href="'. $HomePageAddress .'" style="color: white;">
-                            Go to Home Page
-                        </a>
+    $SuccessMsg = "                       
+        <!-- Invoice Paid Modal -->
+        <div class='modal fade mt-5 pt-5' id='invoiceConfirmationModal' tabindex='-1' aria-labelledby='invoiceModalLabel' style='display: none;'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h5 class='modal-title' id='invoiceModalLabel'>Invoice Confirmation</h5>
                     </div>
-                </div>   
-        '
+                    <div class='modal-body'>
+                        Invoice has been paid. Do you want to proceed?
+                    </div>
+                    <div class='modal-footer'>
+                        <form method='POST' action=''>
+                            <input type='hidden' name='action' value='clearalert'>
+                            <button type='submit' class='btn btn-primary px-5 py-1' id='confirmInvoiceButton'>
+                                Ok
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript -->
+        <script>
+            // Function to show modal manually
+            function showModal() {
+                var modal = document.getElementById('invoiceConfirmationModal');
+                modal.style.display = 'block';  // Make modal visible
+                setTimeout(function() {
+                    modal.classList.add('show');  // Add Bootstrap show class for animation
+                    document.body.classList.add('modal-open');  // Prevent background scrolling
+                    
+                    // Focus on the first focusable element in the modal
+                    document.getElementById('confirmInvoiceButton').focus();
+                    
+                    var backdrop = document.createElement('div');
+                    backdrop.className = 'modal-backdrop fade show';  // Create and show backdrop
+                    document.body.appendChild(backdrop);
+                }, 10);  // Delay to trigger CSS animations
+            }
+
+            // Function to hide modal manually
+            function hideModal() {
+                var modal = document.getElementById('invoiceConfirmationModal');
+                modal.classList.remove('show');  // Remove show class to hide
+                document.body.classList.remove('modal-open');  // Enable background scrolling
+                var backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.classList.remove('show');
+                    setTimeout(function() {
+                        backdrop.remove();  // Remove backdrop after fade-out
+                        modal.style.display = 'none';  // Finally hide modal completely
+                    }, 200);  // Delay to let the fade-out animation complete
+                } else {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Show modal on page load
+            window.onload = function() {
+                showModal();
+            };
+
+            // Handle close button and OK button click events to close the modal
+            document.getElementById('confirmInvoiceButton').addEventListener('click', function() {
+                hideModal();  // Close modal when OK button is clicked
+            });
+            
+            document.getElementById('closeButton').addEventListener('click', function() {
+                hideModal();  // Close modal when the close button is clicked
+            });
+        </script>
+
+        <!-- Bootstrap CSS (optional) -->
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css' rel='stylesheet'>
+
+        "
     ;
     
     $FailMsg = "
@@ -809,7 +882,7 @@ add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
             </div>   
         "
     ;
-
+    
     if (isset($_SESSION[$KeyStatus])) {
         if ($_SESSION[$KeyStatus] == "fail") {
             echo($FailMsg);

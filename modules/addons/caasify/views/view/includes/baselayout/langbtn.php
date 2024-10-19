@@ -1,3 +1,5 @@
+<?php if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on') : ?>
+<?php else: ?>
 <div class="dropdown m-0 p-0">
 <span class="" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
     <?php 
@@ -35,3 +37,4 @@
         </div>
     </div>
 </div>
+<?php endif; ?>

@@ -609,13 +609,21 @@ class ClientCaasifyController
             return false;
         }
 
-        if(isset($SelectedGetway) && $SelectedGetway == 'stripe' && isset($Chargeamount)){
-            $GatewayCommisionLabel = 'Stripe Commission 2.9% + 0.30 Euro';
-            $GatewayCommisionValue = 0.30 + (0.029 * $Chargeamount);
-        } else {
-            $GatewayCommisionLabel = 'Gateway Commission';
-            $GatewayCommisionValue = 0;
-        }
+        if(isset($SelectedGetway) && isset($Chargeamount)){
+            if($SelectedGetway == 'stripe'){
+                $GatewayCommisionLabel = 'Stripe Commission 3% + 0.30 Euro';
+                $GatewayCommisionValue = 0.30 + (0.03 * $Chargeamount);
+            } else if ($SelectedGetway == 'paypal'){
+                $GatewayCommisionLabel = 'Paypal Commission 5%';
+                $GatewayCommisionValue = 0.05 * $Chargeamount;
+            } else if ($SelectedGetway == 'cryptomusgateway'){
+                $GatewayCommisionLabel = 'Gateway Commission 2%';
+                $GatewayCommisionValue = 0.02 * $Chargeamount;
+            } else {
+                $GatewayCommisionLabel = 'Gateway Commission';
+                $GatewayCommisionValue = 0;
+            }
+        } 
 
         $WhUserId = $this->WhUserId;
         if(empty($Ratio) || empty($Chargeamount) || empty($WhUserId) | empty($CaasifyUserId)){
@@ -959,6 +967,117 @@ class ClientCaasifyController
         if ($method) {
             return $method->invoke($this);
         }
+    }
+
+
+    public function CaasifyGetFilterTerms()
+    {
+        $ResellerToken = $this->ResellerToken;
+        $response = null;
+
+        if($ResellerToken){
+            $response = $this->sendCaasifyGetFilterTermsRequest($ResellerToken);
+        }
+        $this->response($response);
+    }
+
+    public function sendCaasifyGetFilterTermsRequest($ResellerToken)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $ResellerToken
+        ];
+
+        $address = [
+            $BackendUrl, 'api', 'common', 'terms'
+        ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+    
+    public function CaasifyGetPlansFromFiltersTerm()
+    {
+        $ResellerToken = $this->ResellerToken;
+        $response = null;
+
+        $termsArr = caasify_get_post_array_all();
+        
+        if($ResellerToken){
+            $response = $this->sendCaasifyGetPlansFromFiltersTermRequest($ResellerToken, $termsArr);
+        }
+        
+        $this->response($response);
+    }
+
+    public function sendCaasifyGetPlansFromFiltersTermRequest($ResellerToken, $termsArr)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $ResellerToken
+        ];
+
+        
+        if(empty($termsArr)){
+            $address = [ $BackendUrl, 'api', 'reseller', 'common', 'products'];
+        } else {
+            
+            foreach ($termsArr as $value) {    
+                if ($value[0] == '291') {
+                    $params[] = 'term[1][]=' . urlencode($value[0]); 
+                } 
+                if (is_array($value)) {
+                    foreach ($value as $type => $typeValues) {
+                        foreach ($typeValues as $id) {
+                            $params[] = 'term[' . $type .'][]=' . urlencode($id); 
+                        }
+                    }
+                }
+            }
+            
+            $queryString = implode('&', $params);
+            $address = [ $BackendUrl, 'api', 'candy', 'common', 'products', "?{$queryString}" ];
+        }
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+    
+    public function CaasifyGetRecomPlansForContinent()
+    {
+        $ResellerToken = $this->ResellerToken;
+        $response = null;
+
+        $termArray = caasify_get_post_array_all();
+        if(!empty($termArray)){
+            foreach ($termArray as $key => $value) {
+                foreach ($value as $id) {
+                    $params = ['terms[' . $id . ']' => $id];
+                }
+            }            
+        }
+
+        if($ResellerToken){
+            $response = $this->sendCaasifyGetRecomPlansForContinentRequest($ResellerToken, $params);
+        }
+        
+        $this->response($response);
+    }
+
+    public function sendCaasifyGetRecomPlansForContinentRequest($ResellerToken, $params)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $ResellerToken
+        ];
+        
+        $address = [ $BackendUrl, 'api', 'candy', 'common', 'suggestion' ];
+        
+        return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
     }
 
 }

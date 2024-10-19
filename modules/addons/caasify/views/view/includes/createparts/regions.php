@@ -71,5 +71,5 @@
         </div>
     </div>
 </div>
-<div id="plansPoint"></div>
+<!-- <div id="plansPoint"></div> -->
 

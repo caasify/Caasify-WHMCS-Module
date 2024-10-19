@@ -460,6 +460,60 @@ let common = {
     
 
 
+    "Cloud invoices": "Fatture Cloud",
+    "Select a Date": "Seleziona una Data",
+    "Order Name": "Nome dell'Ordine",
+    "Expenses in": "Spese in",
+    "Amount": "Importo",
+    "Coming soon": "Prossimamente",
+    "Select a Category": "Seleziona una Categoria",
+    "Virtual Machine": "Macchina Virtuale",
+    "Kubernetes As A Service": "Kubernetes come Servizio",
+    "AI GPU": "GPU IA",
+    "Database As A Service": "Database come Servizio",
+    "Country": "Paese",
+    "CPU Type": "Tipo di CPU",
+    "Disk Type": "Tipo di Disco",
+    "IP version": "Versione IP",
+    "VM Type": "Tipo di VM",
+    
+    "USA": "USA",
+    "Australia": "Australia",
+    "Brazil": "Brasile",
+    "Canada": "Canada",
+    "France": "Francia",
+    "Germany": "Germania",
+    "India": "India",
+    "Indonesia": "Indonesia",
+    "Israel": "Israele",
+    "Japan": "Giappone",
+    "Mexico": "Messico",
+    "Netherlands": "Paesi Bassi",
+    "Singapore": "Singapore",
+    "South Africa": "Sudafrica",
+    "Spain": "Spagna",
+    "Sweden": "Svezia",
+    "Turkey": "Turchia",
+    "United Arab Emirates": "Emirati Arabi Uniti",
+    "United Kingdom": "Regno Unito",
+    
+    "IPV6": "IPV6",
+    "IPV4": "IPV4",
+    
+    "Reset": "Reimposta",
+    "Ram": "Ram",
+    "Filters": "Filtri",
+    "Filter": "Filtro",
+    "Product Details": "Dettagli del Prodotto",
+    "Cost": "Costo",
+    "All": "Tutti",
+    "Yes": "Sì",
+    "No": "No",
+    "Please select": "Si prega di selezionare",
+    "spotconfirmationtext": "Confermo l'uso dei servizi SPOT e accetto i termini e condizioni.",
+    "REBUILD": "RICOSTRUISCI",
+    "There is no product with this filters": "Non c'è nessun prodotto con questi filtri"
+
 }
 
 const words = {

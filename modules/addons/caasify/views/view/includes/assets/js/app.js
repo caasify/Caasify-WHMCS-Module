@@ -4,6 +4,27 @@ app = createApp({
 
     data() {
         return {
+            favoritPlans: [],
+            isFirstRequest: true,
+            noNeedToRecom: true,
+            recomPlansAreLoaded: false,
+            recomPlansAreLoading: true,
+            noRecomPlanToShow: false,
+            recomPlans: [],
+
+            checkBoxesStatus: {},
+            onlyUnlimitedTrafficCheckbox: false,
+            noPlanToShow: false,
+            selectedTremsWithType : {},
+            selectedRanges: {"CPU":"1","Disk":"10","Ram":"1","Traffic":"0"},
+            opacity: 0.1,
+            increasing: true,
+
+            selectedTerms: {},
+            FilterTermsAreLoaded: false,
+            FilterTermsIsNull: false,
+            FilterTermsLength: null,
+            FilterTerms: {},
 
             expenseDatesIsLoaded: false,
             expenseDatesMessage: null,
@@ -15,11 +36,11 @@ app = createApp({
 
             parentCategories: 
                 [ 
-                    {name : 'Virtual Machine', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/vm.png'},
-                    {name : 'Kubernetes As A Service', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/kubernetes.png'},
-                    {name : 'AI GPU ', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/aigpu.png'},
-                    {name : 'Database As A Service', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/database.png'},
-                    {name : 'S3 Storage', icon: '/modules/addons/caasify/views/view/includes/assets/img/services/storage.png'},
+                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png') },
+                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png') },
+                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png') },
+                    { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png') },
+                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png') },
                 ],
             SelectedCategory: null,
 
@@ -28,7 +49,7 @@ app = createApp({
 
             // new Charging sys
             InvoiceCreationStatus: null,
-            SelectedGetway: 'plisio',
+            SelectedGetway: 'mailin',
             popupMessage: null,
             WaitForConsoleRoute: false,
             ConsoleTimer: null,
@@ -139,8 +160,8 @@ app = createApp({
             moduleConfig: null,
             moduleConfigIsLoaded: null,
 
-
             checkboxconfirmation: null,
+            checkboxSPOTconfirmation: null,
             CreateMSG: null,
             RullesText: null,
 
@@ -155,8 +176,9 @@ app = createApp({
             plans: [],
             SelectedPlan: null,
             plansAreLoaded: false,
-            plansAreLoading: false,
-
+            plansAreLoading: true,
+            
+            
 
             PlanSections: null,
             PlanConfigSelectedOptions: {},
@@ -189,6 +211,79 @@ app = createApp({
     },
 
     watch: {
+        onlyUnlimitedTrafficCheckbox(newValue){
+            if(newValue == true){
+                let id = this.findUnlimitedTrafficId()
+                if(id != false){
+                    this.selectedTremsWithType['Traffic'] = id
+                }
+                this.selectedRanges['Traffic'] = '0'
+                const trafficRange = document.getElementById('Traffic');
+                this.ColorizeRange({ target: trafficRange }, 'Traffic');
+
+            } else { 
+                let id = this.findUnlimitedTrafficId()
+                if(this.selectedTremsWithType['Traffic'] == id){
+                    this.selectedTremsWithType['Traffic'] = undefined
+                }
+                const trafficRange = document.getElementById('Traffic');
+                this.ColorizeRange({ target: trafficRange }, 'Traffic');
+            }
+        },
+
+        selectedTremsWithType: {
+            handler(newValue, oldValue) {
+                let id = this.findUnlimitedTrafficId()
+                if(id != false){
+                    if(newValue['Traffic'] !== id){
+                        this.onlyUnlimitedTrafficCheckbox = false
+                    }
+                }
+
+                let allTermsValueFormBasicFilter = {}
+                this.FilterTerms.forEach(filters => {
+                    if(filters.name == 'CPU' || filters.name == 'Ram' || filters.name == 'Disk' || filters.name == 'Traffic'){
+                        if (!allTermsValueFormBasicFilter[filters.name]) {
+                            allTermsValueFormBasicFilter[filters.name] = [];
+                        }
+                        filters.terms.forEach(terms => {
+                            allTermsValueFormBasicFilter[filters.name].push(terms.id)
+                        });
+                    }                    
+                });
+
+                // clear old value if Exist
+                for (let type in newValue) {
+                    if (newValue[type] === undefined || (Array.isArray(newValue[type]) && newValue[type]?.length === 0)) {
+                        this.selectedTerms[type] = []
+                    }                    
+                }
+
+                // fill again new value 
+                for (let key in newValue) {
+                    if(newValue[key]){
+                        if(!this.selectedTerms[key]){
+                            this.selectedTerms[key] = []
+                        }
+                        this.selectedTerms[key] = newValue[key]
+                    }
+                } 
+
+                this.selectedTermsSave()
+                this.scrollToTopPlans()
+
+            },
+            deep: true
+        },
+
+        FilterTermsAreLoaded(newValue){
+            if(newValue == true){                
+                this.loadPlansFromFiltersTerm()
+                setTimeout(() => {
+                    this.loadRange()
+                }, 0.2 * 1000);
+            }
+        },
 
         CaasifyUserInfo(){
             let time = this.CaasifyUserInfo.balance_alarm
@@ -260,7 +355,7 @@ app = createApp({
                 } else if (newFielName == "create.php") {
 
                     setTimeout(() => {
-                        this.loadDataCenters();
+                        this.loadFilterTerms();
                         setTimeout(() => {
                             this.LoadCaasifyUser();
                             setTimeout(() => {
@@ -354,19 +449,97 @@ app = createApp({
         },
     },
 
+    updated() {
+        // Re-initialize tooltips when the DOM is updated
+        this.initializeTooltips();
+    },
+
     mounted() {
+        const interval = setInterval(() => {
+            if (this.increasing) {
+                this.opacity += 0.05;
+                if (this.opacity >= 1) {
+                    this.opacity = 1; // Cap at 1
+                    this.increasing = false; // Switch to decreasing
+                }
+            } else {
+                this.opacity -= 0.05;
+                if (this.opacity <= 0.1) {
+                    this.opacity = 0.1; // Cap at 0.1
+                    this.increasing = true; // Switch to increasing
+                }
+            }
+        }, 30); // 0.2 seconds (200ms) per interval
+        
         // this.mountToolTips();
         this.scrollToTop();
         this.fetchModuleConfig();
         this.readLanguageFirstTime();
         this.mountToolTips();
 
-
-        // TODO: just for now
         this.selectCategory(this.parentCategories[0])
     },
 
     computed: {
+
+        AllPlansSorted(){
+            let plans = false
+            if(this.plansAreLoaded && !this.recomPlansAreLoaded){
+                if(this.plans.length != 0){
+                    plans = this.plans
+                }
+            } else if(this.plansAreLoaded && this.recomPlansAreLoaded){
+                if(this.plans.length != 0){
+                    if(this.recomPlans.length != 0){
+                        plans = this.plans.concat(this.recomPlans)
+                    } else {
+                        plans = this.plans
+                    }
+                } 
+            }
+
+            let thereIsAtLeastOneOrdinaryPlan = false
+            if(plans.length > 0){
+                plans.forEach(plan => {
+                    if(plan.capacity == null){
+                        thereIsAtLeastOneOrdinaryPlan = true
+                    }
+                    if(plan.capacity != null){
+                        if(plan.capacity.available == true){
+                            thereIsAtLeastOneOrdinaryPlan = true
+                        }
+                    } 
+                });
+            }
+            
+            if(thereIsAtLeastOneOrdinaryPlan){
+                if(plans.length > 1){
+                    plans = plans.slice().sort((a, b) => a.price - b.price);
+                }
+            } else {
+                this.noPlanToShow = true
+                plans = this.favoritPlans
+            } 
+
+            let thereIsAtLeastOne = false
+            plans.forEach(plan => {
+                if(plan.capacity == null){
+                    thereIsAtLeastOne = true
+                }
+                if(plan.capacity != null){
+                    if(plan.capacity.available == true){
+                        thereIsAtLeastOne = true
+                    }
+                }
+            });
+
+            
+            if(thereIsAtLeastOne == true && plans.length > 0){
+                return plans
+            } else {
+                return false
+            }
+        },
 
         ConsoleParams(){
             if(this.latestConsoleRequestId != null){
@@ -419,10 +592,29 @@ app = createApp({
             }
             return null;
         },
-
-        sortedPlans() {
-            return this.plans.slice().sort((a, b) => a.price - b.price);
+        
+        sortedFiltersTerm() {
+            const priorityItems = ['CPU', 'Disk', 'Ram', 'Traffic'];
+        
+            return this.FilterTerms.slice().sort((a, b) => {
+                // Check if both items are in the priority list
+                const indexA = priorityItems.indexOf(a.name);
+                const indexB = priorityItems.indexOf(b.name);
+        
+                // If both are in the priority list, sort by their position in priorityItems
+                if (indexA !== -1 && indexB !== -1) {
+                    return indexA - indexB;
+                }
+        
+                // If one is in the priority list, it comes first
+                if (indexA !== -1) return -1;
+                if (indexB !== -1) return 1;
+        
+                // If neither is in the priority list, sort alphabetically
+                return a.name.localeCompare(b.name);
+            });
         },
+        
 
         CommissionIsValid() {
             if (this.configIsLoaded == false) {
@@ -692,6 +884,14 @@ app = createApp({
     },
 
     methods: {
+
+        initializeTooltips() {
+            // Select all tooltip elements and initialize them
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltipTriggerList.forEach((tooltipTriggerEl) => {
+              new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        },
 
         CountDownConsoleTimer() {
             const intervalId = setInterval(() => {
@@ -1140,6 +1340,13 @@ app = createApp({
 
         scrollToPlans() {
             const Element = document.getElementById('plansPoint');
+            if (Element) {
+                Element.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
+        
+        scrollToTopPlans() {
+            const Element = document.getElementById('topSelect');
             if (Element) {
                 Element.scrollIntoView({ behavior: 'smooth' });
             }
@@ -1982,6 +2189,38 @@ app = createApp({
             }
         },
 
+        thePlansTextClass(plan){
+            if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
+                return 'text-success'
+            } else {
+                return 'text-primary'
+            }
+        },
+        
+        thePlansClass(plan){
+            if (this.isPlan(plan)) {
+                return 'bg-warning border-warning border-2 text-dark'
+            } else if(this.isSuggested(plan)){
+                return 'bg-primary border-primary border-2 text-dark'
+            } else if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
+                return 'bg-success border-success'
+            } else {
+                return 'bg-secondary'
+            }
+        },
+        
+        thePlansStyle(plan){
+            if (this.isPlan(plan)) {
+                return '--bs-bg-opacity: 0.1; direction:ltr;'
+            } else if(this.isSuggested(plan)){
+                return '--bs-bg-opacity: 0.04; --bs-border-opacity: 0.2; direction:ltr;'
+            } else if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
+                return '--bs-bg-opacity: 0.02; --bs-border-opacity: 0.4; direction:ltr;'
+            } else {
+                return '--bs-bg-opacity: 0.01;  direction:ltr;'
+            }
+        },
+
         formatDescription(description) {
             return description.replace(/\n/g, "<br />");
         },
@@ -2020,7 +2259,7 @@ app = createApp({
             }
         },
 
-        async create() {
+        async create(plan) {
             this.scrollToTop();
             let accept = await this.openConfirmDialog('create')
 
@@ -2522,7 +2761,6 @@ app = createApp({
 
         loadPollingCreate() {
             setInterval(this.CheckData, 20 * 1000)
-            setInterval(this.CheckDataCenterLoaded, 10 * 1000)
         },
 
         ShowHidePassword() {
@@ -2868,7 +3106,20 @@ app = createApp({
 
         },
 
+        removeAllTooltips() {
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(tooltipEl => {
+                const tooltip = bootstrap.Tooltip.getInstance(tooltipEl);
+                if (tooltip) {
+                    tooltip.dispose();
+                }
+                // Remove the _tooltipInstance property
+                delete tooltipEl._tooltipInstance;
+            });
+        },
+
         mountToolTips() {
+            this.removeAllTooltips();
             const intervalId = setInterval(() => {
                 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
                 tooltipTriggerList.forEach(tooltipTriggerEl => {
@@ -2911,8 +3162,313 @@ app = createApp({
                 return false
             }  
         },
+
+
+        
+        async loadFilterTerms() {
+            this.FilterTermsAreLoaded = false
+
+            RequestLink = this.CreateRequestLink(action = 'CaasifyGetFilterTerms');
+            let response = await axios.get(RequestLink);
+
+            if (response?.data == null) {
+                console.error('FilterTerms Is Null');
+                this.FilterTermsIsNull = true
+            } else {
+                this.FilterTermsIsNull = false
+            }
+
+            if (response?.data?.message) {
+                this.FilterTermsAreLoaded = true
+                this.plansAreLoaded = false
+                console.error('FilterTerms Error: ' + response?.data?.message);
+            }
+            if (response?.data?.data) {
+                this.FilterTermsLength = response?.data?.data.length;
+                this.FilterTermsAreLoaded = true
+                this.plansAreLoaded = false
+                this.FilterTerms = response?.data?.data
+            }
+        },
+
+
+        async loadPlansFromFiltersTerm() {
+            this.plansAreLoaded = false;
+            this.plansAreLoading = true
+            this.plans = [];
+
+            let response = 'no data'
+            if(this.isEmpty(this.selectedTerms)){
+                let formData = new FormData();
+                formData.append('term[]', 291)
+                RequestLink = this.CreateRequestLink(action = 'CaasifyGetPlansFromFiltersTerm');
+                response = await axios.post(RequestLink, formData);
+                
+            } else {
+                let formData = new FormData();
+                for (const term in this.selectedTerms) {
+                    if (this.selectedTerms.hasOwnProperty(term)) { 
+                        if(Array.isArray(this.selectedTerms[term])){
+                            this.selectedTerms[term].forEach(id => {
+                                formData.append('term[' + term + '][' + id + ']' , id);
+                            });
+                        }
+                    }
+                }
+                
+                RequestLink = this.CreateRequestLink(action = 'CaasifyGetPlansFromFiltersTerm');
+                response = await axios.post(RequestLink, formData);
+            }
+
+            if (response?.data?.message) {
+                this.plansAreLoading = false;
+                this.plansAreLoaded = true;
+                console.error('Plans Error: ' + response?.data?.message);
+                this.noPlanToShow = true
+            }
+
+            if (response?.data?.data) {
+                this.plansAreLoading = false;
+                this.plansAreLoaded = true;
+                this.noPlanToShow = false
+                this.plans = response?.data?.data
+                if(this.isFirstRequest){
+                    this.isFirstRequest = false
+                    this.favoritPlans = response?.data?.data
+                }
+            }
+        
+        },
+
+        
+        async loadRecommendedPlansForContinent() {
+            this.recomPlans = [];
+            // check if there is country in terms to call recommends
+            for (let key in this.selectedTerms) {
+                if(key == 'Country'){
+                    let CountryIds = this.selectedTerms['Country']
+                    if (Array.isArray(CountryIds) && CountryIds?.length > 0){
+                        this.noNeedToRecom = false
+                        this.recomPlansAreLoaded = false;
+                        this.recomPlansAreLoading = true
+
+                        let response = 'no data'
+                        if(!this.isEmpty(this.selectedTerms['Country'])){
+                            let formData = new FormData();
+                            for (const term in this.selectedTerms) {
+                                if (this.selectedTerms.hasOwnProperty(term) && term == 'Country') { 
+                                    if(Array.isArray(this.selectedTerms[term])){
+                                        this.selectedTerms[term].forEach(id => {
+                                            formData.append('terms[' + id + ']' , id);
+                                        });
+                                    }
+                                }
+                            }
+                            
+                            RequestLink = this.CreateRequestLink(action = 'CaasifyGetRecomPlansForContinent');
+                            response = await axios.post(RequestLink, formData);
+                        }
+
+                        if (response?.data?.message) {
+                            this.recomPlansAreLoading = false;
+                            this.recomPlansAreLoaded = true;
+                            console.error('Recom Plans Error: ' + response?.data?.message);
+                            this.noRecomPlanToShow = true
+                        }
+
+                        if (response?.data?.data) {
+                            this.recomPlansAreLoading = false;
+                            this.recomPlansAreLoaded = true;
+                            this.noRecomPlanToShow = false
+                            this.recomPlans = response?.data?.data
+                        }
+                    } else {
+                        this.noNeedToRecom = true
+                    }
+                }
+            }
+        
+        },
+
+        ColorizeRange(event) {
+            let percentage = 0
+            let currentValue = parseFloat(this.selectedRanges[event.target.id])
+            
+            let max = null
+            this.FilterTerms.forEach(terms => {
+                if(terms.name == event.target.id){
+                    max = terms.terms[terms.terms.length-1].name
+                    max = parseFloat(max)
+                }
+            });
+            
+            if(max == null || currentValue == 0){
+                percentage = 0
+            } else {
+                percentage = (currentValue / max) * 100 - 1;
+            }
+            
+            if(event.target.id == 'Traffic' && this.onlyUnlimitedTrafficCheckbox == true) {
+                percentage = 0
+            }
+
+            if(event.target.id == 'Traffic' && currentValue == 0) {
+                percentage = 0
+            }
+            
+            if(event.target.id == 'CPU') {
+                percentage -= 5
+            }            
+            event.target.style.setProperty('--val', percentage);
+        },
+
+        loadRange(){
+            const cpuRange = document.getElementById('CPU');
+            this.ColorizeRange({ target: cpuRange }, 'CPU');
+            
+            const ramRange = document.getElementById('Ram');
+            this.ColorizeRange({ target: ramRange }, 'Ram');
+            
+            const diskRange = document.getElementById('Disk');
+            this.ColorizeRange({ target: diskRange }, 'Disk');
+
+            const trafficRange = document.getElementById('Traffic');
+            this.ColorizeRange({ target: trafficRange }, 'Traffic');
+        },
+
+        resetTheFilters(){
+            this.selectedTerms = {}
+            this.selectedTremsWithType = {}  
+            
+            for (const checkbox in this.checkBoxesStatus) {
+                delete this.checkBoxesStatus[checkbox]
+            }
+            
+            this.selectedRanges = {"CPU":"1","Disk":"10","Ram":"1","Traffic":"0"}
+            this.loadRange()
+        },
+
+        selectedTermsSave(){
+            this.loadPlansFromFiltersTerm()
+            this.loadRecommendedPlansForContinent()
+            this.SelectedPlan = null
+            this.PlanSections = null
+        },
+
+        findFavoriteTermId(){
+            this.FilterTerms.forEach(term => {
+                if(term.name == 'favorite'){
+                    return term.id
+                }
+            });
+        },
+
+        setSelectedCheckbox(event, type){
+            let id = event.target.value
+            let status = event.target.checked
+            if (!this.selectedTremsWithType[type]) {
+                this.selectedTremsWithType[type] = [];
+            }
+            
+            if (status == true){
+                this.selectedTremsWithType[type].push(id)
+            } else {
+                let where = this.selectedTremsWithType[type].indexOf(id);
+                if (where != -1) {
+                    this.selectedTremsWithType[type].splice(where, 1);
+                }
+            }
+        },
+
+        setSelectedRange(type, CurrentValue){
+            let newArrOfTermsToFilter = {}
+            if(this.findTermsIdForFiltering(type, CurrentValue) != false){
+                newArrOfTermsToFilter[type] = this.findTermsIdForFiltering(type, CurrentValue)
+            }
+            this.selectedTremsWithType[type] = newArrOfTermsToFilter[type]
+        },
+
+        findTermsIdForFiltering(type, CurrentValue){
+            // type can be CPU, Ram, Disk, Traffic
+            const FilterTerms = this.FilterTerms
+            let thisTypeTerms = []
+            FilterTerms.forEach(item => {
+                if (item.name == type){
+                    thisTypeTerms = item.terms
+                }
+            });
+            
+            let findIndex = null
+            
+            thisTypeTerms.forEach((item, index) => {
+                if (item.name == CurrentValue){
+                    findIndex = index
+                }
+            });
+            
+            if(findIndex == 0){
+                return false
+            }
+
+            if(findIndex == null){
+                console.warn('Index is null');
+                return false
+            }
+
+            let arrOfTermsToFilter = [];
+            for (let i = findIndex; i < thisTypeTerms.length ; i++) {
+                arrOfTermsToFilter.push(thisTypeTerms[i].id);
+            }
+            
+            return arrOfTermsToFilter
+        },
+
+        findUnlimitedTrafficId(){
+            this.FilterTerms.forEach(terms => {
+                if(terms?.name == 'Traffic'){
+                    id = terms?.terms[0]?.id
+                }
+            });
+
+            if(id != null){
+                return id
+            } else {
+                return null
+            }
+        },
+        
+        isSuggested(plan){
+            if(plan.hasOwnProperty('suggested')){
+                return true
+            }
+            return false
+        },
+        
+        isSpot(plan){
+            if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
+                return true
+            }
+            return false
+        },
+
+        isAvailableByCapacity(plan){
+            
+            if(plan.capacity == null){
+                return true
+            } else if (plan.capacity.available == true){
+                return true
+            } else {
+                return false
+            }
+            console.log(plan.capacity);
+        },
+
+        createIconAddr(name){
+            return '/modules/addons/caasify/views/view/includes/assets/img/services/' + name
+        },
     }
 });
 
 app.config.compilerOptions.isCustomElement = tag => tag === 'btn'
+app.config.devtools = true;
 app.mount('#app') 

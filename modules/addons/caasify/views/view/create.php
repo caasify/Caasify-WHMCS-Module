@@ -7,11 +7,12 @@
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak v-if="CommissionIsValid">
             <?php include('./includes/baselayout/balancealertmodal.php');     ?>
             <?php  include('./includes/baselayout/backflash.php');     ?>
+            <?php  include('./includes/createparts/modalconfigs.php');     ?>
             <?php  include('./includes/createparts/modalcreate.php');     ?>
             <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                 <?php  include('./includes/baselayout/modaldemo.php');     ?>
             <?php endif ?>
-            <div class="col-12 bg-white rounded-4 border border-2 border-body-secondary m-0 p-0 mt-5"
+            <div class="col-12 bg-white rounded-4 m-0 p-0 mt-5"
                 style="min-height: 1800px">
                 <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                     <?php  include('./includes/baselayout/demoheader.php');   ?>
@@ -19,32 +20,46 @@
                 <!-- lang BTN     -->
                 <div class="row">
                     <div class="col-12">
-                        <div class="py-5 px-4">
-                            <div class="float-end d-none d-md-block">
-                                <div class="col-auto m-0 p-0">
-                                    <?php include('./includes/baselayout/langbtn.php'); ?>
+                        <div class="py-3 px-">
+                            <div class="d-flex flex-row justify-content-between align-items-center" id="topSelect">
+                                <div class="">
+                                    <span class="h5">
+                                        {{ lang('Select a Category') }}
+                                    </span>
                                 </div>
-                            </div>
+                                <div class="">
+                                    <div class="col-auto m-0 p-0">
+                                        <?php include('./includes/baselayout/langbtn.php'); ?>
+                                    </div>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
-                <!-- content -->
+                <!-- parent categories -->
                 <div class="row m-0 p-0">
-                    <div class="col-12">
-                        <div class="px-0 px-md-2">
-                            <!-- TODO: make it back to live -->
-                            <?php  include('./includes/createparts/parentcategories.php');   ?>
-                            <?php  include('./includes/createparts/datacenters.php');   ?>
-                            <?php  include('./includes/createparts/regions.php');       ?>
+                    <div class="col-12 px-2 px-md-2">
+                        <?php  include('./includes/createparts/parentcategories.php');  ?>
+                    </div>
+                </div>
+                <!-- filters -->
+                <div class="row m-0 p-0">
+                    <div class="col-12 col-md-3 px-2 px-md-0 py-1 pe-md-1 d-none d-md-block">
+                        <div class="rounded-4 px-0 px-md-2 pt-4 bg-primary" style="min-height: 330px; --bs-bg-opacity: 0.06;">
+                            <?php  include('./includes/createparts/filterterms.php');   ?>
+                        </div>
+                        <!-- <div v-if="FilterTermsAreLoaded" class="row">
+                            <div class="col-12 px-1">
+                                <button class="btn btn-primary col-12 mt-4" @click="selectedTermsSave">
+                                    {{ lang('Filter') }}
+                                </button>
+                            </div>        
+                        </div> -->
+                    </div>
+                    <div class="col-12 col-md-9 px-0 px-md-0 py-1 ps-md-1">
+                        <div class="rounded-4 px-0 px-md-2 py-4" style="min-height: 330px;">
                             <?php  include('./includes/createparts/plans.php');         ?>
-                            <?php  include('./includes/createparts/configs.php');      ?>
-                            <?php  include('./includes/createparts/hostname.php');      ?>
                         </div>
-                    </div>
-                </div>
-                <div class="row m-0 p-0">
-                    <div class="col-12 py-5 px-4 px-md-2">
-                        <?php  include('./includes/createparts/createbtn.php');    ?>
                     </div>
                 </div>
             </div>

@@ -61,9 +61,11 @@
                                                         {{ lang('gateway') }}
                                                     </span>
                                                     <select class="form-select" aria-label="Default select example" style="max-width: 150px;" v-model="SelectedGetway">
-                                                        <option value="plisio" selected>Crypto</option>
-                                                        <option value="mailin">Bank Transfer</option>
-                                                        <option v-if="WhmcsUserInfo?.countrycode != null && WhmcsUserInfo?.countrycode != 'IR'" value="stripe">Stripe</option>
+                                                        <option v-if="WhmcsUserInfo?.countrycode != null && WhmcsUserInfo?.countrycode != 'IR'" value="stripe">Credit Card</option>
+                                                        <option v-if="WhmcsUserInfo?.countrycode != null && WhmcsUserInfo?.countrycode != 'IR'" value="paypal">Paypal</option>
+                                                        <option value="mailin" selected>Bank Transfer</option>
+                                                        <option value="cryptomusgateway">Crypto Currency</option>
+                                                        <option value="plisio">USDT</option>
                                                     </select>
                                                 </div>
                                             </div>

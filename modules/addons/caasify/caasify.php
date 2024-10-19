@@ -106,7 +106,7 @@ function caasify_config(){
     $configarray = array(
         "name" => "Caasify",
         "description" => "This addon utility allows you to easily connect to Caasify Marketpalce to sell almost everything",
-        "version" => "1.4.4",
+        "version" => "2.0.0",
         "author" => "Caasify",
         "fields" => array(
             "BackendUrl" => array ("FriendlyName" => "Backend URL", "Type" => "dropdown", "Options" => 'https://api.caasify.com', "Description" => $BackendUrlLabel, "Default" => 'https://api.caasify.com'),
@@ -150,6 +150,14 @@ function caasify_output($vars) {
         $systemUrl = '/';
     }
 
+    $url = $configs['AdminClientsSummaryLink'];
+    preg_match("/^https?:\/\/[^\/]+\/(.*)\/clientssummary\.php$/", $url, $matches);
+    if (isset($matches[1])) {
+        $adminPath = $matches[1];
+    } else {
+        $adminPath = 'admin';
+    }
+
     if(!empty($vars['version'])){
         $version = $vars['version'];
         $text = '<h2> Version : ' . $version . '</h2>';
@@ -180,7 +188,7 @@ function caasify_output($vars) {
                         Caasify Transactions (latest 100)
                     </span>                    
                     <span>
-                        <a class="btn btn-danger" href="' . $SystemUrl . '/admin/systemactivitylog.php?description=243" style="border-radius: 100px">
+                        <a class="btn btn-danger" href="' . $SystemUrl . '/' . $adminPath . '/systemactivitylog.php?description=E243" style="border-radius: 100px">
                             errors
                         </a>
                     </span>
@@ -217,8 +225,6 @@ function caasify_output($vars) {
         // Invoice Info
         $invoiceInfo = caasify_get_invoice_info_from_invoiceid($invoice->invoiceid);
         
-        
-        
         if (!empty($invoice->transactionid) && $invoiceInfo['status'] == 'Paid') {
             $buttonClass = 'btn-success';
             $displayText = $invoice->transactionid;
@@ -234,19 +240,19 @@ function caasify_output($vars) {
         $tablePart02 .= '
             <tr>
                 <td>
-                    <a href="'. $systemUrl .'/admin/invoices.php?action=edit&id='. $invoice->invoiceid . '">' . $invoice->updated_at . '</a>
+                    <a href="'. $SystemUrl . '/' . $adminPath .'/invoices.php?action=edit&id='. $invoice->invoiceid . '">' . $invoice->updated_at . '</a>
                 </td>
                 <td>
-                    <a href="'. $systemUrl .'/admin/invoices.php?action=edit&id='. $invoice->invoiceid . '" style="' . (($invoiceInfo['status'] == 'Paid') ? '' : 'color:#96c6ed;') . '">' . $invoice->invoiceid  . ' (<span>' . $invoiceInfo['status'] . '</span>)</a>
+                    <a href="'. $SystemUrl . '/' . $adminPath .'/invoices.php?action=edit&id='. $invoice->invoiceid . '" style="' . (($invoiceInfo['status'] == 'Paid') ? '' : 'color:#96c6ed;') . '">' . $invoice->invoiceid  . ' (<span>' . $invoiceInfo['status'] . '</span>)</a>
                 </td>
                 <td>
-                    <a href="'. $systemUrl .'/admin/clientssummary.php?userid='. $invoice->whuserid . '">' . $userName . ' (' . $invoice->whuserid . ')</a>
+                    <a href="'. $SystemUrl . '/' . $adminPath .'/clientssummary.php?userid='. $invoice->whuserid . '">' . $userName . ' (' . $invoice->whuserid . ')</a>
                 </td>
                 <td>' . (!empty($invoice->real_charge_amount) ? $invoice->real_charge_amount : '...') . '</td>
                 <td>' .  $invoice->chargeamount . '</td>
                 <td>' . round($invoice->ratio, 6) . '</td>
                 <td>
-                    <a style="width: 90px; padding: 5px; border-radius: 100px;" class="btn ' . $buttonClass . '" href="' . $systemUrl . '/admin/invoices.php?action=edit&id=' . $invoice->invoiceid . '">' . $displayText . '</a>
+                    <a style="width: 90px; padding: 5px; border-radius: 100px;" class="btn ' . $buttonClass . '" href="' . $SystemUrl . '/' . $adminPath . '/invoices.php?action=edit&id=' . $invoice->invoiceid . '">' . $displayText . '</a>
                 </td>
             </tr>
         ';

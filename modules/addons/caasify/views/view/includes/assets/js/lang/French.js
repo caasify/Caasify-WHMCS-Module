@@ -461,6 +461,62 @@ let common = {
 
 
 
+        
+        "Cloud invoices": "Factures Cloud",
+        "Select a Date": "Sélectionner une date",
+        "Order Name": "Nom de la commande",
+        "Expenses in": "Dépenses en",
+        "Amount": "Montant",
+        "Coming soon": "Bientôt disponible",
+        "Select a Category": "Sélectionner une catégorie",
+        "Virtual Machine": "Machine virtuelle",
+        "Kubernetes As A Service": "Kubernetes en tant que service",
+        "AI GPU": "GPU IA",
+        "Database As A Service": "Base de données en tant que service",
+        "Country": "Pays",
+        "CPU Type": "Type de processeur",
+        "Disk Type": "Type de disque",
+        "IP version": "Version IP",
+        "VM Type": "Type de VM",
+        
+        "USA": "États-Unis",
+        "Australia": "Australie",
+        "Brazil": "Brésil",
+        "Canada": "Canada",
+        "France": "France",
+        "Germany": "Allemagne",
+        "India": "Inde",
+        "Indonesia": "Indonésie",
+        "Israel": "Israël",
+        "Japan": "Japon",
+        "Mexico": "Mexique",
+        "Netherlands": "Pays-Bas",
+        "Singapore": "Singapour",
+        "South Africa": "Afrique du Sud",
+        "Spain": "Espagne",
+        "Sweden": "Suède",
+        "Turkey": "Turquie",
+        "United Arab Emirates": "Émirats Arabes Unis",
+        "United Kingdom": "Royaume-Uni",
+        
+        "IPV6": "IPV6",
+        "IPV4": "IPV4",
+        
+        "Reset": "Réinitialiser",
+        "Ram": "Ram",
+        "Filters": "Filtres",
+        "Filter": "Filtre",
+        "Product Details": "Détails du produit",
+        "Cost": "Coût",
+        "All": "Tous",
+        "Yes": "Oui",
+        "No": "Non",
+        "Please select": "Veuillez sélectionner",
+        "spotconfirmationtext": "Je confirme l'utilisation des services SPOT et j'accepte ses termes et conditions.",
+        "REBUILD": "RECONSTRUIRE",
+        "There is no product with this filters": "Aucun produit ne correspond à ces filtres"
+        
+
 
 }
 

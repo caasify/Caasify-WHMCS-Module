@@ -14,16 +14,15 @@
 
                                 <!-- enough data to push btn -->
                                 <div
-                                    v-if="themachinename && SelectedRegion && SelectedPlan && PlanConfigSelectedOptions">
+                                    v-if="themachinename && PlanConfigSelectedOptions">
                                     <p class="h5 fw-Medium">{{ lang('youarecreating') }}</p>
                                     <p class="fs-6 fw-light mt-3">{{ lang('makesure') }}</p>
                                 </div>
 
                                 <!-- Table of parameters -->
-                                <div class="px-4 px-lg-5 py-5 rounded-4 bg-primary" style="--bs-bg-opacity: 0.15;">
-                                    <table class="table table-borderless m-0 p-0 my-5" style="--bs-table-bg: #fff0;">
+                                <div class="px-4 px-lg-5 pt-4 pb-5 rounded-4 bg-primary" style="--bs-bg-opacity: 0.15;">
+                                    <table class="table table-borderless m-0 p-0" style="--bs-table-bg: #fff0;">
                                         <tbody>
-
                                             <!-- HostName -->
                                             <tr>
                                                 <td class="m-0 p-0">
@@ -41,30 +40,6 @@
                                                 </td>
                                             </tr>
 
-                                            <!-- Datacenter -->
-                                            <tr v-if="SelectedRegion && SelectedDataCenter">
-                                                <td class="m-0 p-0">
-                                                    <i v-if="SelectedRegion?.name && SelectedDataCenter?.name"
-                                                        class="bi bi-check-circle-fill me-1"></i>
-                                                    <i v-if="!SelectedRegion?.name || !SelectedDataCenter?.name"
-                                                        class="bi bi-circle me-1"></i>
-                                                    <span>{{ lang('datacenter') }}</span>
-                                                </td>
-                                                <td class="text-primary fw-medium m-0 p-0">
-                                                    <span v-if="SelectedDataCenter?.name"
-                                                        class="m-0 p-0 pe-2">{{ SelectedDataCenter?.name }}</span>
-                                                    <span v-else-if="!SelectedDataCenter?.name">
-                                                        <?php  include('./includes/baselayout/threespinner.php');      ?>
-                                                    </span>
-
-                                                    <span v-if="SelectedRegion?.name"
-                                                        class="m-0 p-0">({{ SelectedRegion?.name }})</span>
-                                                    <span v-else-if="!SelectedRegion?.name">
-                                                        <?php  include('./includes/baselayout/threespinner.php');      ?>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            
                                             <!-- Extra Traffic Cost -->
                                             <tr v-if="SelectedPlan">
                                                 <td class="m-0 p-0">
@@ -87,7 +62,6 @@
                                                     </span>
                                                 </td>
                                             </tr>
-
                                             
                                             <!-- Section Configs -->
                                             <tr v-if="PlanConfigSelectedOptions"
@@ -96,18 +70,18 @@
                                                     <i v-if="key" class="bi bi-check-circle-fill me-1"></i>
                                                     <i v-else class="bi bi-circle me-1"></i>
                                                     <span>
-                                                        {{ key }}:
+                                                        {{ lang(key) }} :
                                                     </span>
                                                 </td>
                                                 <td class="text-primary fw-medium m-0 p-0">
                                                     <div v-if="value?.value">
                                                         <span class="m-0 p-0">
-                                                            {{ value.name }}
+                                                            {{ lang(value.name) }}
                                                         </span>
                                                     </div>
                                                     <div v-else-if="value?.options">
                                                         <span v-if="value.options != ''" class="m-0 p-0">
-                                                            {{ value.options }}
+                                                            {{ lang(value.options) }}
                                                         </span>
                                                         <span v-else class="m-0 p-0">
                                                             <?php  include('./includes/baselayout/threespinner.php');      ?>
@@ -141,7 +115,7 @@
                                 </div>
 
                                 <!-- not enough data -->
-                                <div v-if="!themachinename || !SelectedRegion || !SelectedPlan"
+                                <div v-if="!themachinename"
                                     class="row m-0 p-0 mt-5">
                                     <p class="alert alert-danger py-1">
                                         <span>
@@ -214,6 +188,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- confirm terms -->
                     <div v-if="!userClickedCreationBtn" class="row m-0 p-0 px-3 py-3">
                         <div class="py-4 rounded-4 bg-primary" style="--bs-bg-opacity: 0.15;">
                             <div class="form-check form-switch d-flex flex-row justify-content-start align-items-center px-0 px-md-3">
@@ -223,6 +198,48 @@
                                     {{ lang('confirmationtext') }}
                                 </label>
                             </div>
+                        </div>
+                    </div>
+                    <!-- Confirm SPOT -->
+                    <div v-if="!userClickedCreationBtn && SelectedPlan?.detail?.vm_type?.toLowerCase() == 'spot'" class="row m-0 p-0 px-3 py-3">
+                        <div class="py-4 rounded-4 bg-primary" style="--bs-bg-opacity: 0.15;">
+                            <div class="form-check form-switch d-flex flex-row justify-content-start align-items-center px-0 px-md-3">
+                                <input v-model="checkboxSPOTconfirmation" class="form-check-input ms-2 fs-5" type="checkbox"
+                                    role="switch" id="checkboxSPOTconfirmation" :disabled="CreateIsLoading">
+                                <label class="form-check-label ms-3" :class="CreateIsLoading ? 'text-secondary' : 'text-dark'" for="checkboxSPOTconfirmation">
+                                    {{ lang('spotconfirmationtext') }}
+                                </label>
+                            </div>
+<div class="row m-0 p-0 mt-5 px-1 px-md-2 px-lg-4">
+    <div class="col-12 m-0 p-0" style="--bs-bg-opacity: 0.1;">
+        <div class="row">
+            <div class="col-12 border border-2 border-danger rounded-4 p-4">
+                <p class="alert alert-danger h5 bg-danger text-light">
+                    {{ lang('SpotAlert01') }}
+                </p>
+                <p class="pt-4">
+                    <span class="h5">
+                        {{ lang('SpotAlert02') }}
+                    </span>
+                    <ul class="h6 lh-lg">
+                        <li>
+                            <b>{{ lang('SpotAlert03') }} </b> {{ lang('SpotAlert04') }}
+                        </li>
+                        <li>
+                            <b>{{ lang('SpotAlert05') }} </b> {{ lang('SpotAlert06') }}
+                        </li>
+                        <li>
+                            <b>{{ lang('SpotAlert07') }} </b> {{ lang('SpotAlert08') }}
+                        </li>
+                    </ul>
+                    <p class="h6 mt-4">
+                        {{ lang('SpotAlert09') }}
+                    </p>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -287,20 +304,36 @@
                     <!-- Create BTN -->
                     <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                         <div v-if="!userClickedCreationBtn">
-                            <div class="m-0 p-0" v-if="themachinename && SelectedRegion && SelectedPlan && TotalMachinePrice != null">
-                                <button v-if="checkboxconfirmation" @click="RunDemoModal" type="button" class="btn btn-primary px-5 mx-2">
-                                    <span>{{ lang('Create Machine') }}</span>
-                                    <div v-if="CreateIsLoading" class="spinner-border spinner-border-sm text-light small p-0 m-0 ms-3" role="status"></div>
-                                </button>
+                            <div class="m-0 p-0" v-if="themachinename && TotalMachinePrice != null">
+                                <div v-if="SelectedPlan?.detail?.vm_type?.toLowerCase() == 'spot'">
+                                    <button v-if="checkboxconfirmation && checkboxSPOTconfirmation" @click="RunDemoModal" type="button" class="btn btn-primary px-5 mx-2">
+                                        <span>{{ lang('Create Machine') }}</span>
+                                        <div v-if="CreateIsLoading" class="spinner-border spinner-border-sm text-light small p-0 m-0 ms-3" role="status"></div>
+                                    </button>
+                                </div>
+                                <div v-else>
+                                    <button v-if="checkboxconfirmation" @click="RunDemoModal" type="button" class="btn btn-primary px-5 mx-2">
+                                        <span>{{ lang('Create Machine') }}</span>
+                                        <div v-if="CreateIsLoading" class="spinner-border spinner-border-sm text-light small p-0 m-0 ms-3" role="status"></div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     <?php else: ?>
                         <div v-if="!userClickedCreationBtn">
-                            <div class="m-0 p-0" v-if="themachinename && SelectedRegion && SelectedPlan && TotalMachinePrice != null">
-                                <button v-if="checkboxconfirmation" @click="acceptConfirmDialog" type="button" class="btn btn-primary px-5 mx-2" :disabled="CreateIsLoading">
-                                    <span>{{ lang('Create Machine') }}</span>
-                                    <div v-if="CreateIsLoading" class="spinner-border spinner-border-sm text-light small p-0 m-0 ms-3" role="status"></div>
-                                </button>
+                            <div class="m-0 p-0" v-if="themachinename && TotalMachinePrice != null">
+                                <div v-if="SelectedPlan?.detail?.vm_type?.toLowerCase() == 'spot'">
+                                    <button v-if="checkboxconfirmation && checkboxSPOTconfirmation" @click="acceptConfirmDialog" type="button" class="btn btn-primary px-5 mx-2" :disabled="CreateIsLoading">
+                                        <span>{{ lang('Create Machine') }}</span>
+                                        <div v-if="CreateIsLoading" class="spinner-border spinner-border-sm text-light small p-0 m-0 ms-3" role="status"></div>
+                                    </button>
+                                </div>
+                                <div v-else>
+                                    <button v-if="checkboxconfirmation" @click="acceptConfirmDialog" type="button" class="btn btn-primary px-5 mx-2" :disabled="CreateIsLoading">
+                                        <span>{{ lang('Create Machine') }}</span>
+                                        <div v-if="CreateIsLoading" class="spinner-border spinner-border-sm text-light small p-0 m-0 ms-3" role="status"></div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     <?php endif ?>

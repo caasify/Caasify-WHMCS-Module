@@ -80,9 +80,12 @@
                 </tbody>
             </table>
             <div class="" v-else>
-                <p class="alert alert-danger h5">
+                <span class="text-primary fs-5 pe-3">
                     {{ lang('noactiveorder') }}
-                </p>
+                </span>
+                <a class="btn btn-outline-primary px-3 py-2" @click="openCreatePage" target='_top'>
+                    {{ lang('createorder') }}
+                </a>
             </div>
         </div>
 
