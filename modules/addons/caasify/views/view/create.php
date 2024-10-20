@@ -5,10 +5,11 @@
 <body class="container-fluid p-1 p-md-3" style="background-color: #ff000000 !important;">
     <div id="app" class="row px-1 px-md-2 py-2 mx-auto" style="max-width: 1200px;">
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak v-if="CommissionIsValid">
-            <?php include('./includes/baselayout/balancealertmodal.php');     ?>
-            <?php  include('./includes/baselayout/backflash.php');     ?>
-            <?php  include('./includes/createparts/modalconfigs.php');     ?>
-            <?php  include('./includes/createparts/modalcreate.php');     ?>
+            <?php include('./includes/baselayout/balancealertmodal.php');       ?>
+            <?php  include('./includes/baselayout/backflash.php');              ?>
+            <?php  include('./includes/createparts/modalconfigs.php');          ?>
+            <?php  include('./includes/createparts/modalcreate.php');           ?>
+            <?php  include('./includes/createparts/filtersmodal.php');          ?>
             <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                 <?php  include('./includes/baselayout/modaldemo.php');     ?>
             <?php endif ?>

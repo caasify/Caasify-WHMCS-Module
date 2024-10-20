@@ -937,8 +937,6 @@ app = createApp({
 
             if(FormattedPrice < 1){
                 return (Math.floor(FormattedPrice * 10000) / 10000).toFixed(4);
-            } else if(FormattedPrice == 1){
-                return (Math.floor(FormattedPrice * 10000) / 10000).toFixed(2)
             } else {
                 return FormattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
@@ -2069,8 +2067,10 @@ app = createApp({
                 return NaN
             }
 
-            if(FormattedPrice<1){
+            if(FormattedPrice < 1){
                 return (Math.floor(FormattedPrice * 10000) / 10000).toFixed(4);
+            } else if(FormattedPrice == 1){
+                return (Math.floor(FormattedPrice * 10000) / 10000).toFixed(2)
             } else {
                 return FormattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }

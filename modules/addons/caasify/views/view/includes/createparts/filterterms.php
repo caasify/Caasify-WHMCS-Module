@@ -6,13 +6,16 @@
                     {{ lang('Filters') }}
                 </p>
             </div>
-            <div class="">
+            <div class="d-flex flex-row justify-content-end align-items-center">
                 <a class="btn bg-primary text-primary btn-sm px-3" style="--bs-bg-opacity: 0.2;"
                     @click="resetTheFilters">
                     <p class="m-0 p-0">
                         {{ lang('Reset') }}
                     </p>
                 </a>
+                <button type="button" class="btn btn-secondary btn-sm d-block d-md-none ms-2" data-bs-dismiss="modal">
+                    {{ lang('close') }}
+                </button>
             </div>
         </div>
     </div>

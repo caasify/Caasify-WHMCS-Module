@@ -7,12 +7,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="fs-5 fw-medium">
+                                <th scope="col" class="fs-6 fw-medium">
                                     <span>
                                         {{ lang('Product Details') }}
                                     </span>
                                 </th>
-                                <th scope="col" style="width: 110px;" class="fs-5 fw-medium text-center">
+                                <th scope="col" style="width: 110px;" class="fs-6 fw-medium text-center">
                                     <span>
                                         <span style="text-wrap:nowrap;">
                                             {{ lang('Cost') }} 
@@ -89,17 +89,24 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" class="fs-5 fw-medium">
-                            <span>
-                                {{ lang('Product Details') }}
-                            </span>
-                        </th>
-                        <th scope="col" style="width: 110px;" class="fs-5 fw-medium text-center">
-                            <span>
+                        <th scope="col" class="fs-6 fw-medium">
+                            <div class="d-flex flex-row align-items-center justify-content-start">
                                 <span>
-                                    {{ lang('Cost') }} ({{userCurrencySymbolFromWhmcs}})
+                                    {{ lang('Product Details') }}
                                 </span>
-                            </span>
+                                <button class="btn btn-outline-primary btn-sm ms-3 px-4 d-block d-md-none" data-bs-toggle="modal" data-bs-target="#filtersModal">
+                                    {{ lang('Filter') }}
+                                </button>
+                            </div>
+                        </th>
+                        <th scope="col" style="width: 110px;" class="fs-6 fw-medium text-center">
+                            <div class="d-flex flex-row align-items-center justify-content-start">
+                                <span>
+                                    <span>
+                                        {{ lang('Cost') }} ({{userCurrencySymbolFromWhmcs}})
+                                    </span>
+                                </span>
+                            </div>
                         </th>
                     </tr>
                 </thead>
