@@ -604,9 +604,7 @@ function caasify_charge_user_from_invoice_hook($ResellerToken, $BackendUrl, $Caa
     
     $params = [
         'amount' => $chargeamount,
-        'type' => 'balance',
-        'invoiceid' => $invoiceid,
-        'status' => 'paid'
+        'reference' => $invoiceid,
     ];
 
     $headers = [
@@ -626,9 +624,7 @@ function caasify_charge_Reseller_from_invoice_hook($ResellerToken, $BackendUrl, 
     
     $params = [
         'amount' => $chargeamount,
-        'type' => 'balance',
-        'invoiceid' => $invoiceid,
-        'status' => 'paid'
+        'reference' => $invoiceid,
     ];
 
     $headers = [

@@ -157,9 +157,7 @@ class AdminCaasifyController
 
         $params = [
             'amount' => $ChargeAmount,
-            'type' => 'balance',
-            'invoiceid' => 'admin',
-            'status' => 'paid'
+            'reference' => 'admin',
         ];
 
         $address = [
@@ -180,9 +178,7 @@ class AdminCaasifyController
 
         $params = [
             'amount' => $ChargeAmount,
-            'type' => 'balance',
-            'invoiceid' => 'admin',
-            'status' => 'paid'
+            'reference' => 'admin',
         ];
 
         $address = [
