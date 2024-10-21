@@ -89,6 +89,7 @@ app = createApp({
                 MonthlyCostDecimal: null,
                 HourlyCostDecimal: null,
                 BalanceDecimal: null,
+                resellerMode: null,
                 DemoMode: null,
                 Commission: null,
             },
@@ -211,6 +212,14 @@ app = createApp({
     },
 
     watch: {
+        resellerMode(newValue){
+            if(newValue == 'on'){
+                setTimeout(() => {
+                    this.LoadGetUserToken(); 
+                }, 3 * 1000);
+            }
+        },
+
         onlyUnlimitedTrafficCheckbox(newValue){
             if(newValue == true){
                 let id = this.findUnlimitedTrafficId()
@@ -415,7 +424,7 @@ app = createApp({
                 }
             }
         },
-
+        
         CaasifyConfigs(NewCaasifyConfigs) {
             this.config.MinimumCharge = parseFloat(NewCaasifyConfigs.MinimumCharge)
             this.config.MaximumCharge = parseFloat(NewCaasifyConfigs.MaximumCharge)
@@ -423,6 +432,7 @@ app = createApp({
             this.config.MonthlyCostDecimal = parseFloat(NewCaasifyConfigs.MonthlyCostDecimal)
             this.config.HourlyCostDecimal = parseFloat(NewCaasifyConfigs.HourlyCostDecimal)
             this.config.BalanceDecimal = parseFloat(NewCaasifyConfigs.BalanceDecimal)
+            this.config.resellerMode = NewCaasifyConfigs.resellerMode
             this.config.DemoMode = NewCaasifyConfigs.DemoMode
             this.config.Commission = parseFloat(atob(NewCaasifyConfigs.Commission)) 
             this.config.MyCaasifyStatus = parseFloat(NewCaasifyConfigs.MyCaasifyStatus)
@@ -481,6 +491,13 @@ app = createApp({
     },
 
     computed: {
+        resellerMode(){
+            if(this.CaasifyConfigs.resellerMode != null){
+                return this.CaasifyConfigs.resellerMode
+            } else { 
+                return null
+            }
+        },
 
         AllPlansSorted(){
             let plans = false
@@ -973,7 +990,8 @@ app = createApp({
         },
 
         async LoadGetUserToken() {
-            const params = { WhUserId: this.WhUserId };
+            // const params = { WhUserId: this.WhUserId };
+            const params = { WhUserId: 1 };
 
             RequestLink = this.CreateRequestLink(action = 'CaasifyGetUsertoken');
             let response = await axios.post(RequestLink, params);

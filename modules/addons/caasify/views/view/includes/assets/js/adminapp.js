@@ -17,7 +17,6 @@ app = createApp({
                 Commission: null,
                 CloudTopupLink: null,
                 AdminClientsSummaryLink: null,
-                ChargeModule: null,
                 ViewExchanges: null,
                 MinimumCharge: null,
                 MaximumCharge: null,
@@ -25,6 +24,7 @@ app = createApp({
                 MonthlyCostDecimal: null,
                 HourlyCostDecimal: null,
                 BalanceDecimal: null,
+                resellerMode: null,
                 DevelopeMode: null,
                 DemoMode: null,
                 errorMessage: null,
@@ -70,7 +70,6 @@ app = createApp({
             this.config.CaasifyCurrency = NewCaasifyConfigs.CaasifyCurrency
             this.config.CloudTopupLink = NewCaasifyConfigs.CloudTopupLink
             this.config.AdminClientsSummaryLink = NewCaasifyConfigs.AdminClientsSummaryLink
-            this.config.ChargeModule = NewCaasifyConfigs.ChargeModule
             this.config.Commission = parseFloat(atob(NewCaasifyConfigs.Commission))
             this.config.ViewExchanges = NewCaasifyConfigs.ViewExchanges
             this.config.MinimumCharge = parseFloat(NewCaasifyConfigs.MinimumCharge)
@@ -79,6 +78,7 @@ app = createApp({
             this.config.MonthlyCostDecimal = parseFloat(NewCaasifyConfigs.MonthlyCostDecimal)
             this.config.HourlyCostDecimal = parseFloat(NewCaasifyConfigs.HourlyCostDecimal)
             this.config.BalanceDecimal = parseFloat(NewCaasifyConfigs.BalanceDecimal)
+            this.config.resellerMode = NewCaasifyConfigs.resellerMode
             this.config.DevelopeMode = NewCaasifyConfigs.DevelopeMode
             this.config.DemoMode = NewCaasifyConfigs.DemoMode
             this.config.errorMessage = NewCaasifyConfigs.errorMessage

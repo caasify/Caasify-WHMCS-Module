@@ -35,18 +35,16 @@ if(!isset($DevelopeMode)){
     $DevelopeMode = 'off';
 }
 
+// resellerMode
+$resellerMode = $configs['resellerMode'];
+if(!isset($resellerMode)){
+    $resellerMode = 'off';
+}
+
 // DemoMode
 $DemoMode = $configs['DemoMode'];
 if(!isset($DemoMode)){
     $DemoMode = 'off';
-}
-
-// ChargeModule
-$ChargeModule = $configs['ChargeModule'];
-if(isset($ChargeModule) && $ChargeModule == 'off' ){
-    $ChargeModuleEnable = false;
-} else {
-    $ChargeModuleEnable = true;
 }
 
 // ViewExchanges

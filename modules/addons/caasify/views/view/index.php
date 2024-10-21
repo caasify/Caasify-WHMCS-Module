@@ -6,6 +6,7 @@
     <div class="col-12" id="app">
         <div class="" v-cloak>
             <?php include('./includes/baselayout/balancealertmodal.php');?>
+            <?php include('./includes/indexparts/modalreseller.php');    ?>
             <div class="bg-white rounded-4 border border-2 border-body-secondary" v-if="CommissionIsValid" style="height:650px;">
                 <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                     <?php  include('./includes/baselayout/demoheader.php');   ?>

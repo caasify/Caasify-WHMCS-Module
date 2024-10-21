@@ -508,6 +508,7 @@ let common = {
     "spotconfirmationtext" : "قوانین را خوانده و با آن موافق هستم",
     "REBUILD" : "نصب مجدد",
     "There is no product with this filters" : "محصولی برای این فیلتر وجود ندارد",
+    "Reseller Info": "اطلاعات ریسلری",
 }
 
 const words = {

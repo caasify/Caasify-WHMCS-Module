@@ -117,7 +117,6 @@ function get_config_array_temp(){
         'AdminClientsSummaryLink' => null,
         'CaasifyMenuTitle' => null,
         'CaasifyMenuPlace' => null,
-        'ChargeModule' => null,
         'ViewExchanges' => null,
         'MinimumCharge' => null,
         'MaximumCharge' => null,
@@ -126,6 +125,7 @@ function get_config_array_temp(){
         'HourlyCostDecimal' => null,
         'BalanceDecimal' => null,
         
+        'resellerMode' => null,
         'DevelopeMode' => null,
         'DemoMode' => null,        
         

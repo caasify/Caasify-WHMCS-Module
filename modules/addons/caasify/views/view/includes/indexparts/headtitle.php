@@ -25,6 +25,13 @@
         <p> </p>
     </div>    
     <div class="d-flex flex-row justify-content-start align-items-end flex-wrap">
+        <?php if(isset($resellerMode) && $resellerMode == 'on'): ?>
+            <div class="me-1 mb-1">
+                <button class="btn btn-outline-primary px-3 py-2" data-bs-toggle="modal" data-bs-target="#resellerModal">
+                    {{ lang('Reseller Info') }}
+                </button>
+            </div>
+        <?php endif ?>
         <div class="me-1 mb-1">
             <a class="btn btn-outline-primary px-3 py-2" @click="openCreatePage" target='_top'>
                 {{ lang('createorder') }}

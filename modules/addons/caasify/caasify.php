@@ -83,25 +83,25 @@ function caasify_config(){
     $CaasifyCurrencyLabel = 'It must be <strong>EURO</strong> (Caasify Currency). If you dont have EURO, you must create one in System Setting/currency and then select it here';
     $CommissionCurrencyLabel = '<strong> % Percent </strong>, this is the comission which will add to the product prices, default is 10%';
     
-    $ChargeModuleLabel = 'Switch on if wish to use Charging Module that allows users to transfer their Credit too their Caasify Balance';
     $ViewExchangesLabel = 'Switch on if wish to see exchange in both Caasify and user profile currency';
     $CloudTopupLinkLabel = 'Insert relative TopUp Link, as an Example <strong>"/clientarea.php?action=addfunds"</strong>';
     $AdminClientsSummaryLinkLabel = 'Insert admin panel URL for the Clients Summary Page, e.g <strong>(' . $SystemUrl . '/admin/clientssummary.php)</strong>';
     $CaasifyMenuTitleLabel = 'Insert label to show on Menu, default is <strong>"Marketplace"</strong>';
     $CaasifyMenuPlaceLabel = 'Select where Menu Title will show, default is <strong>"Main Menu"</strong>';
-
+    
 
     // Configs Label
     $MinimumChargeLabel = 'in EURO , insert MIN amount users are allowed to charge their Balance';
     $MaxChargeLabel = 'in EURO , insert MAX amount users are allowed to charge their Balance';
     $MinimumBalanceLabel = 'in EURO , insert lowest user Balance allowed to create an order';
-
+    
     $MonthlyCostDecimalLabel = 'default decimal for Monthly cost of services';
     $HourlyCostDecimalLabel = 'default decimal for Hourly cost of services';
     $BalanceDecimalLabel = 'default decimal for users Balance and Credit';
-
-    $DevelopeModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on Developing Mode only for debuging, after debuging turn it off';
-    $DemoModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on DEMO Mode only for user TEST, so for normal usage turn it off';
+    
+    $resellerModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on ONLY if you wish to give your reseller their token';
+    $DevelopeModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on ONLY for debuging, after debuging turn it off';
+    $DemoModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on ONLY for testing, but for normal usage turn it off';
 
     $configarray = array(
         "name" => "Caasify",
@@ -119,7 +119,6 @@ function caasify_config(){
             "CaasifyMenuTitle" => array ("FriendlyName" => "Menu Title", "Type" => "text", "Size" => "31", "Description" => $CaasifyMenuTitleLabel, "Default" => "Marketplace"),
             "CaasifyMenuPlace" => array ("FriendlyName" => "Menu Place", "Type" => "dropdown", "Options" => $MenuPlaceOptions, "Description" => $CaasifyMenuPlaceLabel, "Default" => 'MainMenu'),
 
-            "ChargeModule" => array ("FriendlyName" => "Chargeing Module", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $ChargeModuleLabel, "Default" => 'on'),
             "ViewExchanges" => array ("FriendlyName" => "View Exchange", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $ViewExchangesLabel, "Default" => 'off'),
             "MinimumCharge" => array ("FriendlyName" => "Minimum TopUp", "Type" => "text", "Size" => "10", "Description" => $MinimumChargeLabel, "Default" => 1),
             "MaximumCharge" => array ("FriendlyName" => "Maximum TopUp", "Type" => "text", "Size" => "10", "Description" => $MaxChargeLabel, "Default" => 500),
@@ -127,6 +126,7 @@ function caasify_config(){
             "MonthlyCostDecimal" => array ("FriendlyName" => "Monthly Cost Decimal", "Type" => "dropdown", "Options" => $DecimalOptions, "Description" => $MonthlyCostDecimalLabel, "Default" => '2'),
             "HourlyCostDecimal" => array ("FriendlyName" => "Hourly Cost Decimal", "Type" => "dropdown", "Options" => $DecimalOptions, "Description" => $HourlyCostDecimalLabel, "Default" => '2'),
             "BalanceDecimal" => array ("FriendlyName" => "Balance Decimal", "Type" => "dropdown", "Options" => $DecimalOptions, "Description" => $BalanceDecimalLabel, "Default" => '2'),
+            "resellerMode" => array ("FriendlyName" => "<strong>Reseller Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $resellerModeLabel, "Default" => 'off'),
             "DevelopeMode" => array ("FriendlyName" => "<strong>Develope Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DevelopeModeLabel, "Default" => 'off'),
             "DemoMode" => array ("FriendlyName" => "<strong>DEMO Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DemoModeLabel, "Default" => 'off'),
         ));
@@ -304,6 +304,11 @@ function caasify_clientarea($vars){
     $DevelopeMode = $config['DevelopeMode'];
     if(empty($DevelopeMode)){
         $DevelopeMode = 'off';
+    }
+    
+    $resellerMode = $config['resellerMode'];
+    if(empty($resellerMode)){
+        $resellerMode = 'off';
     }
     
     $DemoMode = caasify_get_Demo_Mode();

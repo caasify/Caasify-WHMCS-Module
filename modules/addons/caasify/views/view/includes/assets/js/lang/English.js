@@ -515,6 +515,8 @@ let common = {
     "spotconfirmationtext" : "I confirm the use of SPOT services and accept its terms and conditions.",
     "REBUILD" : "REBUILD",
     "There is no product with this filters" : "There is no product with this filters",
+    
+    "Reseller Info": "Reseller Info",
 }
 
 const words = {
