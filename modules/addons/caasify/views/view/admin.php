@@ -2,43 +2,100 @@
 <?php  include('config.php');   ?>
 <?php  include_once('./includes/baselayout/header.php');   ?>
 <body class="container-fluid m-0 p-0" style="background-color: #ff000000 !important;">
-    <div class="bg-light rounded-2 border border-body-secondary px-0 px-md-4 py-2" style="min-height: 300px;">
+    <div class="bg-light rounded-2 border border-body-secondary px-0 px-md-4 py-2" style="min-height: 370px;">
         <div class="adminapp col-12" v-cloak>
             <?php  include_once('./includes/baselayout/modaladmincharging.php');   ?>
             <p class="alert alert-danger" v-if="config?.errorMessage"> {{ config?.errorMessage }}</p>
             <div class="m-0 p-0" v-cloak>
                 <div class="row">
                     <div class="col-12">
-                        <div class="row m-0 p-0" v-if="CommissionIsValid" style="max-height: 260px; overflow: scroll;">
+                        <div class="row m-0 p-0" v-if="CommissionIsValid" style="max-height: 300px; overflow-y: scroll; overflow-x: hide;">
                             <!-- Col01 -->
-                            <div class="col-12 col-md-5 mt-lg-0">      
+                            <div class="col-12 col-md-7">      
                                 <!-- User Finance -->
                                 <div class="row">
-                                    <div class="row" v-if="UserInfoIsLoaded && ResellerInfoIsLoaded && config?.Commission != null">
-                                        <div class="m-0 p-0 px-1">
-                                            <div class="input-group mt-2">
-                                                <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 230px;">
-                                                    {{ lang('UserBalanceReal') }}
-                                                </span>
-                                                <input class="form-control bg-white text-start" 
-                                                    style="max-width: 80px;" disabled
-                                                    data-bs-toggle="tooltip" data-bs-placement="right"
-                                                    data-bs-custom-class="debt-tooltip"
-                                                    :value="Number(CaasifyUserInfo?.balance - CaasifyUserInfo?.debt).toFixed(2)" 
-                                                    :data-bs-title="'Debt : €' + Number(CaasifyUserInfo?.debt).toFixed(2)" 
-                                                >
+                                    <div class="col-12 m-0 p-0" v-if="UserInfoIsLoaded && ResellerInfoIsLoaded && config?.Commission != null">
+                                        <div class="row m-0 p-0">
+                                            <div class="col-12 col-md-auto m-0 p-0 pe-2">
+                                                <div>
+                                                    <p class="mt-4 h6 ps-2">
+                                                        Real Values (€)
+                                                    </p>
+                                                </div>
+                                                <div class="input-group mt-1 px-0">
+                                                    <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 170px;">
+                                                        {{ lang('balance') }}
+                                                    </span>
+                                                    <input class="form-control bg-white text-start" 
+                                                        style="max-width: 80px;" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-custom-class="debt-tooltip"
+                                                        :value="Number(CaasifyUserInfo?.balance).toFixed(2)" 
+                                                    >
+                                                </div>
+                                                <div class="input-group mt-1 px-0">
+                                                    <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 170px;">
+                                                        {{ lang('Debt') }}
+                                                    </span>
+                                                    <input class="form-control bg-white text-start" 
+                                                        style="max-width: 80px;" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-custom-class="debt-tooltip"
+                                                        :value="Number(CaasifyUserInfo?.debt).toFixed(2)" 
+                                                    >
+                                                </div>
+                                                <div class="input-group mt-1 px-0">
+                                                    <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 170px;">
+                                                        {{ lang('Remaining') }}
+                                                    </span>
+                                                    <input class="form-control bg-white text-start" 
+                                                        style="max-width: 80px;" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-custom-class="debt-tooltip"
+                                                        :value="Number((CaasifyUserInfo?.balance - CaasifyUserInfo?.debt)).toFixed(2)" 
+                                                    >
+                                                </div>
                                             </div>
-                                            <div class="input-group my-1">
-                                                <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 230px;">
-                                                    {{ lang('UserBalanceWithCommission') }}
-                                                </span>
-                                                <input class="form-control bg-white text-start" 
-                                                    style="max-width: 80px;" disabled
-                                                    data-bs-toggle="tooltip" data-bs-placement="right"
-                                                    data-bs-custom-class="debt-commission-tooltip"
-                                                    :value="Number((CaasifyUserInfo?.balance - CaasifyUserInfo?.debt)*(1+(config?.Commission/100))).toFixed(2)" 
-                                                    :data-bs-title="'Debt : €' + Number((CaasifyUserInfo?.debt)*(1+(config?.Commission/100))).toFixed(2)" 
-                                                >
+                                            
+                                            <div class="col-12 col-md-auto m-0 p-0">
+                                                <div>
+                                                    <p class="mt-4 h6 ps-2">
+                                                        With ({{ config?.Commission }}%) Commision 
+                                                    </p>
+                                                </div>
+                                                <div class="input-group mt-1 px-0">
+                                                    <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 170px;">
+                                                        {{ lang('balance') }}
+                                                    </span>
+                                                    <input class="form-control bg-white text-start" 
+                                                        style="max-width: 80px;" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-custom-class="debt-commission-tooltip"
+                                                        :value="Number((CaasifyUserInfo?.balance)*(1+(config?.Commission/100))).toFixed(2)"
+                                                    >
+                                                </div>
+                                                <div class="input-group mt-1 px-0">
+                                                    <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 170px;">
+                                                        {{ lang('Debt') }}
+                                                    </span>
+                                                    <input class="form-control bg-white text-start" 
+                                                        style="max-width: 80px;" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-custom-class="debt-commission-tooltip"
+                                                        :value="Number((CaasifyUserInfo?.debt)*(1+(config?.Commission/100))).toFixed(2)"
+                                                    >
+                                                </div>
+                                                <div class="input-group mt-1 px-0">
+                                                    <span class="input-group-text text-start bg-body-secondary text-dark p-0 m-0 px-2" style="width: 170px;">
+                                                        {{ lang('Remaining') }}
+                                                    </span>
+                                                    <input class="form-control bg-white text-start" 
+                                                        style="max-width: 80px;" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-custom-class="debt-commission-tooltip"
+                                                        :value="Number((CaasifyUserInfo?.balance - CaasifyUserInfo?.debt)*(1+(config?.Commission/100))).toFixed(2)" 
+                                                    >
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -56,28 +113,28 @@
                                 </div>
                                 
                                 <!-- Charging -->
-                                <div class="row mt-5" v-if="UserInfoIsLoaded && ResellerInfoIsLoaded && config?.Commission != null">
+                                <div class="row mt-3" v-if="UserInfoIsLoaded && ResellerInfoIsLoaded && config?.Commission != null">
                                     <div class="row">
-                                        <div class="m-0 p-0 px-1">
+                                        <div class="m-0 p-0">
                                             <div class="input-group my-2">
-                                                <span class="input-group-text text-start p-0 m-0 px-2 fw-medium" style="--bs-bg-opacity: 0.1; width: 230px;" :class="ChargeBtnClass">
+                                                <span class="input-group-text text-start p-0 m-0 px-2 fw-medium" style="--bs-bg-opacity: 0.1; width: 250px;" :class="ChargeBtnClass">
                                                     {{ lang('amounttochargereal') }}    
                                                 </span>
                                                 <input class="form-control bg-light text-start text-dark fw-medium" v-model="ChargeAmount" style="max-width: 80px;">
                                             </div>
                                             <div class="input-group my-2">
-                                                <span class="input-group-text text-start p-0 m-0 px-2 fw-medium" style="--bs-bg-opacity: 0.1; width: 230px;" :class="ChargeBtnClass">
+                                                <span class="input-group-text text-start p-0 m-0 px-2 fw-medium" style="--bs-bg-opacity: 0.1; width: 250px;" :class="ChargeBtnClass">
                                                     {{ lang('amounttochargewithcommission') }}    
                                                 </span>
                                                 <input class="form-control text-start text-dark fw-medium" :value="new Intl.NumberFormat('en-US').format(ChargeAmount * (1+(config?.Commission/100)))" style="--bs-bg-opacity: 0.3; max-width: 80px;" disabled :class="ChargeBtnClass">
                                             </div>
                                             <div v-if="ChargeAmount != null" class="d-flex flex-row">
-                                                <button class="col-12 btn bg-primary text-dark px-4 fw-medium mt-3" style="--bs-bg-opacity: 0.4; max-width:310px;" @click="openChargingDialogue" v-if="ChargeAmount > 0">
+                                                <button class="col-12 btn bg-primary text-dark px-4 fw-medium mt-3" style="--bs-bg-opacity: 0.4; max-width:330px;" @click="openChargingDialogue" v-if="ChargeAmount > 0">
                                                     <span>
                                                         {{ lang('Increase User Balance') }}
                                                     </span>
                                                 </button>
-                                                <button class="col-12 btn bg-danger text-dark px-4 fw-medium mt-3" style="--bs-bg-opacity: 0.4; max-width:310px;" @click="openChargingDialogue" v-if="ChargeAmount < 0">
+                                                <button class="col-12 btn bg-danger text-dark px-4 fw-medium mt-3" style="--bs-bg-opacity: 0.4; max-width:330px;" @click="openChargingDialogue" v-if="ChargeAmount < 0">
                                                     <span>
                                                         {{ lang('Decrease User Balance') }}
                                                     </span>
@@ -89,7 +146,7 @@
                                 <hr class="border-2 my-4 d-block d-md-none" v-if="CommissionIsValid && UserInfoIsLoaded && ResellerInfoIsLoaded">
                             </div>
                             <!-- Col02 -->
-                            <div class="col-12 col-md-7 mt-lg-0 px-4 px-md-0">            
+                            <div class="col-12 col-md-5">            
                                 <!-- Orders -->
                                  <div class="row mt-2 justify-content-center">
                                     <div v-if="UserOrdersIsLoaded && UserOrders != null" class="row border rounded-2 bg-white p-3">

@@ -423,7 +423,7 @@ add_hook('AdminAreaClientSummaryPage', 1, function ($vars) {
     $link = $systemUrl . '/modules/addons/caasify/views/view/admin.php?userid=' . $WhUserId;
     $value = '
         <iframe src="' . $link . '" class="caasify"></iframe>
-        <style type="text/css"> .caasify{width: 100%; height: 350px;border: none;}</style>
+        <style type="text/css"> .caasify{width: 100%; height: 400px;border: none;}</style>
     ';
 
     return $value;
