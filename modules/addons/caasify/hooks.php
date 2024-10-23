@@ -439,7 +439,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
         $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('description', 'Cloud Account Charging')
+            ->where('description', 'User Cloud Balance ')
             ->first();
 
         if(empty($CloudAccountChargingRecorde)){        
@@ -538,7 +538,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         
         $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('description', 'Cloud Account Charging')
+            ->where('description', 'User Cloud Balance ')
             ->first();
 
         if(empty($CloudAccountChargingRecorde)){        
@@ -570,7 +570,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
         $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('description', 'Cloud Account Charging')
+            ->where('description', 'User Cloud Balance ')
             ->first();
 
         if(empty($CloudAccountChargingRecorde)){        
@@ -663,7 +663,7 @@ add_hook('InvoicePaid', 1, function($vars) {
 
     $items = $invoice['items']['item'];
     foreach ($items as $item) {
-        if($item['description'] == 'Cloud Account Charging'){
+        if($item['description'] == 'User Cloud Balance '){
             $RawAmountCharge = $item['amount'];
         }
     }
