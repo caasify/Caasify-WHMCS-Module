@@ -1,0 +1,555 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --blue-dark: #0C356A; /* Dark blue */
+  --blue-default: #0074be; /* Default blue */
+  --blue-light: #ebf4fe; /* Light blue */
+
+  --yellow-dark: #ffc337; /* Dark yellow */
+  --yellow-default: #fff1ce; /* Default yellow */
+  --yellow-light: #ffebc5; /* Light yellow (Assuming a value, please adjust) */
+  --gray-default: #d9d9d9; /* Default gray */
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* Background color classes */
+.background-dark-blue {
+  background-color: var(--blue-dark);
+}
+.background-default-blue {
+  background-color: var(--blue-default);
+}
+.background-light-blue {
+  background-color: var(--blue-light);
+}
+.background-dark-yellow {
+  background-color: var(--yellow-dark);
+}
+.background-default-yellow {
+  background-color: var(--yellow-default);
+}
+.background-light-yellow {
+  background-color: var(--yellow-light);
+}
+.background-default-gray {
+  background-color: var(--gray-default);
+}
+
+/* Text color classes */
+.text-dark-blue {
+  color: var(--blue-dark);
+}
+.text-default-blue {
+  color: var(--blue-default);
+}
+.text-light-blue {
+  color: var(--blue-light);
+}
+.text-dark-yellow {
+  color: var(--yellow-dark);
+}
+.text-default-yellow {
+  color: var(--yellow-default);
+}
+.text-light-yellow {
+  color: var(--yellow-light);
+}
+.text-default-gray {
+  color: var(--gray-default);
+}
+
+.gradient-blue {
+  background: rgb(0, 116, 190);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 116, 190, 1) 0%,
+    rgba(12, 53, 106, 1) 100%
+  );
+}
+
+.accordion-button {
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: var(--blue-light);
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+
+.accordion-button:focus {
+  outline: none; /* Removes the outline */
+  box-shadow: none; /* Optional: Removes any box shadow if present */
+}
+
+.accordion-button i {
+  margin-right: 10px;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: var(--blue-light);
+  padding: 0 1rem;
+}
+
+.accordion-item + .accordion-item {
+  margin-top: 10px;
+}
+
+.gradient-blue {
+  background: linear-gradient(
+    0deg,
+    var(--blue-default) 0%,
+    var(--blue-dark) 100%
+  );
+}
+
+.btn-blue {
+  background-color: var(--blue-dark); /* Example blue color */
+  color: #fff; /* White text color */
+  border: none; /* No border */
+}
+
+.btn-yellow {
+  background-color: var(--yellow-dark); /* Example blue color */
+  color: #fff; /* White text color */
+  border: none; /* No border */
+}
+.btn-yellow:hover {
+  background-color: var(--yellow-dark); /* Example blue color */
+  color: #fff; /* Ensure text color remains white */
+}
+
+.btn-blue:hover {
+  background-color: var(--blue-dark); /* Darker blue on hover */
+  color: #fff; /* Ensure text color remains white */
+}
+
+.custom-rounded-top {
+  border-top-left-radius: 30px; /* Adjust as needed */
+  border-top-right-radius: 30px; /* Adjust as needed */
+}
+
+.custom-rounded-bottom {
+  border-bottom-left-radius: 30px; /* Adjust as needed */
+  border-bottom-right-radius: 30px; /* Adjust as needed */
+}
+
+.no-default-ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+
+.caasify-width{
+  max-width: 1600px !important;
+}
+
+.text-yellow{
+  color: var(--yellow-dark); /* Ensure text color remains white */
+}
+
+
+
+.btnLink {
+  background-color: ''; /* You can specify the default background color here */
+}
+
+.btnLink:hover {
+  background-color: #ebebeb; /* Change background color on hover */
+}
+
+
+
+
+.mylist {
+  padding-bottom: 0.3rem !important;
+}
+
+
+
+
+b{
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 767px){
+  .vultrTitle01 {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+  }
+
+  .vultrTitle02 {
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+  }
+
+  .headerTitle01 {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+  }
+
+  .header01 {
+      font-size: 2.3rem !important;
+      font-weight: 700 !important;
+  }
+
+  .header02 {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+  }
+  
+  .header03 {
+    font-size: 1.6rem !important;
+    font-weight: 600 !important;
+  }
+
+  .text01{
+    font-size: 1.05rem !important;
+    font-weight: 300 !important;
+  }
+
+  .text02{
+    font-size: 1.05rem !important;
+    font-weight: 300 !important;
+  }
+
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 990px) and (min-width: 767px){
+
+  .vultrTitle01 {
+    font-size: 3.3rem !important;
+    font-weight: 800 !important;
+  }
+
+  .vultrTitle02 {
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+  }
+
+  .headerTitle01 {
+    font-size: 2.3rem !important;
+    font-weight: 700 !important;
+  }
+
+  .header01 {
+      font-size: 3rem !important;
+      font-weight: 700 !important;
+  }
+
+  .header02 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+  }
+  
+  .header03 {
+    font-size: 1.8rem !important;
+    font-weight: 600 !important;
+  }
+
+  .text01{
+    font-size: 1.2rem !important;
+    font-weight: 300 !important;
+  }
+
+  .text02{
+    font-size: 1.1rem !important;
+    font-weight: 300 !important;
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 1200px) and (min-width: 991px){
+  .vultrTitle01 {
+    font-size: 2.1rem !important;
+    font-weight: 800 !important;
+  }
+
+  .vultrTitle02 {
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+  }
+
+  .headerTitle01 {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+  }
+
+  .header01 {
+      font-size: 3rem !important;
+      font-weight: 700 !important;
+  }
+  
+  .header02 {
+      font-size: 2.1rem !important;
+      font-weight: 700 !important;
+  }
+
+  .header03 {
+      font-size: 2.7rem !important;
+      font-weight: 700 !important;
+  }
+
+  .text01{
+    font-size: 1.3rem !important;
+    font-weight: 400 !important;
+  }
+
+
+  .text02{
+    font-size: 1.2rem !important;
+    font-weight: 300 !important;
+  }
+
+  .lg-height-1{
+    height: 400px !important;
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width: 1201px){
+  .vultrTitle01 {
+      font-size: 2.9rem !important;
+      font-weight: 800 !important;
+  }
+
+  .vultrTitle02 {
+    font-size: 1.9rem !important;
+    font-weight: 800 !important;
+  }
+  
+  .headerTitle01 {
+      font-size: 2.7rem !important;
+      font-weight: 700 !important;
+  }
+
+  .header01 {
+    font-size: 4rem !important;
+    font-weight: 700 !important;
+}
+  
+  .header02 {
+      font-size: 2.3rem !important;
+      font-weight: 700 !important;
+  }
+  
+  .header03 {
+      font-size: 3rem !important;
+      font-weight: 700 !important;
+  }
+
+  .text01{
+    font-size: 1.3rem !important;
+    font-weight: 400 !important;
+  }
+
+  .text02{
+    font-size: 1.2rem !important;
+    font-weight: 300 !important;
+  }
+  
+  .lg-height-1{
+    height: 400px !important;
+  }
+}
+
+
+
+
+
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(30deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-30deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake-animation {
+  animation: shake 0.4s infinite;
+}
+
+
+.iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; 
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+.modal-dialog {
+  max-width: 90%;
+  width: 90%;
+}
+.modal-content {
+  max-height: 90vh;
+  overflow: auto;
+}
+.modal-content img {
+  width: 100%;
+  height: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* style form module */
+
+/* Style the range input */
+input[type="range"] {
+  -webkit-appearance: none; /* Remove default appearance */
+  width: 100%;
+  height: 8px; /* Adjust height */
+  border-radius: 5px;
+  background: #ddd; /* Default background color */
+  outline: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+/* Thumb (the slider handle) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #007bff; /* Blue color for thumb */
+  cursor: pointer;
+}
+
+/* Track color from min to current value */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #ddd 0%, #ddd calc(var(--val) * 1%), #007bff calc(var(--val) * 1%), #007bff 100%);
+  height: 8px;
+  border-radius: 5px;
+}
+
+/* Firefox */
+input[type="range"]::-moz-range-track {
+  background: linear-gradient(to right, #ddd 0%, #ddd calc(var(--val) * 1%), #007bff calc(var(--val) * 1%), #007bff 100%);
+  height: 8px;
+  border-radius: 5px;
+}
+
+/* Internet Explorer */
+input[type="range"]::-ms-track {
+  background: transparent; /* Not supported, but avoid style issues */
+  border-color: transparent;
+}
+
+/* Add a small number or tooltip near the slider */
+input[type="range"] + output {
+  font-size: 12px;
+  display: inline-block;
+  margin-left: 10px;
+  color: #666;
+}
+
+.loading {
+  cursor: wait;
+}
+
+[v-cloak] { display: none; }
+.border {border-color: #ededed !important;}
+@media (min-width: 1400px) { .mycontainer{padding: 77px 51px !important;} }
+
+.plans-childs > div {
+  flex: 1;
+  text-align: start; /* Centering the content */
+}
+
+.plans-childs > div:first-child {
+  flex: 1.8;
+  text-align: start;
+}
+
+.dropdown-item{
+  font-size: 14px !important;
+}

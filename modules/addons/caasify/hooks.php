@@ -227,64 +227,41 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                 $primaryNavbar->removeChild('Domains');
             }
 
+            $newMenu = $primaryNavbar->addChild(
+                'caasifyvpspricing',
+                array(
+                    'name' => 'VPS-Pricing',
+                    'label' => 'VPS Pricing',
+                    'uri' => 'vpspricing.php',
+                    'order' => 99,
+                    'icon' => '',
+                )
+            );
         });
     }
 
 } else {
 
-    // Caasify Marketplace menu in main manu
-    add_hook('ClientAreaPrimaryNavbar', 1, function ($primaryNavbar) {
-        /** @var \WHMCS\View\Menu\Item $primaryNavbar */
+    if($userLogedIn == true){        
+        // Caasify Marketplace menu in main manu
+        add_hook('ClientAreaPrimaryNavbar', 1, function ($primaryNavbar) {
+            /** @var \WHMCS\View\Menu\Item $primaryNavbar */
 
-        $config = caasify_get_config_decoded();
-
-        $CaasifyMenuTitle = $config['CaasifyMenuTitle'];
-        if (!isset($CaasifyMenuTitle) || !is_string($CaasifyMenuTitle)) {
-            $CaasifyMenuTitle = 'Marketplace';
-        }
-        
-        $CaasifyMenuPlace = $config['CaasifyMenuPlace'];
-        if (!isset($CaasifyMenuPlace) || !is_string($CaasifyMenuPlace)) {
-            $CaasifyMenuPlace = 'MainMenu';
-        }
-        
-        if(isset($CaasifyMenuPlace) && $CaasifyMenuPlace == 'MainMenu'){
-            $newMenu = $primaryNavbar->addChild(
-                'uniqueMenuItemNameMarketplace',
-                array(
-                    'name' => 'Marketplace',
-                    'label' => $CaasifyMenuTitle,
-                    'uri' => '/index.php?m=caasify&action=pageIndex',
-                    'order' => 99,
-                    'icon' => '',
-                )
-            );
-        }
-    });
-
-
-    // Caasify Marketplace menu in submenu of services
-    add_hook('ClientAreaPrimaryNavbar', 1, function($primaryNavbar) {
-        /** @var \WHMCS\View\Menu\Item $primaryNavbar */
-        if (!is_null($primaryNavbar->getChild('Services'))) {
-            $servicesMenu = $primaryNavbar->getChild('Services');
-            
             $config = caasify_get_config_decoded();
 
             $CaasifyMenuTitle = $config['CaasifyMenuTitle'];
             if (!isset($CaasifyMenuTitle) || !is_string($CaasifyMenuTitle)) {
                 $CaasifyMenuTitle = 'Marketplace';
             }
-
+            
             $CaasifyMenuPlace = $config['CaasifyMenuPlace'];
             if (!isset($CaasifyMenuPlace) || !is_string($CaasifyMenuPlace)) {
                 $CaasifyMenuPlace = 'MainMenu';
             }
-
-            if(isset($CaasifyMenuPlace) && $CaasifyMenuPlace == 'InsideServices'){
-                // Add a new submenu item under Services
-                $servicesMenu->addChild(
-                    'uniqueSubMenuItemNameMarketplace2',
+            
+            if(isset($CaasifyMenuPlace) && $CaasifyMenuPlace == 'MainMenu'){
+                $newMenu = $primaryNavbar->addChild(
+                    'uniqueMenuItemNameMarketplace',
                     array(
                         'name' => 'Marketplace',
                         'label' => $CaasifyMenuTitle,
@@ -294,9 +271,73 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
                     )
                 );
             }
-        }
-    });
+        });
+        // Caasify Marketplace menu in submenu of services
+        add_hook('ClientAreaPrimaryNavbar', 1, function($primaryNavbar) {
+            /** @var \WHMCS\View\Menu\Item $primaryNavbar */
+            if (!is_null($primaryNavbar->getChild('Services'))) {
+                $servicesMenu = $primaryNavbar->getChild('Services');
+                
+                $config = caasify_get_config_decoded();
 
+                $CaasifyMenuTitle = $config['CaasifyMenuTitle'];
+                if (!isset($CaasifyMenuTitle) || !is_string($CaasifyMenuTitle)) {
+                    $CaasifyMenuTitle = 'Marketplace';
+                }
+
+                $CaasifyMenuPlace = $config['CaasifyMenuPlace'];
+                if (!isset($CaasifyMenuPlace) || !is_string($CaasifyMenuPlace)) {
+                    $CaasifyMenuPlace = 'MainMenu';
+                }
+
+                if(isset($CaasifyMenuPlace) && $CaasifyMenuPlace == 'InsideServices'){
+                    // Add a new submenu item under Services
+                    $servicesMenu->addChild(
+                        'uniqueSubMenuItemNameMarketplace2',
+                        array(
+                            'name' => 'Marketplace',
+                            'label' => $CaasifyMenuTitle,
+                            'uri' => '/index.php?m=caasify&action=pageIndex',
+                            'order' => 99,
+                            'icon' => '',
+                        )
+                    );
+                }
+            }
+        });
+    } else {
+        // VPS Pricing menu in submenu of services
+        add_hook('ClientAreaPrimaryNavbar', 1, function ($primaryNavbar) {
+            /** @var \WHMCS\View\Menu\Item $primaryNavbar */
+
+            $config = caasify_get_config_decoded();
+            $VpsPricingEnabled = $config['VpsPricingEnabled'];
+            $VpsPricingMenuTitle = $config ['VpsPricingMenuTitle'];
+
+            if (!isset($VpsPricingEnabled)) {
+                $VpsPricingEnabled = 'on';
+            }
+
+            if (!isset($VpsPricingMenuTitle)) {
+                $VpsPricingMenuTitle = 'VPS Pricing';
+            }
+            
+            if($VpsPricingEnabled == 'on'){
+                $newMenu = $primaryNavbar->addChild(
+                    'caasifyvpspricing',
+                    array(
+                        'name' => 'VPS-Pricing',
+                        'label' => $VpsPricingMenuTitle,
+                        'uri' => 'vpspricing.php',
+                        'order' => 99,
+                        'icon' => '',
+                    )
+                );
+            }
+        
+        });
+    }
+   
 }
 
 add_hook('ClientAreaPage', 100, function ($params) {
@@ -439,7 +480,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
         $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('description', 'User Cloud Balance ')
+            ->where('description', 'CsfUserBalance')
             ->first();
 
         if(empty($CloudAccountChargingRecorde)){        
@@ -538,7 +579,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         
         $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('description', 'User Cloud Balance ')
+            ->where('description', 'CsfUserBalance')
             ->first();
 
         if(empty($CloudAccountChargingRecorde)){        
@@ -570,7 +611,7 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
         $CloudAccountChargingRecorde = Capsule::table('tblinvoiceitems')
             ->where('invoiceid', $invoiceid)
-            ->where('description', 'User Cloud Balance ')
+            ->where('description', 'CsfUserBalance')
             ->first();
 
         if(empty($CloudAccountChargingRecorde)){        
@@ -658,12 +699,12 @@ add_hook('InvoicePaid', 1, function($vars) {
         $postData = array(
             'invoiceid' => $invoiceid,
         );
-        $invoice = localAPI($command, $postData, $adminUsername);
+        $invoice = localAPI($command, $postData);
     }
 
     $items = $invoice['items']['item'];
     foreach ($items as $item) {
-        if($item['description'] == 'User Cloud Balance '){
+        if($item['description'] == 'CsfUserBalance'){
             $RawAmountCharge = $item['amount'];
         }
     }

@@ -509,6 +509,12 @@ let common = {
     "REBUILD" : "نصب مجدد",
     "There is no product with this filters" : "محصولی برای این فیلتر وجود ندارد",
     "Reseller Info": "اطلاعات ریسلری",
+
+    "To continue, please log in": "جهت سفارش، ابتدا وارد سایت شوید",
+    "Register" : "ثبت نام",
+    "Log in" : "ورود",
+    "New Products" : "محصولات جدید",
+
 }
 
 const words = {

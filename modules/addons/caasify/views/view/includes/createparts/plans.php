@@ -111,7 +111,7 @@
                     </tr>
                 </thead>
             </table>
-            <div class="m-0 p-0" style="max-height: 990px; overflow: scroll;">
+            <div class="m-0 p-0" style="max-height: 1340px; overflow-y: scroll; overflow-x: visible">
                 <div v-if="noPlanToShow" class="row mt-3 ps-1">
                     <div class="col-12">
                         <p class="alert alert-primary">

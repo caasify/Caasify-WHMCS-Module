@@ -95,6 +95,7 @@
                     </label>
                     <input type="range"
                         class="form-range" 
+                        :style="'--val:'+val[filter?.name]"
                         :min="filter?.terms[0].name != 0 ? filter?.terms[0].name : 0" 
                         :max="filter?.terms[filter?.terms.length - 1].name" 
                         :step="filter?.name == 'Disk'? 10 : 1" 
@@ -125,7 +126,7 @@
                                 </span>
                             </button>
                         </p>
-                        <div :id="'panelsStayOpen-collapse' + index" class="accordion-collapse collapse border-0" :class="filter?.name == 'Country' ? 'show' : '' ">
+                        <div :id="'panelsStayOpen-collapse' + index" class="accordion-collapse collapse show border-0">
                             <div class="accordion-body bg-primary rounded-bottom-3" style="--bs-bg-opacity: 0.05;">
                                 <div v-for="(term, key) in filter?.terms" :key="key" class="form-check ms-1">
                                     <input class="form-check-input" type="checkbox" 

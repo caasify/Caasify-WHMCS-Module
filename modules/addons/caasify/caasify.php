@@ -82,13 +82,12 @@ function caasify_config(){
     $DefLangLabel = 'This is Defaul Language for clients panel on first visit, they can chagne it by their preference';
     $CaasifyCurrencyLabel = 'It must be <strong>EURO</strong> (Caasify Currency). If you dont have EURO, you must create one in System Setting/currency and then select it here';
     $CommissionCurrencyLabel = '<strong> % Percent </strong>, this is the comission which will add to the product prices, default is 10%';
-    
+
     $ViewExchangesLabel = 'Switch on if wish to see exchange in both Caasify and user profile currency';
     $CloudTopupLinkLabel = 'Insert relative TopUp Link, as an Example <strong>"/clientarea.php?action=addfunds"</strong>';
     $AdminClientsSummaryLinkLabel = 'Insert admin panel URL for the Clients Summary Page, e.g <strong>(' . $SystemUrl . '/admin/clientssummary.php)</strong>';
     $CaasifyMenuTitleLabel = 'Insert label to show on Menu, default is <strong>"Marketplace"</strong>';
     $CaasifyMenuPlaceLabel = 'Select where Menu Title will show, default is <strong>"Main Menu"</strong>';
-    
 
     // Configs Label
     $MinimumChargeLabel = 'in EURO , insert MIN amount users are allowed to charge their Balance';
@@ -98,21 +97,31 @@ function caasify_config(){
     $MonthlyCostDecimalLabel = 'default decimal for Monthly cost of services';
     $HourlyCostDecimalLabel = 'default decimal for Hourly cost of services';
     $BalanceDecimalLabel = 'default decimal for users Balance and Credit';
-    
+
     $resellerModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on ONLY if you wish to give your reseller their token';
     $DevelopeModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on ONLY for debuging, after debuging turn it off';
     $DemoModeLabel = '<strong>Do Not Turn this ON, </strong> Switch on ONLY for testing, but for normal usage turn it off';
 
+    // VPS Pricing
+    $VpsPricingEnabledLabel = 'Switch on if you wish to show VPS Pricing page without log in on URL: domain/vpspricing.php';
+    $CaasifyCurrencyForVPSPricing = 'VPS pricing page will be shown publicly with this currency';
+    $VpsPricingMenuTitleLabel = 'Insert MENU label for VPS Pricing page, default is <strong>"VPS Pricing"</strong>';
+
+    $VPNSectionEnabledLabel = 'Switch on if you wish to show VPN page and sell products';
+    $VPNSectionMenuTitleLabel = 'Insert MENU label for VPN section page, default is <strong>"VPN"</strong>';
+    
+
     $configarray = array(
         "name" => "Caasify",
         "description" => "This addon utility allows you to easily connect to Caasify Marketpalce to sell almost everything",
-        "version" => "2.0.1",
+        "version" => "2.0.0",
         "author" => "Caasify",
         "fields" => array(
             "BackendUrl" => array ("FriendlyName" => "Backend URL", "Type" => "dropdown", "Options" => 'https://api.caasify.com', "Description" => $BackendUrlLabel, "Default" => 'https://api.caasify.com'),
             "ResellerToken" => array ("FriendlyName" => "Reseller Token", "Type" => "text", "Size" => "31", "Description" => $ResellerTokenLabel, "Default" => ""),
             "DefLang" => array ("FriendlyName" => "Panel Language", "Type" => "dropdown", "Options" => $LanguageOptions, "Description" => $DefLangLabel, "Default" => "English"),
             "CaasifyCurrency" => array ("FriendlyName" => "<strong>Caasify Currency</strong>", "Type" => "dropdown", "Options" => $CurrencyOptions, "Description" => $CaasifyCurrencyLabel, "Default" => 'USD'),
+            
             "Commission" => array ("FriendlyName" => "<strong>Commission</strong>", "Type" => "text", "Description" => $CommissionCurrencyLabel, "Default" => '10'),
             "CloudTopupLink" => array ("FriendlyName" => "Topup Link", "Type" => "text", "Size" => "31", "Description" => $CloudTopupLinkLabel, "Default" => "/clientarea.php?action=addfunds"),
             "AdminClientsSummaryLink" => array ("FriendlyName" => "Admin Panel URL", "Type" => "text", "Size" => "31", "Description" => $AdminClientsSummaryLinkLabel, "Default" => $SystemUrl . '/admin/clientssummary.php'),
@@ -129,6 +138,13 @@ function caasify_config(){
             "resellerMode" => array ("FriendlyName" => "<strong>Reseller Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $resellerModeLabel, "Default" => 'off'),
             "DevelopeMode" => array ("FriendlyName" => "<strong>Develope Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DevelopeModeLabel, "Default" => 'off'),
             "DemoMode" => array ("FriendlyName" => "<strong>DEMO Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DemoModeLabel, "Default" => 'off'),
+            
+            "VpsPricingEnabled" => array ("FriendlyName" => "VPS Pricing Enable", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $VpsPricingEnabledLabel, "Default" => 'on'),
+            "CaasifyCurrencyForVPSPricing" => array ("FriendlyName" => "VPS pricing currency", "Type" => "dropdown", "Options" => $CurrencyOptions, "Description" => $CaasifyCurrencyForVPSPricing, "Default" => 'EURO'),
+            "VpsPricingMenuTitle" => array ("FriendlyName" => "VPS Pricing Menu Title", "Type" => "text", "Size" => "31", "Description" => $VpsPricingMenuTitleLabel, "Default" => "VPS Pricing"),
+            
+            "VPNSectionEnabled" => array ("FriendlyName" => "VPN selling Enable", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $VPNSectionEnabledLabel, "Default" => 'on'),
+            "VPNSectionMenuTitle" => array ("FriendlyName" => "VPN Menu Title", "Type" => "text", "Size" => "31", "Description" => $VPNSectionMenuTitleLabel, "Default" => "VPN"),
         ));
 
     return $configarray;
@@ -304,6 +320,22 @@ function caasify_clientarea($vars){
     $DevelopeMode = $config['DevelopeMode'];
     if(empty($DevelopeMode)){
         $DevelopeMode = 'off';
+    }
+    
+    $VpsPricingEnabled = $config['VpsPricingEnabled'];
+    if(empty($VpsPricingEnabled)){
+        $VpsPricingEnabled = 'on';
+    }
+   
+    
+    $VPNSectionMenuTitle = $config['VPNSectionMenuTitle'];
+    if(empty($VPNSectionMenuTitle)){
+        $VPNSectionMenuTitle = 'VPN';
+    }
+    
+    $VPNSectionEnabled = $config['VPNSectionEnabled'];
+    if(empty($VPNSectionEnabled)){
+        $VPNSectionEnabled = 'on';
     }
     
     $resellerMode = $config['resellerMode'];

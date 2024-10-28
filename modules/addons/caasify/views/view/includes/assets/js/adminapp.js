@@ -14,6 +14,7 @@ app = createApp({
                 BackendUrl: null,
                 DefLang: null,
                 CaasifyCurrency: null,
+                CaasifyCurrencyForVPSPricing: null,
                 Commission: null,
                 CloudTopupLink: null,
                 AdminClientsSummaryLink: null,
@@ -25,6 +26,9 @@ app = createApp({
                 HourlyCostDecimal: null,
                 BalanceDecimal: null,
                 resellerMode: null,
+                VPNSectionEnabled: null,
+                VPNSectionMenuTitle: null,
+                VpsPricingEnabled: null,
                 DevelopeMode: null,
                 DemoMode: null,
                 errorMessage: null,
@@ -68,6 +72,7 @@ app = createApp({
             this.config.BackendUrl = NewCaasifyConfigs.BackendUrl
             this.config.DefLang = NewCaasifyConfigs.DefLang
             this.config.CaasifyCurrency = NewCaasifyConfigs.CaasifyCurrency
+            this.config.CaasifyCurrencyForVPSPricing = NewCaasifyConfigs.CaasifyCurrencyForVPSPricing
             this.config.CloudTopupLink = NewCaasifyConfigs.CloudTopupLink
             this.config.AdminClientsSummaryLink = NewCaasifyConfigs.AdminClientsSummaryLink
             this.config.Commission = parseFloat(atob(NewCaasifyConfigs.Commission))
@@ -79,6 +84,9 @@ app = createApp({
             this.config.HourlyCostDecimal = parseFloat(NewCaasifyConfigs.HourlyCostDecimal)
             this.config.BalanceDecimal = parseFloat(NewCaasifyConfigs.BalanceDecimal)
             this.config.resellerMode = NewCaasifyConfigs.resellerMode
+            this.config.VPNSectionEnabled = NewCaasifyConfigs.VPNSectionEnabled
+            this.config.VPNSectionMenuTitle = NewCaasifyConfigs.VPNSectionMenuTitle
+            this.config.VpsPricingEnabled = NewCaasifyConfigs.VpsPricingEnabled
             this.config.DevelopeMode = NewCaasifyConfigs.DevelopeMode
             this.config.DemoMode = NewCaasifyConfigs.DemoMode
             this.config.errorMessage = NewCaasifyConfigs.errorMessage

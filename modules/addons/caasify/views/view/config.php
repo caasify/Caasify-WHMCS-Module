@@ -35,6 +35,24 @@ if(!isset($DevelopeMode)){
     $DevelopeMode = 'off';
 }
 
+// VpsPricingEnabled
+$VpsPricingEnabled = $configs['VpsPricingEnabled'];
+if(!isset($VpsPricingEnabled)){
+    $VpsPricingEnabled = 'on';
+}
+
+// VPNSectionMenuTitle
+$VPNSectionMenuTitle = $configs['VPNSectionMenuTitle'];
+if(!isset($VPNSectionMenuTitle)){
+    $VPNSectionMenuTitle = 'VPN';
+}
+
+// VPNSectionEnabled
+$VPNSectionEnabled = $configs['VPNSectionEnabled'];
+if(!isset($VPNSectionEnabled)){
+    $VPNSectionEnabled = 'on';
+}
+
 // resellerMode
 $resellerMode = $configs['resellerMode'];
 if(!isset($resellerMode)){

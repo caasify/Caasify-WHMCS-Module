@@ -4,6 +4,7 @@ app = createApp({
 
     data() {
         return {
+            val:{"CPU":"0","Ram":"0","Disk":"0","Traffic":"0"},
             favoritPlans: [],
             isFirstRequest: true,
             noNeedToRecom: true,
@@ -36,11 +37,11 @@ app = createApp({
 
             parentCategories: 
                 [ 
-                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png') },
-                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png') },
-                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png') },
-                    { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png') },
-                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png') },
+                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650' },
+                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon' },
+                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon' },
+                    // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon' },
+                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon' },
                 ],
             SelectedCategory: null,
 
@@ -436,6 +437,22 @@ app = createApp({
             this.config.DemoMode = NewCaasifyConfigs.DemoMode
             this.config.Commission = parseFloat(atob(NewCaasifyConfigs.Commission)) 
             this.config.MyCaasifyStatus = parseFloat(NewCaasifyConfigs.MyCaasifyStatus)
+            
+            if (NewCaasifyConfigs.VPNSectionEnabled === 'on') {
+                this.parentCategories.splice(1, 0, {
+                    name: NewCaasifyConfigs.VPNSectionMenuTitle,
+                    icon: this.createIconAddr('vpn.png'),
+                    enabled: true,
+                    msg:'New products'
+                });
+            } else {
+                this.parentCategories.splice(1, 0, {
+                    name: this.lang('Database As A Service'),
+                    icon: this.createIconAddr('database.png'),
+                    enabled: false,
+                    msg:'Coming soon'
+                });
+            }
         },
 
         orderID(neworderID) {
@@ -3009,9 +3026,9 @@ app = createApp({
         },
 
         selectCategory(Category) {
-            // TODO: for now
-            this.SelectedCategory = this.parentCategories[0]
-            // this.SelectedCategory = Category
+            if(Category.enabled){
+                this.SelectedCategory = Category
+            }
         },
 
         isCategory(Category) {
@@ -3239,23 +3256,28 @@ app = createApp({
                 RequestLink = this.CreateRequestLink(action = 'CaasifyGetPlansFromFiltersTerm');
                 response = await axios.post(RequestLink, formData);
             }
-
-            if (response?.data?.message) {
-                this.plansAreLoading = false;
-                this.plansAreLoaded = true;
-                console.error('Plans Error: ' + response?.data?.message);
-                this.noPlanToShow = true
-            }
-
-            if (response?.data?.data) {
-                this.plansAreLoading = false;
-                this.plansAreLoaded = true;
-                this.noPlanToShow = false
-                this.plans = response?.data?.data
-                if(this.isFirstRequest){
-                    this.isFirstRequest = false
-                    this.favoritPlans = response?.data?.data
+            if(response.data) {
+                if (response?.data?.message) {
+                    this.plansAreLoading = false;
+                    this.plansAreLoaded = true;
+                    console.error('Plans Error: ' + response?.data?.message);
+                    this.noPlanToShow = true
                 }
+
+                if (response?.data?.data) {
+                    this.plansAreLoading = false;
+                    this.plansAreLoaded = true;
+                    this.noPlanToShow = false
+                    this.plans = response?.data?.data
+                    if (this.isFirstRequest) {
+                        this.isFirstRequest = false
+                        this.favoritPlans = response?.data?.data
+                    }
+                }
+            } else {
+                setTimeout(() => {
+                    this.loadPlansFromFiltersTerm()
+                }, 2 * 1000);
             }
         
         },
@@ -3310,7 +3332,7 @@ app = createApp({
         
         },
 
-        ColorizeRange(event) {
+        ColorizeRange(event, filterName) {
             let percentage = 0
             let currentValue = parseFloat(this.selectedRanges[event.target.id])
             
@@ -3339,7 +3361,8 @@ app = createApp({
             if(event.target.id == 'CPU') {
                 percentage -= 5
             }            
-            event.target.style.setProperty('--val', percentage);
+            
+            this.val[event.target.id] = String(percentage)
         },
 
         loadRange(){
@@ -3370,7 +3393,9 @@ app = createApp({
 
         selectedTermsSave(){
             this.loadPlansFromFiltersTerm()
-            this.loadRecommendedPlansForContinent()
+            setTimeout(() => {
+                this.loadRecommendedPlansForContinent()
+            }, 2 * 1000);
             this.SelectedPlan = null
             this.PlanSections = null
         },

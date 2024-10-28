@@ -1,4 +1,5 @@
 <?php
+
 use WHMCS\Database\Capsule;
 use WHMCS\Service\Service;
 use WHMCS\User\Client;
@@ -124,6 +125,13 @@ function get_config_array_temp(){
         'MonthlyCostDecimal' => null,
         'HourlyCostDecimal' => null,
         'BalanceDecimal' => null,
+        
+        'VPNSectionEnabled' => null,
+        'VPNSectionMenuTitle' => null,
+
+        'VpsPricingEnabled' => null,
+        'VpsPricingMenuTitle' => null,
+        'CaasifyCurrencyForVPSPricing' => null,
         
         'resellerMode' => null,
         'DevelopeMode' => null,
@@ -726,7 +734,6 @@ function cassify_get_all_invoice_table(){
     return false;
 }
 
-
 function cassify_update_caasify_invoice_table($invoiceid, $TransactionId, $ChargeAmountInCloudCurr, $Commission){
     $hasTable = Capsule::schema()->hasTable('tblcaasify_invoices');
     
@@ -749,4 +756,54 @@ function cassify_update_caasify_invoice_table($invoiceid, $TransactionId, $Charg
     } else {
         return false;
     }
+}
+
+
+function caasify_calculate_ratio_for_vpspricing(){
+    
+    // find commission
+    $configs = caasify_get_config_decoded();
+    $Commission = 0;
+    if(isset($configs['Commission'])){
+        $Commission = $configs['Commission'];
+    } 
+    
+    // find default currency for vpss page
+    if(isset($configs['CaasifyCurrencyForVPSPricing'])){
+        $CaasifyCurrencyForVPSPricing = $configs['CaasifyCurrencyForVPSPricing'];
+    } else {
+        $CaasifyCurrencyForVPSPricing = 'EUR';
+    }
+
+    // find ratio to change price
+    $euroRatio = 1;
+    $targetRatio = 1;
+    $finalRatio = 1;
+    $currenciesList = caasify_get_Whmcs_Currencies();
+    if(isset($currenciesList['currencies']['currency'])){
+        $currencies = $currenciesList['currencies']['currency'];
+    }
+
+    if(is_array($currencies)){
+        foreach($currencies as $currency){
+            if($currency['code'] == 'EUR'){
+                $euroRatio = $currency['rate'];
+            }
+            if($currency['code'] == $CaasifyCurrencyForVPSPricing){
+                $targetRatio = $currency['rate'];
+                $targetCurrencySuffix = $currency['suffix'];
+            }
+        }
+    }
+
+    if(isset($euroRatio) && isset($targetRatio) && isset($Commission)){
+        $finalRatio = ($targetRatio / $euroRatio) * (100 + $Commission) / 100;
+    }
+
+    $response = [
+        'ratio' => $finalRatio,
+        'currency' => $targetCurrencySuffix,
+    ];
+
+    return $response;
 }

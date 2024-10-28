@@ -517,6 +517,10 @@ let common = {
     "There is no product with this filters" : "There is no product with this filters",
     
     "Reseller Info": "Reseller Info",
+    "To continue, please log in": "To continue, please log in",
+    "Register" : "Register",
+    "Log in" : "Log in",
+    "New Products" : "New Products",
 }
 
 const words = {

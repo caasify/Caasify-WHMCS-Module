@@ -7,23 +7,16 @@
         :class="isCategory(Category) ? 'shadow-sm border border-2 border-secondary' : ''"
         @click="selectCategory(Category)">
             <div class="m-0 p-0">
-                <img :src="Category.icon" class="img-fluid rounded-top" alt=""/ style="width:40px;">
+                <img :src="Category.icon" class="img-fluid rounded-top" :alt="Category.name" style="width:40px;">
             </div>
-            <div class="text-start ps-3 pt-2">
+            <div class="text-start ps-3 pt-2" :style="Category.enabled ? 'color:#383636' : '' ">
                 <p v-if="Category" class="h6 m-0 p-0">
-                    {{ Category.name }}
+                    {{ lang(Category.name) }}
                 </p>
                 <p class="fs-6 m-0 p-0">
-                    <span v-if="!isCategory(Category)">
-                        <i class="bi bi-lock pe-1 h5"></i>
-                        <span>
-                            {{ lang('Coming soon') }} ...
-                        </span>
-                    </span>
-                    <span v-if="isCategory(Category)">
-                        <span>
-                            3650 products
-                        </span>
+                    <i v-if="!Category.enabled" class="bi bi-lock pe-1"></i>
+                    <span>
+                        {{ lang(Category.msg) }}
                     </span>
                 </p>
             </div>
