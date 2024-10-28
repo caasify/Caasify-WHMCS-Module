@@ -508,6 +508,15 @@ app = createApp({
     },
 
     computed: {
+        findZone(){
+            if(this.thisOrder){
+                let OerderDatacenterName = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.categories[0]
+                let OerderCityName = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.categories[1]
+                return {'dcname': OerderDatacenterName, 'city':  OerderCityName}
+            }
+            return null;
+        },
+
         resellerMode(){
             if(this.CaasifyConfigs.resellerMode != null){
                 return this.CaasifyConfigs.resellerMode
@@ -626,7 +635,7 @@ app = createApp({
             }
             return null;
         },
-        
+
         sortedFiltersTerm() {
             const priorityItems = ['CPU', 'Disk', 'Ram', 'Traffic'];
         
@@ -918,6 +927,14 @@ app = createApp({
     },
 
     methods: {
+        convertZone(dcname){
+            dcList = ['DGO', 'BigCore', 'Hetzner', 'Webyne', 'Linode', 'Vultr', 'Ratin', 'KSC', 'SPOT' ]
+            if(dcList.indexOf(dcname) !== -1){
+                return dcList.indexOf(dcname) + 1
+            } else {
+                return false
+            }
+        },
 
         initializeTooltips() {
             // Select all tooltip elements and initialize them

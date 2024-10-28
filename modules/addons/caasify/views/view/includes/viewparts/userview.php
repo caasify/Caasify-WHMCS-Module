@@ -13,7 +13,7 @@
                             <span class="text-secondary m-0 p-0 ps-4">
                                 {{ lang('userdetailautovm') }}
                             </span>
-                            <button v-if="user.id" class="small btn bg-primary btn-sm p-0 m-0 px-3 ms-3 py-1 text-primary" style="--bs-bg-opacity: 0.2;">
+                            <button v-if="user.id" class="small btn bg-primary btn-sm p-0 m-0 px-3 ms-3 py-2 text-primary" style="--bs-bg-opacity: 0.2;">
                                 <span class="p-0 m-0">
                                     {{ user.id }}
                                 </span>
@@ -83,15 +83,31 @@
                             <span class="text-secondary m-0 p-0 ps-4">
                                 {{ lang('Machine Info') }}
                             </span>
-                            <button v-if="thisOrder?.id" class="small btn bg-primary btn-sm p-0 m-0 px-3 ms-3 py-1 text-primary" style="--bs-bg-opacity: 0.2;">
+                            <button v-if="thisOrder?.id" class="small btn bg-primary btn-sm p-0 m-0 px-3 ms-3 py-2 text-primary" style="--bs-bg-opacity: 0.2;">
                                 <span class="p-0 m-0">
                                     {{ thisOrder?.id }}
                                 </span>
                             </button>
                         </p>
                     </div>
+                    <div class="">
+                        <button v-if="convertZone(findZone.dcname?.name)" class="btn border-secondary text-secondary p-0 m-0 px-3 py-2" style="--bs-bg-opacity: 0.2; --bs-border-opacity: 0.5;">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <span class="small">
+                                    Zone {{ convertZone(findZone.dcname?.name) }}
+                                </span>
+                            </div>
+                        </button>
+                        <button v-if="findZone?.city" class="btn border-secondary text-secondary p-0 m-0 ps-2 pe-3 ms-1 py-2" style="--bs-bg-opacity: 0.2; --bs-border-opacity: 0.5;">
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <img :src="showImage(findZone.city?.image)" class="img-fluid rounded-1 me-2" :alt="findZone.dcname?.name" style="width: 25px;">
+                                <span class="small">
+                                    {{ lang(findZone.city.name) }}
+                                </span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
-
                 <div class="input-group mt-4 mb-2">
                     <span class="input-group-text" id="basic-addon1" style="width: 100px;">
                         {{ lang('username') }}

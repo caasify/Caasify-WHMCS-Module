@@ -500,6 +500,14 @@ vpsapp = createApp({
 
     computed: {
         
+        findZone(){
+            if(this.thisOrder){
+                let OerderDatacenterName = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.categories[0]
+                let OerderCityName = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.categories[1]
+                return {'dcname': OerderDatacenterName, 'city':  OerderCityName}
+            }
+            return null;
+        },
 
         AllPlansSorted(){
             let plans = false
@@ -907,6 +915,13 @@ vpsapp = createApp({
 
     methods: {
 
+        convertZone(dcname){
+            dcList = ['DGO', 'BigCore', 'Hetzner', 'Webyne', 'Linode', 'Vultr', 'Ratin', 'KSC', 'SPOT' ]
+            if(dcList.indexOf(dcname) !== -1){
+                return dcList.indexOf(dcname) + 1
+            }
+        },
+        
         initializeTooltips() {
             // Select all tooltip elements and initialize them
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
