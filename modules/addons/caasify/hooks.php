@@ -794,6 +794,7 @@ add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
     $KeyMsg = 'CaasifyChargingMsg' . $invoiceid;
     $KeyStatus = 'CaasifyChargingStatus' . $invoiceid;    
     $apiChargeResponse = 'apiChargeResponse' . $invoiceid;
+    $payAmount = $vars['invoiceitems'][0]['rawamount'];
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'clearalert') {
         unset($_SESSION[$KeyMsg]);
@@ -832,6 +833,7 @@ add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
                     <div class='modal-footer'>
                         <form method='POST' action=''>
                             <input type='hidden' name='action' value='clearalert'>
+                            <input type='hidden' name='payAmount' id='payAmount' value=$payAmount>
                             <button type='submit' class='btn btn-primary px-5 py-1' id='confirmInvoiceButton'>
                                 Ok
                             </button>
