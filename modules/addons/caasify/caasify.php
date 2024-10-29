@@ -114,7 +114,7 @@ function caasify_config(){
     $configarray = array(
         "name" => "Caasify",
         "description" => "This addon utility allows you to easily connect to Caasify Marketpalce to sell almost everything",
-        "version" => "2.0.0",
+        "version" => "2.1.0",
         "author" => "Caasify",
         "fields" => array(
             "BackendUrl" => array ("FriendlyName" => "Backend URL", "Type" => "dropdown", "Options" => 'https://api.caasify.com', "Description" => $BackendUrlLabel, "Default" => 'https://api.caasify.com'),
