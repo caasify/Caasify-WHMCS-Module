@@ -1,3 +1,4 @@
+# General
 .htaccess
 .DS_Store
 **/.DS_Store
@@ -5,15 +6,24 @@
 !.gitignore
 !README.md
 
-
+# caasifyupdater
 !caasifyupdater/
 !caasifyupdatefunc.php
 !caasifyupdatepage.php
 !caasifyversion.txt
 
 
+# modules
 !modules/
 modules/*
 !modules/addons/
 modules/addons/*
 !modules/addons/caasify/
+
+
+!vpspricing.php
+!templates/
+templates/*
+!templates/twenty-one
+templates/twenty-one/*
+!templates/twenty-one/vpspricing.tpl
