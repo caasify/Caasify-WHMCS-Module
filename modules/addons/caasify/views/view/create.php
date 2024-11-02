@@ -2,7 +2,7 @@
 <?php  include('./config.php');   ?>
 <?php  include('./includes/baselayout/header.php');   ?>
 
-<body class="container-fluid p-1 p-md-3" style="background-color: #ff000000 !important;">
+<body class="p-1 p-md-3" style="background-color: #ff000000 !important;width:99%;">
     <div id="app" class="row px-1 px-md-2 py-2 mx-auto" style="max-width: 1200px;">
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak v-if="CommissionIsValid">
             <?php include('./includes/baselayout/balancealertmodal.php');       ?>

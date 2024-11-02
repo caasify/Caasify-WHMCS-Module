@@ -94,7 +94,8 @@
                                 <span>
                                     {{ lang('Product Details') }}
                                 </span>
-                                <button class="btn btn-outline-primary btn-sm ms-3 px-4 d-block d-md-none" data-bs-toggle="modal" data-bs-target="#filtersModal">
+                                <!-- TODO:: TEST -->
+                                <button class="btn btn-primary fixed-bottom px-4 d-block d-md-none start-50 translate-middle-x rounded-0 py-2" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#filtersModal">
                                     {{ lang('Filter') }}
                                 </button>
                             </div>
