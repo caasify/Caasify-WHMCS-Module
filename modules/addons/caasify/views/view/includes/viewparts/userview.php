@@ -6,7 +6,7 @@
 
                 <!-- user Info -->
                 <?php if(isset($DemoMode) && $DemoMode == 'off' ): ?>
-                <div class="d-flex flex-row justify-content-between align-items-center">
+                <!-- <div class="d-flex flex-row justify-content-between align-items-center">
                     <div class="">
                         <p class="text-secondary fs-5 m-0 p-0">
                             <i class="bi bi-person-circle pe-2"></i>
@@ -20,24 +20,21 @@
                             </button>
                         </p>
                     </div>
-                </div>
+                </div> -->
                 
-                <div class="row m-0 p-0 mt-4">
-                    <!-- name -->
+                <!-- <div class="row m-0 p-0 mt-4">
                     <div class="input-group my-1" v-if="user.name">
                         <span class="input-group-text" id="basic-addon1" style="width: 100px;">
                             {{ lang('name') }}
                         </span>
                         <input type="text" class="form-control" :value="user.name" disabled>
                     </div>
-                    <!-- email -->
                     <div class="input-group my-1" v-if="user.email">
                         <span class="input-group-text" id="basic-addon1" style="width: 100px;">
                             {{ lang('email') }}
                         </span>
                         <input type="text" class="form-control" :value="user.email" disabled>
                     </div>
-                    <!-- balance -->
                     <div class="" v-if="CommissionIsValid && CurrenciesRatioCloudToWhmcs">
                         <div class="input-group my-1" v-if="balance" >
                             <span class="input-group-text" id="basic-addon1" style="width: 100px;">
@@ -49,7 +46,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- WHMCS User Credit -->
                 <!-- <div class="row m-0 p-0">
@@ -70,10 +67,10 @@
                             ---
                         </span>
                     </div>
-                </div> -->
+                </div>
                 <div class="m-0 p-0 pb-4 my-3">
                     <hr class="text-secondary border-2 border-secondary m-0 p-0">
-                </div>
+                </div> -->
                 <?php endif ?>
                 <!-- machine Info -->
                 <div class="d-flex flex-row justify-content-between align-items-center">
@@ -186,8 +183,37 @@
                         </div>
                     </div>
                 </div><!-- end bottom --> 
+                <div class="m-0 p-0 px-1 mt-3">
+                    <div class="m-0 p-0 mt-0">
+                        <!-- user balance -->
+                        <div class="row m-0 p-0 align-items-center" v-if="balance && CurrenciesRatioCloudToWhmcs">
+                            <div class="col-auto m-0 p-0" style="min-width: 120px;">
+                                <span class="text-secondary align-middle m-0 p-0">
+                                    {{ lang('cloudbalance') }}
+                                </span>
+                            </div>
+                            <div class="col-auto m-0 p-0">
+                                <span class="text-secondary align-middle m-0 p-0 fw-medium">
+                                    <span v-if="CommissionIsValid">
+                                        <span>
+                                            {{ formatUserBalance(user.balance - user.debt) }}
+                                        </span>
+                                        <span v-if="userCurrencySymbolFromWhmcs" class="ms-1">
+                                            {{ userCurrencySymbolFromWhmcs }}
+                                        </span>
+                                    </span>
+                                    <span v-else>
+                                        NAN
+                                    </span>
+                                </span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        
     </div>
     <!-- Actions -->
     <div class="d-flex flex-column col-12 col-xl-6 p-0 m-0 mb-2 flex-grow-1">

@@ -612,13 +612,10 @@ class ClientCaasifyController
         if(isset($SelectedGetway) && isset($Chargeamount)){
             if($SelectedGetway == 'stripe'){
                 $GatewayCommisionLabel = 'Stripe Commission 3% + 0.30 Euro';
-                $GatewayCommisionValue = 0.30 + (0.03 * $Chargeamount);
+                $GatewayCommisionValue = (0.03 * $Chargeamount) + 0.30;
             } else if ($SelectedGetway == 'paypal'){
                 $GatewayCommisionLabel = 'Paypal Commission 5%';
                 $GatewayCommisionValue = 0.05 * $Chargeamount;
-            } else if ($SelectedGetway == 'cryptomusgateway'){
-                $GatewayCommisionLabel = 'Gateway Commission 2%';
-                $GatewayCommisionValue = 0.02 * $Chargeamount;
             } else {
                 $GatewayCommisionLabel = 'Gateway Commission';
                 $GatewayCommisionValue = 0;

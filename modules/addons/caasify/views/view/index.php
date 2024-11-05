@@ -1,8 +1,8 @@
 <?php $parentFileName = basename(__FILE__, '.php'); ?>
 <?php  include('./config.php'); ?>
 <?php  include('./includes/baselayout/header.php');   ?>
-<body class="container-fluid m-0 p-0" style="background-color: #ff000000 !important;">
-<div class="row py-2">
+<body class="m-0 p-0 px-1" style="background-color: #ff000000 !important; width:99%">
+<div class="row py-2" style="overflow: hidden !important;">
     <div class="col-12" id="app">
         <div class="" v-cloak>
             <?php include('./includes/baselayout/balancealertmodal.php');?>

@@ -1,5 +1,5 @@
 <!-- orders List -->
-<div class="row px-1 px-md-3 px-lg-4 pb-5 mt-5 pt-5">
+<div class="row px-1 px-md-3 px-lg-4 pb-5 mt-5" style="overflow: scroll; height: 500px;">
     <div class="py-5">
 
         <!-- Fetching  -->

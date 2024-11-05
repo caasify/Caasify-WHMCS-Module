@@ -512,14 +512,11 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
 
 
         if ($paymentmethod == 'paypal') {
-            $NewCommissionAmount = $chargeAmount * 0.05;
-            $NewDescription = "Paypal Commission 5%";
+            $NewCommissionAmount = ($chargeAmount * 0.05) + 0.30;
+            $NewDescription = "Paypal Commission 5% + 0.30";
         } else if ($paymentmethod == 'stripe') {
             $NewCommissionAmount = ($chargeAmount * 0.03) + 0.30;
             $NewDescription = "Gateway Commission 3% + 0.30 Euro";
-        } else if ($SelectedGetway == 'cryptomusgateway'){
-            $GatewayCommisionLabel = 'Gateway Commission 2%';
-            $GatewayCommisionValue = 0.02 * $Chargeamount;
         } else {
             $NewCommissionAmount = 0;
             $NewDescription = "Gateway has no Commission";
@@ -637,14 +634,11 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
         $NewDescription = '';
 
         if ($paymentmethod == 'paypal') {
-            $NewCommissionAmount = $ChargeAmount * 0.05;
+            $NewCommissionAmount = ($ChargeAmount * 0.05) + 0.30;
             $NewDescription = "Paypal Commission 5%";
         } else if ($paymentmethod == 'stripe') {
             $NewCommissionAmount = ($ChargeAmount * 0.03) + 0.30;
             $NewDescription = "Gateway Commission 3% + 0.30 Euro";
-        } else if ($SelectedGetway == 'cryptomusgateway'){
-            $GatewayCommisionLabel = 'Gateway Commission 2%';
-            $GatewayCommisionValue = 0.02 * $Chargeamount;
         }
 
         try{

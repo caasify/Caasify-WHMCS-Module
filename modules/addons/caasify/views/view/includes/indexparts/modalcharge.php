@@ -65,7 +65,6 @@
                                                         <option v-if="WhmcsUserInfo?.countrycode != null && WhmcsUserInfo?.countrycode != 'IR'" value="paypal">Paypal</option>
                                                         <option value="mailin" selected>Bank Transfer</option>
                                                         <option value="cryptomusgateway">Crypto Currency</option>
-                                                        <option value="plisio">USDT</option>
                                                     </select>
                                                 </div>
                                             </div>
