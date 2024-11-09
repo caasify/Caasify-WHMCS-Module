@@ -5,8 +5,11 @@
             <div class="m-0 p-0">
                 <span class="">
                     <span class="m-0 p-0 h5">
-                        <span class="text-secondary">
+                        <span v-if="thisOrder?.type == 'vps'" class="text-secondary">
                             {{ lang('hostname') }}
+                        </span>
+                        <span v-if="thisOrder?.type == 'vpn'" class="text-secondary">
+                            {{ lang('name') }}
                         </span>
                         <span class="px-1">
                             :
@@ -35,7 +38,7 @@
 
 
         <div class="d-flex flex-row justify-content-start align-items-center m-0 p-0 flex-wrap">
-            <div class="m-0 p-0 d-none d-md-block ms-2">
+            <div v-if="thisOrder?.type == 'vps'" class="m-0 p-0 d-none d-md-block ms-2">
                 <span 
                     class="btn btn-outline-secondary py-2 d-flex flex-row align-items-center px-4 btn-sm fw-medium" 
                     @click="HandleOpenConsoleModal" 
@@ -43,6 +46,19 @@
                 >
                     {{ lang('consoleaction') }}
                 </span>
+            </div>
+            
+            <!-- delete btn for vpn -->
+            <div v-if="thisOrder?.type == 'vpn'" class="m-0 p-0">
+                <div class="m-0 p-0 d-none d-md-block ms-2" v-for="(button, index) in ValidControllerItems">
+                    <button data-bs-toggle="modal" data-bs-target="#actionsModal"
+                        class="btn btn-danger px-4 py-2 fw-medium mx-1 btn-sm"
+                        @click="PushButtonController(button.id, button.name)" :key="index" :id="index">
+                        <span>
+                            {{ lang(button.name.toUpperCase()) }}
+                        </span>
+                    </button>
+                </div>
             </div>
             <div class="m-0 p-0 d-none d-md-block ms-2">
                 <span class="btn bg-primary text-primary py-2 d-flex flex-row align-items-center px-4 btn-sm"
@@ -56,7 +72,7 @@
                 </span>
             </div>
 
-            <div class="m-0 p-0 d-none d-md-block ms-2">
+            <div v-if="thisOrder?.type == 'vps'"  class="m-0 p-0 d-none d-md-block ms-2">
                 <span class="btn bg-primary text-primary py-2 d-flex flex-row align-items-center px-2 ms-2 btn-sm"
                     style="--bs-bg-opacity: .2">
                     <span class="ms-1 pe-2 fw-medium" v-if="thisOrder?.created_at">
@@ -68,8 +84,8 @@
 
             <!-- Language -->
             <div class="m-0 p-0 ms-2">
-                    <?php  include('./includes/baselayout/langbtn.php'); ?>
-                </div>
+                <?php  include('./includes/baselayout/langbtn.php'); ?>
+            </div>
         </div>
     </div>
 </div>

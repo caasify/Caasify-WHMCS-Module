@@ -325,7 +325,7 @@ let common = {
     "machinelink" : "Machine Link",
     "createmachinefailed" : "Create Machine Failed",
     
-    "Machine View" : "Machine View",
+    "Machine View" : "View the Order",
 
 
 // create order page
@@ -567,6 +567,16 @@ let common = {
     "Chennai" : "Chennai",
     "Milan" : "Milan",
     "Fremont" : "Fremont",
+    
+    
+    "Free Traffic" : "Free Traffic",
+    "Duration" : "Duration",
+    "Traffic Price" : "Traffic Price",
+    "Unlimited" : "Unlimited",
+    "Germany, Netherland" : "Germany, Netherland",
+    "3GB" : "3GB",
+    "GB" : "GB",
+    "MB" : "MB",
 
 }
 

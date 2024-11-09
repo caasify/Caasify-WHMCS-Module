@@ -16,11 +16,15 @@
                     {{ lang('This Order has been deleted') }}
                 </p>
             </div>
-            <div v-else>
+            <div v-else-if="thisOrder?.type == 'vps'">
                 <?php include('./includes/viewparts/hostname.php');  ?>
                 <?php include('./includes/viewparts/apiview.php');   ?>
                 <?php include('./includes/viewparts/userview.php');  ?>
                 <?php include('./includes/viewparts/access.php');  ?>
+            </div>
+            <div v-else-if="thisOrder?.type == 'vpn'">
+                <?php include('./includes/viewparts/hostname.php');  ?>
+                <?php include('./includes/viewparts/userview.php');  ?>
             </div>
         </div>
     </div>

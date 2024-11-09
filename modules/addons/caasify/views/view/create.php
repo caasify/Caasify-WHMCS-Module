@@ -44,24 +44,21 @@
                     </div>
                 </div>
                 <!-- filters -->
-                <div class="row m-0 p-0">
+                <div v-if="SelectedCategory?.key == 'vps'" class="row m-0 p-0">
                     <div class="col-12 col-md-3 px-2 px-md-0 py-1 pe-md-1 d-none d-md-block">
                         <div class="rounded-4 px-0 px-md-2 pt-4 bg-primary" style="min-height: 330px; --bs-bg-opacity: 0.06;">
                             <?php  include('./includes/createparts/filterterms.php');   ?>
                         </div>
-                        <!-- <div v-if="FilterTermsAreLoaded" class="row">
-                            <div class="col-12 px-1">
-                                <button class="btn btn-primary col-12 mt-4" @click="selectedTermsSave">
-                                    {{ lang('Filter') }}
-                                </button>
-                            </div>        
-                        </div> -->
                     </div>
                     <div class="col-12 col-md-9 px-0 px-md-0 py-1 ps-md-1">
                         <div class="rounded-4 px-0 px-md-2 py-4" style="min-height: 330px;">
                             <?php  include('./includes/createparts/plans.php');         ?>
                         </div>
                     </div>
+                </div>
+                <!-- vpn parts -->
+                <div v-else class="row m-0 p-0">
+                    <?php  include('./includes/createparts/vpnproductlist.php');         ?>
                 </div>
             </div>
         </div>

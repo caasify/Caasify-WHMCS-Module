@@ -31,22 +31,23 @@
                         <th scope="col" class="fw-light fs-6 text-secondary pb-3">{{ lang('name') }}</th>
                         <th scope="col" class="fw-light fs-6 text-secondary pb-3">{{ lang('Alive') }}</th>
                         <th scope="col" class="fw-light fs-6 text-secondary pb-3 d-none d-md-block">{{ lang('Price') }}</th>
+                        <th scope="col" class="fw-light fs-6 text-secondary pb-3">{{ lang('Type') }}</th>
                         <th scope="col" class="fw-light fs-6 text-secondary pb-3">{{ lang('Views') }}</th>
                     </tr>
                 </thead>
-                <tbody v-for="order in activeorders">
-                    <tr class="border-bottom align-middle text-center"
+                <tbody>
+                    <tr class="border-bottom align-middle text-center text-danger" v-for="order in activeorders"
                         style="--bs-border-width: 1px !important; --bs-border-color: #e1e1e1 !important;">
                         <!-- ID -->
                         <td class="fw-medium">
-                            <span v-if="order.id" class="text-dark fs-6 fw-medium">{{ order.id }}</span>
-                            <span v-else class="text-dark fs-6 fw-medium"> --- </span>
+                            <span v-if="order.id" class="fs-6 fw-medium">{{ order.id }}</span>
+                            <span v-else class="fs-6 fw-medium"> --- </span>
                         </td>
 
                         <!-- Name -->
                         <td class="fw-medium">
-                            <span v-if="order.note" class="text-dark fs-6 fw-medium">{{ order.note }}</span>
-                            <span v-else class="text-dark fs-6 fw-medium"> --- </span>
+                            <span v-if="order.note" class="fs-6 fw-medium">{{ order.note }}</span>
+                            <span v-else class="fs-6 fw-medium"> --- </span>
                         </td>
 
                         <!-- Uptime -->
@@ -60,18 +61,27 @@
                         <!-- record -->
                         <td class="fw-medium d-none d-md-block py-3">
                             <span v-for="record in order.records" class="m-0 p-0">
-                                <span v-if="record.price != null" class="ms-2 text-primary">
+                                <span v-if="record.price != null" class="ms-2">
                                     {{ formatPlanPrice(record.price) }} {{ userCurrencySymbolFromWhmcs }}
                                 </span>
                                 <span v-else class="fw-medium"> --- </span>
                             </span>
                         </td>
-
-
+                        
+                        <!-- type -->
+                        <td class="fw-medium">
+                            <span v-if="order?.type" class="ms-2">
+                                <button class="px-3 px-md-4 py-2" :class="orderTypeClass(order?.type)" @click="open(order)">
+                                    <i class="bi bi-record-circle me-2"></i>
+                                    {{ order?.type.toUpperCase() }}
+                                </button>
+                            </span>
+                        </td>
+                        
                         <!-- view -->
                         <td class="fw-medium">
                             <span v-if="order.id" class="ms-2">
-                                <button class="btn btn-outline-primary px-3 px-md-5 py-2" @click="open(order)">
+                                <button class="px-3 px-md-5 py-2" @click="open(order)" :class="orderTypeClass(order?.type)">
                                     {{ lang('viewontable') }}
                                 </button>
                             </span>

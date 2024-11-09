@@ -4,6 +4,17 @@ app = createApp({
 
     data() {
         return {
+            thisVpnOrder: null,
+            vpnShowIsLoaded: false,
+            trafficUsage: null,
+            qrcodeIsLoaded: false,
+            BtnCopyVpnPushed: false,
+
+            VpnPlansAreLoaded: false,
+            VpnPlansAreLoading: true,
+            noVpnPlanToShow: false,
+            VpnPlans: [],
+            
             val:{"CPU":"0","Ram":"0","Disk":"0","Traffic":"0"},
             favoritPlans: [],
             isFirstRequest: true,
@@ -37,11 +48,11 @@ app = createApp({
 
             parentCategories: 
                 [ 
-                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650' },
-                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon' },
-                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon' },
-                    // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon' },
-                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon' },
+                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650', key: 'vps' },
+                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon', key: 'kas' },
+                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon', key: 'aig' },
+                    // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon', key: 'daas' },
+                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon', key: 's3s' },
                 ],
             SelectedCategory: null,
 
@@ -384,30 +395,7 @@ app = createApp({
                 } else if (newFielName == "view.php") {
 
                     this.orderId();
-                    setTimeout(() => {
-                        this.LoadTheOrder();
-                        setTimeout(() => {
-                            this.LoadCaasifyUser();
-                            setTimeout(() => {
-                                this.LoadWhmcsUser();
-                                setTimeout(() => {
-                                    this.LoadWhmcsCurrencies();
-                                    setTimeout(() => {
-                                        this.LoadOrderViews();
-                                        setTimeout(() => {
-                                            this.LoadActionsHistory();
-                                            setTimeout(() => {
-                                                this.LoadOrderTraffics();
-                                                setTimeout(() => {
-                                                    this.loadPollingViewMachine();
-                                                }, 2 * 1000);
-                                            }, 0.5 * 1000);
-                                        }, 0.5 * 1000);
-                                    }, 2 * 1000);
-                                }, 0.5 * 1000);
-                            }, 0.5 * 1000);
-                        }, 0.5 * 1000);
-                    }, 0.5 * 1000);
+                    setTimeout(() => { this.LoadTheOrder(); }, 0.3 * 1000);
                     
                 } else if (newFielName == "finance.php") {
                     this.LoadExpenseDates()
@@ -443,14 +431,16 @@ app = createApp({
                     name: NewCaasifyConfigs.VPNSectionMenuTitle,
                     icon: this.createIconAddr('vpn.png'),
                     enabled: true,
-                    msg:'New products'
+                    msg:'New products',
+                    key: 'vpn'
                 });
             } else {
                 this.parentCategories.splice(1, 0, {
                     name: this.lang('Database As A Service'),
                     icon: this.createIconAddr('database.png'),
                     enabled: false,
-                    msg:'Coming soon'
+                    msg:'Coming soon',
+                    key: 'daas'
                 });
             }
         },
@@ -459,6 +449,51 @@ app = createApp({
             setTimeout(() => {
                 this.LoadRequestNewView();
             }, 15 * 1000);
+        },
+        
+        thisOrder(newthisOrder) {
+            this.findValidControllers();
+            if(this.thisOrder?.type == 'vps'){
+                setTimeout(() => {
+                    this.LoadCaasifyUser();
+                    setTimeout(() => {
+                        this.LoadWhmcsUser();
+                        setTimeout(() => {
+                            this.LoadWhmcsCurrencies();
+                            setTimeout(() => {
+                                this.LoadOrderViews();
+                                setTimeout(() => {
+                                    this.LoadActionsHistory();
+                                    setTimeout(() => {
+                                        this.LoadOrderTraffics();
+                                        setTimeout(() => {
+                                            this.loadPollingViewMachine();
+                                        }, 2 * 1000);
+                                    }, 0.5 * 1000);
+                                }, 0.5 * 1000);
+                            }, 1 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
+                }, 0.5 * 1000);
+            } else if (this.thisOrder?.type == 'vpn'){
+                setTimeout(() => {
+                    this.LoadVpnShow();
+                    setTimeout(() => {
+                        this.LoadCaasifyUser();    
+                        setTimeout(() => {
+                            this.LoadWhmcsUser();    
+                            setTimeout(() => {
+                                this.LoadWhmcsCurrencies();    
+                                this.LoadActionsHistory()
+                                setTimeout(() => {
+                                    this.loadPollingViewVpn();
+                                }, 1 * 1000);
+                            }, 1 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
+                }, 0.5 * 1000);
+                setInterval(this.LoadVpnShow, 150 * 1000)
+            }
         },
 
         systemUrl(newsystemUrl) {
@@ -508,6 +543,16 @@ app = createApp({
     },
 
     computed: {
+        vpnTrafficPrice(){
+            if(this.thisOrder){
+                if(this.thisOrder?.records[this.thisOrder.records.length-1]?.product?.traffic_price){
+                    return this.thisOrder?.records[this.thisOrder.records.length-1]?.product?.traffic_price
+                }
+            }
+            
+            return null
+        },
+
         findZone(){
             if(this.thisOrder){
                 let OerderDatacenterName = this.thisOrder?.records[this.thisOrder.records.length - 1]?.product?.categories[0]
@@ -927,6 +972,14 @@ app = createApp({
     },
 
     methods: {
+        orderTypeClass(type){
+            if(type == 'vpn'){
+                return 'btn btn-outline-success'
+            } else {
+                return 'btn btn-outline-primary'
+            }
+        },
+
         convertZone(dcname){
             dcList = ['DGO', 'BigCore', 'Hetzner', 'Webyne', 'Linode', 'Vultr', 'Ratin', 'KSC', 'SPOT' ]
             if(dcList.indexOf(dcname) !== -1){
@@ -2265,13 +2318,13 @@ app = createApp({
         
         thePlansStyle(plan){
             if (this.isPlan(plan)) {
-                return '--bs-bg-opacity: 0.1; direction:ltr;'
+                return '--bs-bg-opacity: 0.1;'
             } else if(this.isSuggested(plan)){
-                return '--bs-bg-opacity: 0.04; --bs-border-opacity: 0.2; direction:ltr;'
+                return '--bs-bg-opacity: 0.04; --bs-border-opacity: 0.2;'
             } else if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
-                return '--bs-bg-opacity: 0.02; --bs-border-opacity: 0.4; direction:ltr;'
+                return '--bs-bg-opacity: 0.02; --bs-border-opacity: 0.4;'
             } else {
-                return '--bs-bg-opacity: 0.01;  direction:ltr;'
+                return '--bs-bg-opacity: 0.01; '
             }
         },
 
@@ -2511,7 +2564,6 @@ app = createApp({
                 if (response.data?.data != null) {
                     this.thisOrder = response.data.data
                     this.ordeIsLoaded = true
-
                 } else if (response.data?.message) {
                     this.ordeIsLoaded = true
                     if (response?.data.message == "There is nothing.") {
@@ -2625,7 +2677,9 @@ app = createApp({
                                 this.LoadActionsHistory()
                                 this.ActionAlertStatus = 'success'
                                 this.ActionAlert = button_name + ' has send Successfully'
-                                this.findValidViews()
+                                if(this.thisOrder.type == 'vps'){
+                                    this.findValidViews()
+                                }
 
                                 if (button_name.toLowerCase() == 'delete') {
                                     setTimeout(() => {
@@ -2799,12 +2853,19 @@ app = createApp({
 
         },
 
+        loadPollingViewVpn() {
+            setInterval(this.LoadTheOrder, 180 * 1000)
+            setInterval(this.CheckData, 20 * 1000)
+            setInterval(this.LoadVpnShow, 120 * 1000)
+            setInterval(this.LoadActionsHistory, 120 * 1000)
+        },
+        
         loadPollingViewMachine() {
-            setInterval(this.LoadTheOrder, 30 * 1000)
-            setInterval(this.LoadRequestNewView, 40 * 1000)
-            setInterval(this.LoadOrderViews, 35 * 1000)
-            setInterval(this.LoadActionsHistory, 50 * 1000)
-            setInterval(this.LoadOrderTraffics, 50 * 1000)
+            setInterval(this.LoadTheOrder, 170 * 1000)
+            setInterval(this.LoadOrderTraffics, 180 * 1000)
+            setInterval(this.LoadRequestNewView, 120 * 1000)
+            setInterval(this.LoadOrderViews, 130 * 1000)
+            setInterval(this.LoadActionsHistory, 40 * 1000)
             setInterval(this.CheckData, 20 * 1000)
         },
 
@@ -3046,6 +3107,10 @@ app = createApp({
             if(Category.enabled){
                 this.SelectedCategory = Category
             }
+
+            if(this.SelectedCategory?.key == 'vpn'){
+                this.loadVpnPlans()
+            }
         },
 
         isCategory(Category) {
@@ -3244,7 +3309,35 @@ app = createApp({
                 this.FilterTerms = response?.data?.data
             }
         },
+        
 
+        async loadVpnPlans() {
+            if(this.VpnPlans.length > 0){
+                // do nothing
+            } else {
+                this.VpnPlansAreLoaded = false;
+                this.VpnPlansAreLoading = true
+                VpnPlans = []
+
+                let response = ''
+                RequestLink = this.CreateRequestLink(action = 'CaasifyGetVpnPlans');
+                response = await axios.get(RequestLink);
+                
+                if (response?.data?.message) {
+                    this.VpnPlansAreLoading = false;
+                    this.VpnPlansAreLoaded = true;
+                    console.error('VpnPlans Error: ' + response?.data?.message);
+                    this.noVpnPlanToShow = true
+                }
+
+                if (response?.data?.data) {
+                    this.VpnPlansAreLoading = false;
+                    this.VpnPlansAreLoaded = true;
+                    this.noVpnPlanToShow = false
+                    this.VpnPlans = response?.data?.data                
+                }
+            }
+        },
 
         async loadPlansFromFiltersTerm() {
             this.plansAreLoaded = false;
@@ -3273,6 +3366,7 @@ app = createApp({
                 RequestLink = this.CreateRequestLink(action = 'CaasifyGetPlansFromFiltersTerm');
                 response = await axios.post(RequestLink, formData);
             }
+            
             if(response.data) {
                 if (response?.data?.message) {
                     this.plansAreLoading = false;
@@ -3527,6 +3621,58 @@ app = createApp({
 
         createIconAddr(name){
             return '/modules/addons/caasify/views/view/includes/assets/img/services/' + name
+        },
+
+        
+        async LoadVpnShow() {
+            let orderID = this.orderID;
+            if (orderID != null) {
+                let formData = new FormData();
+                formData.append('orderID', orderID);
+                RequestLink = this.CreateRequestLink(action = 'CaasifyVpnShow');
+                let response = await axios.post(RequestLink, formData);
+
+                if (response.data) {
+                    this.vpnShowIsLoaded = true
+                    this.thisVpnOrder = response.data
+                    
+                    if(this.thisVpnOrder?.subscription && this.qrcodeIsLoaded == false){
+                        this.qrcodeIsLoaded = true
+                        this.createQrCode(this.thisVpnOrder?.subscription)
+                    }
+
+                    this.trafficUsage = Number(this.thisVpnOrder.traffic_usage / (1000 * 1000 * 1000)).toFixed(1) + ' GB'
+
+                } else if (response?.message) {
+                    this.vpnShowIsLoaded = true
+                    console.error('Traffics: ' + response.message);
+                }
+            }
+        },
+
+        createQrCode(subscriptionCode){
+            new QRCode(document.getElementById("qrcode"), {
+                text: subscriptionCode,
+                width: 256,
+                height: 256,
+            });
+        },
+
+        copyVpnCode(text) {
+            this.BtnCopyVpnPushed = true
+            
+            if (!text) {
+                text = this.thisVpnOrder?.subscription;
+            }
+
+            navigator.clipboard.writeText(text).then(function () {
+            }).catch(function (error) {
+                console.error('copyVpnCode failed');
+            });
+
+            setTimeout(() => {
+                this.BtnCopyVpnPushed = false
+            }, 1000);
         },
     }
 });

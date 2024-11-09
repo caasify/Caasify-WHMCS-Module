@@ -129,6 +129,7 @@
                                         :style="thePlansStyle(plan)"
                                         @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#configModal"
                                         class="row w-100 border rounded-3 text-dark shadow-sm py-2 px-2 plans-childs btn my-1 position-relative"
+                                        style="direction:ltr;"
                                         >
                                         <div class="col-12 py-2">
                                             <div class="row">

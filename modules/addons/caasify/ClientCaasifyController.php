@@ -1077,4 +1077,61 @@ class ClientCaasifyController
         return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
     }
 
+    public function CaasifyGetVpnPlans()
+    {
+        $ResellerToken = $this->ResellerToken;
+        $response = null;
+        
+        if($ResellerToken){
+            $response = $this->sendCaasifyGetVpnPlansRequest($ResellerToken);
+        }
+        
+        $this->response($response);
+    }
+
+    public function sendCaasifyGetVpnPlansRequest($ResellerToken)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $ResellerToken
+        ];
+    
+        $address = [ $BackendUrl, 'api', 'candy', 'common', 'products', "?type=vpn" ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+
+
+    public function CaasifyVpnShow()
+    {
+        $UserToken = $this->UserToken;
+        $response = null;
+
+        $orderID = caasify_get_post('orderID');
+
+        if($UserToken && $orderID){
+            $response = $this->SendCaasifyVpnShow($UserToken, $orderID);
+        }
+
+        $this->response($response);
+    }
+
+    public function SendCaasifyVpnShow($UserToken, $orderID)
+    {
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $UserToken
+        ];
+        
+        $BackendUrl = $this->BackendUrl;
+        
+        $address = [
+            $BackendUrl, 'api', 'candy', 'orders', $orderID, 'vpn', 'show'
+        ];
+        
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
 }

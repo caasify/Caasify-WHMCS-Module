@@ -5,7 +5,8 @@
     <script src="./includes/assets/js/apexcharts.js"></script>
     <script src="./includes/assets/js/lodash.min.js"></script>
     <script src="./includes/assets/js/axios.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <?php     
         // Language
         if (empty($templatelang)) {

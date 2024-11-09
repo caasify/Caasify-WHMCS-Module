@@ -322,7 +322,7 @@ let common = {
     "ipvversion4" : "نسخه چهار",
     "ipvversion6" : "نسخه شش",
     "Create Machine" : "ساخت ماشین",
-    "Machine View" : "صفحه نمایش",
+    "Machine View" : "مشاهده سفارش",
 // create order page
 
 
@@ -560,6 +560,14 @@ let common = {
     "Chennai": "چنای",
     "Milan": "میلان",
     "Fremont": "فریمانت",
+
+    "Free Traffic" : "ترافیک رایگان",
+    "Duration" : "مدت زمان",
+    "Traffic Price" : "ترافیک مازاد",
+    "Unlimited" : "نامحدود",
+    "Germany, Netherland" : "آلمان و هلند",
+    "3GB" : "۳ گیگابایت",
+    "GB" : "گیگابایت",
 
 }
 
