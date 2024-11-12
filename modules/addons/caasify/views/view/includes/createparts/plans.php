@@ -102,7 +102,7 @@
                         <th scope="col" style="width: 110px;" class="fs-6 fw-medium text-center">
                             <div class="d-flex flex-row align-items-center justify-content-start">
                                 <span>
-                                    <span>
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Monthly price is based on 640 hours">
                                         {{ lang('Cost') }} ({{userCurrencySymbolFromWhmcs}})
                                     </span>
                                 </span>
@@ -209,7 +209,7 @@
                                         <div class="row" v-if="CommissionIsValid">
                                             <div class="col-12 py-2">
                                                 <div class="row">
-                                                    <p class="m-0 p-0" style="text-wrap: nowrap;">
+                                                    <p class="m-0 p-0" style="text-wrap: nowrap;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Based on 640 hours">
                                                         {{ formatPlanPrice(plan.price) }} Monthly
                                                     </p>
                                                 </div>

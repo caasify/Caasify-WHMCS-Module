@@ -4,6 +4,7 @@ app = createApp({
 
     data() {
         return {
+            tooltips: [],
             thisVpnOrder: null,
             vpnShowIsLoaded: false,
             trafficUsage: null,
@@ -990,10 +991,15 @@ app = createApp({
         },
 
         initializeTooltips() {
+            // Disable and hide any existing tooltips
+            this.tooltips.forEach((tooltip) => tooltip.dispose());
+            this.tooltips = []; // Clear the array of disposed tooltips
+    
             // Select all tooltip elements and initialize them
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
             tooltipTriggerList.forEach((tooltipTriggerEl) => {
-              new bootstrap.Tooltip(tooltipTriggerEl);
+                const tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+                this.tooltips.push(tooltip); // Store each new tooltip instance
             });
         },
 
