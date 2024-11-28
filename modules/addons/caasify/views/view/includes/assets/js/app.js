@@ -544,6 +544,22 @@ app = createApp({
     },
 
     computed: {
+        PasswordInHistory(){
+            let result = null
+            if(this.ActionHistory !== null){
+                for (const history of this.ActionHistory) {
+                    if (history?.button?.name.toLowerCase() ===  'setup') {
+                        for (const ref of history.references) {
+                            if (ref?.reference && ref?.reference?.type === "password") {
+                                result = ref.value;
+                            }
+                        }
+                    }
+                }
+            }
+            return result
+        },
+
         vpnTrafficPrice(){
             if(this.thisOrder){
                 if(this.thisOrder?.records[this.thisOrder.records.length-1]?.product?.traffic_price){
@@ -973,6 +989,9 @@ app = createApp({
     },
 
     methods: {
+
+
+
         orderTypeClass(type){
             if(type == 'vpn'){
                 return 'btn btn-outline-success'

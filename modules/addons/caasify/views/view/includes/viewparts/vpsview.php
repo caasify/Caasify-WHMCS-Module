@@ -48,7 +48,7 @@
                 </span>
                 <input v-if="!PassVisible" type="text" class="form-control" value="*********" disabled>
                 <?php if(isset($DemoMode) && $DemoMode == 'off' ): ?>
-                    <input v-if="PassVisible" type="text" class="form-control" :value="thisOrder?.secret" disabled>
+                    <input v-if="PassVisible" type="text" class="form-control" :value="PasswordInHistory ?? thisOrder?.secret" disabled>
                 <?php else: ?>
                     <input v-if="PassVisible" type="text" class="form-control" value="Demo Value" disabled>
                 <?php endif ?>
