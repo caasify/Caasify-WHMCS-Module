@@ -36,7 +36,7 @@
 <main class="container-fluid text-center" style="max-width:1400px">
     <div id="" class="row px-1 px-md-2 py-2 mx-auto" style="max-width: 1200px;">
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak>
-            <div class="col-12 bg-white rounded-4 m-0 p-0 mt-5" style="min-height: 1800px">
+            <div class="col-12 bg-light rounded-4 m-0 p-0 mt-2" style="min-height: 1800px">
                 <!-- lang BTN     -->
                 <div class="row">
                     <div class="col-12">

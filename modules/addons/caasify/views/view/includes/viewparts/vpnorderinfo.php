@@ -39,9 +39,9 @@
                 Link Profile :
             </span>
             <span v-if="vpnShowIsLoaded == true && thisVpnOrder" class="">
-                <button class="btn btn-primary px-4 fs-6" @click="copyVpnCode(thisVpnOrder?.subscription)" style="width: 80px;">
+                <button class="btn btn-primary px-4 fs-6" @click="copyVpnCode(thisVpnOrder?.subscription)" style="width: 200px;">
                     <span v-if="!BtnCopyVpnPushed">
-                        Copy
+                        Copy Subscription
                     </span>
                     <span v-if="BtnCopyVpnPushed">
                         <i class="col-auto m-0 p-0 bi bi-check2-circle"></i>

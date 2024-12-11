@@ -1,5 +1,5 @@
 <!-- orders List -->
-<div class="row px-1 px-md-3 px-lg-4 pb-5 mt-5" style="overflow: scroll; height: 500px;">
+<div class="row px-1 px-md-3 px-lg-4 pb-5 mt-5" style="overflow-y: scroll; height: 600px;">
     <div class="py-5">
 
         <!-- Fetching  -->
@@ -89,13 +89,27 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="" v-else>
-                <span class="text-primary fs-5 pe-3">
-                    {{ lang('noactiveorder') }}
-                </span>
-                <a class="btn btn-outline-primary px-3 py-2" @click="openCreatePage" target='_top'>
-                    {{ lang('createorder') }}
-                </a>
+            <div class="row justify-content-around px-4" v-else>
+                <div class="d-flex flex-column justify-content-center align-ietms-center text-center mt-5 border rounded p-5 col-12 col-md-5 col-lg-4 border-secondary bg-primary" style="--bs-bg-opacity: 0.1; --bs-border-opacity: 0.1;">
+                    <span class="text-dark fs-5 pe-3 mb-3">
+                        {{ lang('chargecloudaccount') }}
+                    </span>
+                    <a class="btn btn-primary px-3 py-2" data-bs-toggle="modal" data-bs-target="#chargeModal">
+                        <span class="h5">
+                            {{ lang('topup') }}
+                        </span>
+                    </a>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-ietms-center text-center mt-5 border rounded p-5 col-12 col-md-5 col-lg-4 border-secondary bg-primary" style="--bs-bg-opacity: 0.1; --bs-border-opacity: 0.1;">
+                    <span class="text-dark fs-5 pe-3 mb-3">
+                        {{ lang('noactiveorder') }}
+                    </span>
+                    <a class="btn btn-primary px-3 py-2" @click="openCreatePage" target='_top'>
+                        <span class="h5">
+                            {{ lang('createorder') }}
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
 

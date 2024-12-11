@@ -5,6 +5,7 @@ use WHMCS\User\Client;
 use WHMCS\User\Alert;
 
 $path = dirname(__FILE__);
+require_once $path . '/AdminCaasifyoutputController.php';
 require_once $path . '/AdminCaasifyController.php';
 require_once $path . '/basics.php';
 
@@ -122,9 +123,9 @@ if(isset($MyCaasifyStatus) && $MyCaasifyStatus == 'on'){
             $primaryNavbar->addChild(
                 'CaasifyCreateVPS',
                 array(
-                    'name' => 'Create VPS',
-                    'label' => 'Create VPS',
-                    'uri' => '/modules/addons/caasify/views/view/create.php',
+                    'name' => 'Create Order',
+                    'label' => 'Create Order',
+                    'uri' => '/index.php?m=caasify&action=pageCreate',
                     'order' => 2,
                     'icon' => '',
                 )
@@ -379,6 +380,23 @@ add_hook('ClientAreaPage', 100, function ($params) {
         echo 'can not get UserToken from handler func in Client hook <br>';
         return false;
     }
+});
+
+// TODO:here is the place we add controler for admin output
+add_hook('AdminAreaPage', 1, function($vars) {
+    // Check if it is admin
+    $admin = caasify_get_session('adminid');
+    if (empty($admin)) {
+        return false;
+    }
+    
+    $action = caasify_get_query('adminuotputaction');
+    
+    if(isset($action)){
+        $controller = new AdminCaasifyoutputController();
+        return $controller->handle($action);
+    }
+    
 });
 
 add_hook('AdminAreaClientSummaryPage', 1, function ($vars) {

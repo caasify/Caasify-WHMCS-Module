@@ -47,14 +47,7 @@ app = createApp({
             expenses: {},
             expensesAreLoaded: false,
 
-            parentCategories: 
-                [ 
-                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650', key: 'vps' },
-                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon', key: 'kas' },
-                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon', key: 'aig' },
-                    // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon', key: 'daas' },
-                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon', key: 's3s' },
-                ],
+            
             SelectedCategory: null,
 
             newMachineCreated: null,
@@ -544,6 +537,17 @@ app = createApp({
     },
 
     computed: {
+
+        parentCategories(){ 
+            return [ 
+                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650', key: 'vps' },
+                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon', key: 'kas' },
+                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon', key: 'aig' },
+                    // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon', key: 'daas' },
+                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon', key: 's3s' },
+                ]
+                        },
+
         PasswordInHistory(){
             let result = null
             if(this.ActionHistory !== null){
@@ -1663,11 +1667,13 @@ app = createApp({
             if (this.systemUrl != null) {
                 base = this.systemUrl
             }
-            let address = base + '/modules/addons/caasify/views/view/view.php'
-            let params = new URLSearchParams({
-                'id': order.id
-            }).toString()
-            window.open([address, params].join('?'), "_top")
+            let address = base + '/index.php?m=caasify&action=pageView&id=' + order.id
+            console.log(address)
+            window.open([address], "_top")
+            // let params = new URLSearchParams({
+            //     'id': order.id
+            // }).toString()
+            // window.open([address, params].join(''), "_top")
         },
 
         openInvoicePage() {
@@ -1690,7 +1696,7 @@ app = createApp({
             if (this.systemUrl != null) {
                 base = this.systemUrl
             }
-            let address = base + '/modules/addons/caasify/views/view/create.php'
+            let address = base + '/index.php?m=caasify&action=pageCreate'
             window.open([address], "_top")
         },
         
@@ -1699,7 +1705,7 @@ app = createApp({
             if (this.systemUrl != null) {
                 base = this.systemUrl
             }
-            let address = base + '/modules/addons/caasify/views/view/finance.php'
+            let address = base + '/index.php?m=caasify&action=pageFinance'
             window.open([address], "_top")
         },
 
@@ -2422,7 +2428,7 @@ app = createApp({
                         this.createActionSucced = true
                         this.createActionFailed = false
                         this.newMachineCreated = response?.data?.data
-                        this.NewMcahineCreatedViewLink = this.systemUrl + '/modules/addons/caasify/views/view/view.php?id=' + this.newMachineCreated.id
+                        this.NewMcahineCreatedViewLink = this.systemUrl + '/index.php?m=caasify&action=pageView.php&id=' + this.newMachineCreated.id
                     } else if (response?.data?.message) {
                         this.userClickedCreationBtn = true
                         this.CreateIsLoading = false;
@@ -3645,7 +3651,7 @@ app = createApp({
         },
 
         createIconAddr(name){
-            return '/modules/addons/caasify/views/view/includes/assets/img/services/' + name
+            return this.systemUrl + '/modules/addons/caasify/views/view/includes/assets/img/services/' + name
         },
 
         

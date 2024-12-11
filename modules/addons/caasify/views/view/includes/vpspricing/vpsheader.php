@@ -50,6 +50,6 @@
     </style>
 </head>
 <body>
-<div id="vpsapp" v-cloak>
+<div id="vpsapp" class="bg-light" v-cloak>
     <?php include('./includes/vpspricing/filtersmodal.php'); ?>
 <div>

@@ -6,45 +6,54 @@
             <div class="col-12 px-4">
                 <div class="col-12">
                     <p class="h5 pb-4">
-                        You have selected 
+                        {{ lang('You have selected') }}
                     </p>
                 </div>
                 <div class="col-12 bg-secondary w-100 border rounded-3 text-dark shadow-sm py-3 px-3 px-md-4 plans-childs btn my-1 position-relative" style="--bs-bg-opacity: 0.01;" >
                     <div class="row justify-content-between align-items-center flex-wrap">
-                        <div class="col-12 col-md-6 py-3">
+                        <div class="col-12 col-md-6 py-1">
                             <span class="text-secondary">
                                 {{ lang('Locations') }}
                             </span>
-                            <br>
-                            <span>
-                                {{ lang('Germany, Netherland') }}
+                            <span class="px-1">:</span>
+                            <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Netherlands, Germany, Turkey, USA, Australia">
+                                {{ lang('NL, DE, TR, US, AU') }}
                             </span>
                         </div>
-                        <div v-if="SelectedPlan?.traffic_limit" class="col-12 col-md-6 py-3">
+                        <div v-if="SelectedPlan?.traffic_limit" class="col-12 col-md-6 py-1">
                             <span class="text-secondary">
                                 {{ lang('Free Traffic') }}
                             </span>
-                            <br>
+                            <span class="px-1">:</span>
                             <span>
-                                {{ SelectedPlan?.traffic_limit }} {{ lang('MB') }} {{ lang('monthly') }}
+                                {{ Number(SelectedPlan?.traffic_limit)/1000 }} {{ lang('GB') }}
                             </span>
                         </div>
-                        <div class="col-12 col-md-6 py-3">
+                        <div class="col-12 col-md-6 py-1">
+                            <span class="text-secondary">
+                                {{ lang('Cost') }}
+                            </span>
+                            <span class="px-1">:</span>
+                            <span>
+                                {{ formatPlanPrice(SelectedPlan?.price) }} {{ userCurrencySymbolFromWhmcs }}
+                            </span>
+                        </div>
+                        <div class="col-12 col-md-6 py-1">
                             <span class="text-secondary">
                                 {{ lang('Duration') }}
                             </span>
-                            <br>
+                            <span class="px-1">:</span>
                             <span>
                                 {{ lang('Unlimited') }}
                             </span>
                         </div>
-                        <div class="col-12 col-md-6 py-3">
+                        <div class="col-12 col-md-6 py-1">
                             <span class="text-secondary">
                                 {{ lang('Traffic Price') }}
                             </span>
-                            <br>
+                            <span class="px-1">:</span>
                             <span>
-                                {{ formatTotalMachinePrice(SelectedPlan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} /{{ lang('GB') }}
+                                {{ formatPlanPrice(SelectedPlan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} /{{ lang('GB') }}
                             </span>
                         </div>
                     </div>

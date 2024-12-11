@@ -8,7 +8,7 @@ require_once $path . '/ClientCaasifyController.php';
 require_once $path . '/basics.php';
 
 // Create Table user and order
-function caasify_activate(){  
+function caasify_activate(){
 
     $hasTable = Capsule::schema()->hasTable('tblcaasify_user');
     if (empty($hasTable)) {
@@ -22,6 +22,38 @@ function caasify_activate(){
         });
     }
 
+    /** PROMOTIONS ! **/
+    $hasPromotionTable = Capsule::schema()->hasTable('tblcaasify_promotions');
+    if (empty($hasPromotionTable)) {
+
+        Capsule::schema()->create('tblcaasify_promotions' , function ($table) {
+            $table->id();
+            $table->string('code')->unique();
+            $table->enum('type' , ['percent' , 'fixed'])->default('percent');
+            $table->integer('value');
+            $table->date('start_date');
+            $table->date('expiration_date');
+            $table->integer('max_use')-> default(0);
+            $table->integer('uses') -> default(0);
+            $table->integer('recurring_no') -> default(1);
+            $table->enum('user_type' , ["new_users" , "all_users" , "specific_users"]) -> default("all_users");
+            $table->longText('user_list') -> nullable();
+            $table->text('conditions') -> nullable();
+            $table->boolean('status') -> default(true);
+        });
+    }
+
+    $hasPromotionUsedTable = Capsule::schema()->hasTable('tblcaasify_promotions_used');
+    if (empty($hasPromotionUsedTable)) {
+
+        Capsule::schema()->create('tblcaasify_promotions_used' , function ($table) {
+            $table->id();
+            $table->integer('invoice_id');
+            $table->integer('promotion_id');
+            $table->integer('user_id');
+        });
+    }
+
     // Change currency ratio decimals
     try {
         $pdo = Capsule::connection()->getPdo();
@@ -29,7 +61,7 @@ function caasify_activate(){
     } catch (PDOException $e) {
 
     }
-    
+
     // create invoice data base in admin panel
     $invoiceDatabaseStatus = cassify_create_invoice_table_database();
     if(isset($invoiceDatabaseStatus) && $invoiceDatabaseStatus != true){
@@ -75,7 +107,7 @@ function caasify_config(){
         'InsideServices' => 'Inside Services'
     );
 
-    
+
     // Labels
     $BackendUrlLabel = "Default is (https://api.caasify.com)";
     $ResellerTokenLabel = 'Insert your Reseller Token here, get it by registering on my.caasify.com';
@@ -93,7 +125,7 @@ function caasify_config(){
     $MinimumChargeLabel = 'in EURO , insert MIN amount users are allowed to charge their Balance';
     $MaxChargeLabel = 'in EURO , insert MAX amount users are allowed to charge their Balance';
     $MinimumBalanceLabel = 'in EURO , insert lowest user Balance allowed to create an order';
-    
+
     $MonthlyCostDecimalLabel = 'default decimal for Monthly cost of services';
     $HourlyCostDecimalLabel = 'default decimal for Hourly cost of services';
     $BalanceDecimalLabel = 'default decimal for users Balance and Credit';
@@ -109,7 +141,7 @@ function caasify_config(){
 
     $VPNSectionEnabledLabel = 'Switch on if you wish to show VPN page and sell products';
     $VPNSectionMenuTitleLabel = 'Insert MENU label for VPN section page, default is <strong>"VPN"</strong>';
-    
+
 
     $configarray = array(
         "name" => "Caasify",
@@ -121,7 +153,7 @@ function caasify_config(){
             "ResellerToken" => array ("FriendlyName" => "Reseller Token", "Type" => "text", "Size" => "31", "Description" => $ResellerTokenLabel, "Default" => ""),
             "DefLang" => array ("FriendlyName" => "Panel Language", "Type" => "dropdown", "Options" => $LanguageOptions, "Description" => $DefLangLabel, "Default" => "English"),
             "CaasifyCurrency" => array ("FriendlyName" => "<strong>Caasify Currency</strong>", "Type" => "dropdown", "Options" => $CurrencyOptions, "Description" => $CaasifyCurrencyLabel, "Default" => 'USD'),
-            
+
             "Commission" => array ("FriendlyName" => "<strong>Commission</strong>", "Type" => "text", "Description" => $CommissionCurrencyLabel, "Default" => '10'),
             "CloudTopupLink" => array ("FriendlyName" => "Topup Link", "Type" => "text", "Size" => "31", "Description" => $CloudTopupLinkLabel, "Default" => "/clientarea.php?action=addfunds"),
             "AdminClientsSummaryLink" => array ("FriendlyName" => "Admin Panel URL", "Type" => "text", "Size" => "31", "Description" => $AdminClientsSummaryLinkLabel, "Default" => $SystemUrl . '/admin/clientssummary.php'),
@@ -138,11 +170,11 @@ function caasify_config(){
             "resellerMode" => array ("FriendlyName" => "<strong>Reseller Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $resellerModeLabel, "Default" => 'off'),
             "DevelopeMode" => array ("FriendlyName" => "<strong>Develope Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DevelopeModeLabel, "Default" => 'off'),
             "DemoMode" => array ("FriendlyName" => "<strong>DEMO Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DemoModeLabel, "Default" => 'off'),
-            
+
             "VpsPricingEnabled" => array ("FriendlyName" => "VPS Pricing Enable", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $VpsPricingEnabledLabel, "Default" => 'on'),
             "CaasifyCurrencyForVPSPricing" => array ("FriendlyName" => "VPS pricing currency", "Type" => "dropdown", "Options" => $CurrencyOptions, "Description" => $CaasifyCurrencyForVPSPricing, "Default" => 'EURO'),
             "VpsPricingMenuTitle" => array ("FriendlyName" => "VPS Pricing Menu Title", "Type" => "text", "Size" => "31", "Description" => $VpsPricingMenuTitleLabel, "Default" => "VPS Pricing"),
-            
+
             "VPNSectionEnabled" => array ("FriendlyName" => "VPN selling Enable", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $VPNSectionEnabledLabel, "Default" => 'on'),
             "VPNSectionMenuTitle" => array ("FriendlyName" => "VPN Menu Title", "Type" => "text", "Size" => "31", "Description" => $VPNSectionMenuTitleLabel, "Default" => "VPN"),
         ));
@@ -164,14 +196,6 @@ function caasify_output($vars) {
     $systemUrl = $configs['systemUrl'];
     if(empty($systemUrl)){
         $systemUrl = '/';
-    }
-
-    $url = $configs['AdminClientsSummaryLink'];
-    preg_match("/^https?:\/\/[^\/]+\/(.*)\/clientssummary\.php$/", $url, $matches);
-    if (isset($matches[1])) {
-        $adminPath = $matches[1];
-    } else {
-        $adminPath = 'admin';
     }
 
     if(!empty($vars['version'])){
@@ -196,108 +220,21 @@ function caasify_output($vars) {
     echo($text);
 
 
-    $tablePart01 = '
-        <div class="" style="padding-top:100px; padding-bottom:15px;">
-            <div class="col-12">
-                <h4>
-                    <span style="margin-right: 20px;">
-                        Caasify Transactions (latest 100)
-                    </span>                    
-                    <span>
-                        <a class="btn btn-danger" href="' . $SystemUrl . '/' . $adminPath . '/systemactivitylog.php?description=E243" style="border-radius: 100px">
-                            errors
-                        </a>
-                    </span>
-                </h4>
-            </div>
-        </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Invoice (id)</th>
-                    <th scope="col">User (id)</th>
-                    <th scope="col">Real Charge Amount (€)</th>
-                    <th scope="col">Invoice Amount</th>
-                    <th scope="col">Ratio</th>
-                    <th scope="col">Caasify Invoice ID</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-
-
-    $tablePart02 = ''; // Initialize the variable to hold all the rows
-    $CaasidyInvoices = cassify_get_all_invoice_table();
-
-    foreach($CaasidyInvoices as $invoice) {
-        
-        // Construct the user name (if found) or use 'Unknown User' as a fallback
-        $userDetails = caasify_get_whuser_from_id($invoice->whuserid);
-        $userName = $userDetails ? $userDetails->firstname . ' ' . $userDetails->lastname : 'Unknown User';
-        
-
-        // Invoice Info
-        $invoiceInfo = caasify_get_invoice_info_from_invoiceid($invoice->invoiceid);
-        
-        if (!empty($invoice->transactionid) && $invoiceInfo['status'] == 'Paid') {
-            $buttonClass = 'btn-success';
-            $displayText = $invoice->transactionid;
-        } else if (empty($invoice->transactionid) && $invoiceInfo['status'] == 'Paid') {
-            $buttonClass = 'btn-danger';
-            $displayText = 'failed';
-        } else {
-            $buttonClass = 'btn-warning';
-            $displayText = '...';
-        }
-
-        // Build the table row with user ID and name
-        $tablePart02 .= '
-            <tr>
-                <td>
-                    <a href="'. $SystemUrl . '/' . $adminPath .'/invoices.php?action=edit&id='. $invoice->invoiceid . '">' . $invoice->updated_at . '</a>
-                </td>
-                <td>
-                    <a href="'. $SystemUrl . '/' . $adminPath .'/invoices.php?action=edit&id='. $invoice->invoiceid . '" style="' . (($invoiceInfo['status'] == 'Paid') ? '' : 'color:#96c6ed;') . '">' . $invoice->invoiceid  . ' (<span>' . $invoiceInfo['status'] . '</span>)</a>
-                </td>
-                <td>
-                    <a href="'. $SystemUrl . '/' . $adminPath .'/clientssummary.php?userid='. $invoice->whuserid . '">' . $userName . ' (' . $invoice->whuserid . ')</a>
-                </td>
-                <td>' . (!empty($invoice->real_charge_amount) ? $invoice->real_charge_amount : '...') . '</td>
-                <td>' .  $invoice->chargeamount . '</td>
-                <td>' . round($invoice->ratio, 6) . '</td>
-                <td>
-                    <a style="width: 90px; padding: 5px; border-radius: 100px;" class="btn ' . $buttonClass . '" href="' . $SystemUrl . '/' . $adminPath . '/invoices.php?action=edit&id=' . $invoice->invoiceid . '">' . $displayText . '</a>
-                </td>
-            </tr>
-        ';
-    }
-
-
-    $tablePart03 = '
-            </tbody>
-        </table>
-    ';
-
-
-    echo $tablePart01 . $tablePart02 . $tablePart03;
-
-
-
-    // Update part
-    $iframe = '<iframe src="' . $systemUrl . '/caasifyupdatepage.php" frameborder="0" class="iframe"></iframe><style>.iframe{width:100%; height: 550px;}</style>';
+    // Admin output 
+    $iframe = '<iframe src="' . $systemUrl . '/modules/addons/caasify/views/view/adminoutput.php" frameborder="0" class="iframe"></iframe><style>.iframe{width:100%; height: 2000px; padding-top:30px;}</style>';
     echo $iframe;
+    
 
 }
 
 // Create Client Panel Controller
-function caasify_clientarea($vars){   
+function caasify_clientarea($vars){
     if (!isset($_SESSION['uid'])) {
         header('Location: /index.php?rp=/login');
-        exit(); 
+        exit();
     }
-    
+
     $WhUserId = caasify_get_session('uid');
     if(empty($WhUserId)){
         echo 'can not find WhUserId to construct controller <br>';
@@ -308,41 +245,41 @@ function caasify_clientarea($vars){
     if(empty($ResellerToken)){
         echo 'can not find ResellerToken to construct controller <br>';
         return false;
-    }    
+    }
 
     $configs = caasify_get_config_decoded();
     $BackendUrl = $configs['BackendUrl'];
     if(empty($BackendUrl)){
         echo 'can not find BackendUrl to construct controller <br>';
         return false;
-    }   
-    
+    }
+
     $DevelopeMode = $config['DevelopeMode'];
     if(empty($DevelopeMode)){
         $DevelopeMode = 'off';
     }
-    
+
     $VpsPricingEnabled = $config['VpsPricingEnabled'];
     if(empty($VpsPricingEnabled)){
         $VpsPricingEnabled = 'on';
     }
-   
-    
+
+
     $VPNSectionMenuTitle = $config['VPNSectionMenuTitle'];
     if(empty($VPNSectionMenuTitle)){
         $VPNSectionMenuTitle = 'VPN';
     }
-    
+
     $VPNSectionEnabled = $config['VPNSectionEnabled'];
     if(empty($VPNSectionEnabled)){
         $VPNSectionEnabled = 'on';
     }
-    
+
     $resellerMode = $config['resellerMode'];
     if(empty($resellerMode)){
         $resellerMode = 'off';
     }
-    
+
     $DemoMode = caasify_get_Demo_Mode();
     if(empty($DemoMode) || $DemoMode != 'on'){
         $DemoMode = 'off';

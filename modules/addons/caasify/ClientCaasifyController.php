@@ -14,17 +14,17 @@ class ClientCaasifyController
     public function __construct($BackendUrl, $ResellerToken, $UserToken, $CaasifyUserId, $WhUserId, $DemoMode)
     {
         $BackendUrl = str_replace(' ', '', $BackendUrl);
-        $BackendUrl = preg_replace('/\s+/', '', $BackendUrl);        
+        $BackendUrl = preg_replace('/\s+/', '', $BackendUrl);
         $this->BackendUrl = $BackendUrl;
         $this->ResellerToken = $ResellerToken;
-        $this->UserToken = $UserToken;   
-        $this->CaasifyUserId = $CaasifyUserId;   
-        $this->WhUserId = $WhUserId;   
-        $this->DemoMode = $DemoMode;   
+        $this->UserToken = $UserToken;
+        $this->CaasifyUserId = $CaasifyUserId;
+        $this->WhUserId = $WhUserId;
+        $this->DemoMode = $DemoMode;
     }
 
     public function pageIndex()
-    {   
+    {
         return ['templatefile' => 'views/index'];
     }
 
@@ -37,12 +37,12 @@ class ClientCaasifyController
     {
         return ['templatefile' => 'views/view'];
     }
-    
+
     public function pageFinance()
     {
         return ['templatefile' => 'views/finance'];
     }
-    
+
     public function pageReseller()
     {
         return ['templatefile' => 'views/reseller'];
@@ -51,11 +51,11 @@ class ClientCaasifyController
     public function CaasifyGetUsertoken()
     {
         $UserToken = $this->UserToken;
-        
+
         if(empty($UserToken)){
             $response = [
                 'message' => 'Token not founded',
-            ];    
+            ];
         } else {
             $response = [
                 'data' => $UserToken,
@@ -85,7 +85,7 @@ class ClientCaasifyController
         if($UserToken){
             $response = $this->sendUserOrdersRequest($UserToken);
         }
-        
+
         $this->response($response);
     }
 
@@ -97,12 +97,12 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Date-Humanize' => 1,
             'Authorization' => 'Bearer ' . $UserToken
-        ]; 
+        ];
 
         $address = [
             $BackendUrl, 'api', 'orders'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
@@ -159,7 +159,7 @@ class ClientCaasifyController
 
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
-    
+
     public function TheCaasifyResellerInfo()
     {
         $ResellerToken = $this->ResellerToken;
@@ -213,14 +213,14 @@ class ClientCaasifyController
 
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
-    
+
     public function CaasifyGetPlans()
     {
         $ResellerToken = $this->ResellerToken;
         $response = null;
 
         $CategoryID = caasify_get_post('CategoryID');
-        
+
         if($ResellerToken && $CategoryID){
             $response = $this->sendCaasifyGetPlansRequest($ResellerToken, $CategoryID);
             $this->response($response);
@@ -230,20 +230,20 @@ class ClientCaasifyController
     public function sendCaasifyGetPlansRequest($ResellerToken, $CategoryID)
     {
         $BackendUrl = $this->BackendUrl;
-        
+
         $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $ResellerToken
         ];
-        
+
         $params = http_build_query([
             'category' => $CategoryID,
         ]);
-        
+
         $address = [
             $BackendUrl, 'api', 'reseller', 'common', 'products', "?{$params}"
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
@@ -252,7 +252,7 @@ class ClientCaasifyController
         $UserToken = $this->UserToken;
         $params = caasify_get_post_array_all();
         $response = null;
-        
+
         $DemoMode = $this->DemoMode;
         if(isset($DemoMode) && $DemoMode == 'off'){
             if($UserToken && $params){
@@ -261,8 +261,8 @@ class ClientCaasifyController
         }
 
         $this->response($response);
-    }  
-    
+    }
+
     public function sendCaasifyCreateOrderRequest($UserToken, $params)
     {
 
@@ -270,7 +270,7 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
 
         $address = [
@@ -286,11 +286,11 @@ class ClientCaasifyController
         $response = null;
 
         $orderID = caasify_get_post('orderID');
-        
+
         if($UserToken && $orderID){
             $response = $this->sendLoadOrderRequest($UserToken, $orderID);
         }
-        
+
         $this->response($response);
     }
 
@@ -302,16 +302,16 @@ class ClientCaasifyController
             'Date-Humanize' => 1,
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
 
         $address = [
             $BackendUrl, 'api', 'orders', $orderID, 'show'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
-    
+
     public function CaasifyGetOrderViews()
     {
         $UserToken = $this->UserToken;
@@ -328,14 +328,14 @@ class ClientCaasifyController
 
     public function sendOrderViewsRequest($UserToken, $orderID)
     {
-        
+
         $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
-        
+
         $address = [
             $BackendUrl, 'api', 'orders', $orderID, 'views'
         ];
@@ -360,18 +360,18 @@ class ClientCaasifyController
 
     public function sendOrderAction($UserToken, $orderID, $button_id)
     {
-        
+
         $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $params = array(
             'button_id' => $button_id,
         );
 
         $BackendUrl = $this->BackendUrl;
-        
+
         $address = [
             $BackendUrl, 'api', 'orders', $orderID, 'action'
         ];
@@ -395,14 +395,14 @@ class ClientCaasifyController
 
     public function sendNewViewRequest($UserToken, $orderID)
     {
-        
+
         $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
-        
+
         $address = [
             $BackendUrl, 'api', 'orders', $orderID, 'view'
         ];
@@ -431,13 +431,13 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
-        
+
         $address = [
             $BackendUrl, 'api', 'orders', $orderID, 'actions'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
@@ -462,13 +462,13 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
-        
+
         $address = [
             $BackendUrl, 'api', 'monitoring', 'orders', $orderID, 'traffic'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
@@ -480,33 +480,33 @@ class ClientCaasifyController
             $Chargeamount = $requestData['Chargeamount'];
         } else {
             $message = 'charge amount did not send';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-        
+
         // validate ratio
         if(isset($requestData['Ratio'])){
             $Ratio = $requestData['Ratio'];
         } else {
             $message = 'Ratio did not send';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-        
+
         // validate user id
         if(isset($requestData['CaasifyUserId'])){
             $CaasifyUserId = $requestData['CaasifyUserId'];
         } else {
             $message = 'CaasifyUserId did not send';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-                
+
         $WhUserId = $this->WhUserId;
 
         if(empty($Ratio) || empty($Chargeamount) || empty($WhUserId) | empty($CaasifyUserId)){
             $message = 'ratio, or amount, or user id is not defined';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
@@ -516,7 +516,7 @@ class ClientCaasifyController
         if(empty($currentDateTime)){
             $currentDateTime = null;
         }
-        
+
         if(empty($nextDay)){
             $nextDay = null;
         }
@@ -540,21 +540,21 @@ class ClientCaasifyController
             $invoiceid = $results['invoiceid'];
         } else {
             $message = $results['result'];
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
         if(empty($invoiceid)){
             $message = 'did not fetch inovice ID form whmcs';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-        
+
         $params = [
-            'whuserid' => $WhUserId, 
-            'caasifyid' => $CaasifyUserId, 
-            'ratio' => $Ratio, 
-            'invoiceid' => $invoiceid, 
+            'whuserid' => $WhUserId,
+            'caasifyid' => $CaasifyUserId,
+            'ratio' => $Ratio,
+            'invoiceid' => $invoiceid,
             'chargeamount' => $Chargeamount,
             'real_charge_amount' => null,
             'commission' => null,
@@ -567,29 +567,29 @@ class ClientCaasifyController
             Capsule::table('tblcaasify_invoices')->insert($params);
         } catch (\Exception $e) {
             $message = 'Error inserting user info into data base in handling  <br>';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-    
-        $this->response($results); 
+
+        $this->response($results);
     }
-    
+
     public function ResellerCreateNewUnpaidInvoice()
     {
-        $requestData = json_decode(file_get_contents("php://input"), true);        
+        $requestData = json_decode(file_get_contents("php://input"), true);
         if(isset($requestData['Chargeamount'])){
             $Chargeamount = $requestData['Chargeamount'];
         } else {
             $message = 'Charge amount did not send';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-        
+
         if(isset($requestData['Ratio'])){
             $Ratio = $requestData['Ratio'];
         } else {
             $message = 'Ratio did not send';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
@@ -597,7 +597,7 @@ class ClientCaasifyController
             $SelectedGetway = $requestData['SelectedGetway'];
         } else {
             $message = 'Can not access SelectedGetway';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
@@ -605,7 +605,7 @@ class ClientCaasifyController
             $CaasifyUserId = $requestData['CaasifyUserId'];
         } else {
             $message = 'CaasifyUserId did not send';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
@@ -620,12 +620,12 @@ class ClientCaasifyController
                 $GatewayCommisionLabel = 'Gateway Commission';
                 $GatewayCommisionValue = 0;
             }
-        } 
+        }
 
         $WhUserId = $this->WhUserId;
         if(empty($Ratio) || empty($Chargeamount) || empty($WhUserId) | empty($CaasifyUserId)){
             $message = 'ratio, or amount, or user id is not defined';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
@@ -635,7 +635,7 @@ class ClientCaasifyController
         if(empty($currentDateTime)){
             $currentDateTime = null;
         }
-        
+
         if(empty($nextDay)){
             $nextDay = null;
         }
@@ -662,21 +662,21 @@ class ClientCaasifyController
             $invoiceid = $results['invoiceid'];
         } else {
             $message = $results['result'];
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
         if(empty($invoiceid)){
             $message = 'did not fetch inovice ID form whmcs';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
-        
+
         $params = [
-            'whuserid' => $WhUserId, 
-            'caasifyid' => $CaasifyUserId, 
-            'ratio' => $Ratio, 
-            'invoiceid' => $invoiceid, 
+            'whuserid' => $WhUserId,
+            'caasifyid' => $CaasifyUserId,
+            'ratio' => $Ratio,
+            'invoiceid' => $invoiceid,
             'chargeamount' => $Chargeamount,
             'real_charge_amount' => null,
             'commission' => null,
@@ -689,12 +689,12 @@ class ClientCaasifyController
             Capsule::table('tblcaasify_invoices')->insert($params);
         } catch (\Exception $e) {
             $message = 'Error inserting user info into data base in handling  <br>';
-            $this->response($message); 
+            $this->response($message);
             return false;
         }
 
-        $this->response($results); 
-    
+        $this->response($results);
+
     }
 
     public function CreateUnpaidInvoice()
@@ -710,7 +710,7 @@ class ClientCaasifyController
         $WhUserId = $this->WhUserId;
         $currentDateTime = date('Y-m-d');
         $nextDay = date('Y-m-d', strtotime($currentDateTime . ' +1 day'));
-        
+
         if(isset($chargeamount) && isset($WhUserId)){
             $command = 'CreateInvoice';
             $postData = array(
@@ -725,8 +725,8 @@ class ClientCaasifyController
                 'autoapplycredit' => '0',
             );
             $results = localAPI($command, $postData);
-            $this->response($results); 
-        } 
+            $this->response($results);
+        }
     }
 
     public function markCancelInvoice()
@@ -737,7 +737,7 @@ class ClientCaasifyController
         } else {
             echo 'Can not access Invoice Id (E02-Mark Cancel)';
         }
-        
+
         $CaasifyUserId = $this->CaasifyUserId;
         $WhUserId = $this->WhUserId;
         $currentDateTime = date('Y-m-d');
@@ -750,7 +750,7 @@ class ClientCaasifyController
                 'notes' => 'Caasify: WhUserId = ' . $WhUserId . ' , CaasifyUserId = ' . $CaasifyUserId,
             );
             $results = localAPI($command, $postData);
-            $this->response($results); 
+            $this->response($results);
     }
 
     public function chargeCaasify()
@@ -762,7 +762,7 @@ class ClientCaasifyController
         } else {
             echo 'can not access invoice id (E03-Charge Caasify)';
         }
-        
+
         if($requestData['chargeamount']){
             $chargeamount = $requestData['chargeamount'];
         } else {
@@ -773,9 +773,9 @@ class ClientCaasifyController
         if(empty($CaasifyUserId)){
             return false;
         }
-        
+
         $ResellerToken = $this->ResellerToken;
-    
+
 
         $status = caasify_get_mycaasify_status();
 
@@ -807,7 +807,7 @@ class ClientCaasifyController
         $address = [
             $BackendUrl, 'api', 'users', $CaasifyUserId, 'transactions', 'increase'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
     }
 
@@ -820,7 +820,7 @@ class ClientCaasifyController
         } else {
             echo 'can not access invoice id (E03-Charge Caasify)';
         }
-        
+
         if($requestData['chargeamount']){
             $chargeamount = $requestData['chargeamount'];
         } else {
@@ -831,9 +831,9 @@ class ClientCaasifyController
         if(empty($CaasifyUserId)){
             return false;
         }
-        
+
         $ResellerToken = $this->ResellerToken;
-    
+
         $response = $this->sendResellerChargeCaasifyRequest($CaasifyUserId, $chargeamount, $invoiceid);
         $this->response($response);
     }
@@ -858,10 +858,10 @@ class ClientCaasifyController
         $address = [
             $BackendUrl, 'api', 'backend', 'users', $CaasifyUserId, 'transactions', 'increase'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
     }
-    
+
     public function applyTheCredit()
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
@@ -870,7 +870,7 @@ class ClientCaasifyController
         } else {
             echo 'can not access user id (E04-Apply Credit)';
         }
-        
+
         if($requestData['chargeamount']){
             $chargeamount = $requestData['chargeamount'];
         } else {
@@ -885,9 +885,9 @@ class ClientCaasifyController
             );
 
             $results = localAPI($command, $postData);
-            $this->response($results); 
-        } 
-    }  
+            $this->response($results);
+        }
+    }
 
 
     public function CaasifyExpenseDates()
@@ -925,7 +925,7 @@ class ClientCaasifyController
 
         $year = caasify_get_post('year');
         $month = caasify_get_post('month');
-        
+
         if($UserToken && $year && $month){
             $response = $this->sendCaasifyGetExpensesRequest($UserToken, $year, $month);
             $this->response($response);
@@ -936,16 +936,16 @@ class ClientCaasifyController
     {
 
         $BackendUrl = $this->BackendUrl;
-        
+
         $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $address = [
             $BackendUrl, 'api', 'report', 'expense', $year, $month, 'orders'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
@@ -993,18 +993,18 @@ class ClientCaasifyController
 
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
-    
+
     public function CaasifyGetPlansFromFiltersTerm()
     {
         $ResellerToken = $this->ResellerToken;
         $response = null;
 
         $termsArr = caasify_get_post_array_all();
-        
+
         if($ResellerToken){
             $response = $this->sendCaasifyGetPlansFromFiltersTermRequest($ResellerToken, $termsArr);
         }
-        
+
         $this->response($response);
     }
 
@@ -1017,31 +1017,31 @@ class ClientCaasifyController
             'Authorization' => 'Bearer ' . $ResellerToken
         ];
 
-        
+
         if(empty($termsArr)){
             $address = [ $BackendUrl, 'api', 'reseller', 'common', 'products'];
         } else {
-            
-            foreach ($termsArr as $value) {    
+
+            foreach ($termsArr as $value) {
                 if ($value[0] == '291') {
-                    $params[] = 'term[1][]=' . urlencode($value[0]); 
-                } 
+                    $params[] = 'term[1][]=' . urlencode($value[0]);
+                }
                 if (is_array($value)) {
                     foreach ($value as $type => $typeValues) {
                         foreach ($typeValues as $id) {
-                            $params[] = 'term[' . $type .'][]=' . urlencode($id); 
+                            $params[] = 'term[' . $type .'][]=' . urlencode($id);
                         }
                     }
                 }
             }
-            
+
             $queryString = implode('&', $params);
             $address = [ $BackendUrl, 'api', 'candy', 'common', 'products', "?{$queryString}" ];
         }
 
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
-    
+
     public function CaasifyGetRecomPlansForContinent()
     {
         $ResellerToken = $this->ResellerToken;
@@ -1053,13 +1053,13 @@ class ClientCaasifyController
                 foreach ($value as $id) {
                     $params = ['terms[' . $id . ']' => $id];
                 }
-            }            
+            }
         }
 
         if($ResellerToken){
             $response = $this->sendCaasifyGetRecomPlansForContinentRequest($ResellerToken, $params);
         }
-        
+
         $this->response($response);
     }
 
@@ -1071,9 +1071,9 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $ResellerToken
         ];
-        
+
         $address = [ $BackendUrl, 'api', 'candy', 'common', 'suggestion' ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
     }
 
@@ -1081,11 +1081,11 @@ class ClientCaasifyController
     {
         $ResellerToken = $this->ResellerToken;
         $response = null;
-        
+
         if($ResellerToken){
             $response = $this->sendCaasifyGetVpnPlansRequest($ResellerToken);
         }
-        
+
         $this->response($response);
     }
 
@@ -1097,7 +1097,7 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $ResellerToken
         ];
-    
+
         $address = [ $BackendUrl, 'api', 'candy', 'common', 'products', "?type=vpn" ];
 
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
@@ -1125,13 +1125,46 @@ class ClientCaasifyController
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $UserToken
         ];
-        
+
         $BackendUrl = $this->BackendUrl;
-        
+
         $address = [
             $BackendUrl, 'api', 'candy', 'orders', $orderID, 'vpn', 'show'
         ];
-        
+
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+    /**
+     * Validates a promotion code and calculates the final price after applying the promotion.
+     *
+     * @param request['code']    string   The promotion code to validate.
+     * @param request['price']   float    The original invoice price before applying the promotion.
+     *
+     * @return array                       An associative array with the following keys:
+     *                                       - 'status' (bool): Indicates whether the promotion code is valid (true) or not (false).
+     *                                       - 'message' (string): Provides a success or error message explaining the result.
+     *                                       - 'final_price' (float): The final invoice price after applying the promotion.
+     *
+     * Example:
+     * Input: {"code": "DISCOUNT50", "price": 100.0}
+     * Output: {"status": true, "message": "Successful", "final_price": 50.0}
+     *
+     */
+    public function CaasifyValidatePromotion()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        $code = $requestData['code'];
+        $price = $requestData['price'];
+
+        $result = caasify_promotion_validation($code, $price , $this->WhUserId);
+
+        $this->response(
+            [
+                "status" => $result[0],
+                "message" => $result[1],
+                "final_price" => $result[2],
+            ]
+        );
     }
 }

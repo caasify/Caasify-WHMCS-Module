@@ -23,7 +23,12 @@ if (strpos($checkUrlForCreatePage, 'create') !== false) {
             <style> * {font-family: 'Vazirmatn' !important;}</style>
         
         <?php else: ?> 
-            <link href="./includes/assets/css/bootstrap.min.css" rel="stylesheet">    
+           <link href="./includes/assets/css/bootstrap.min.css" rel="stylesheet">   
+            <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+                  referrerpolicy="no-referrer" />
+
             <!-- FONT: Plus Jakarta Sans  -->
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

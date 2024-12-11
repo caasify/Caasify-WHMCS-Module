@@ -2,7 +2,7 @@
 <style type="text/css">
     .caasify {
         width: 100%;
-        height: 2500px;
+        height: 1200px;
         border: none;
     }
 </style>

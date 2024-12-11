@@ -320,10 +320,10 @@ let common = {
     "ipv" : "Internet Protocol version",
     "ipvversion4" : "",
     "ipvversion6" : "",
-    "Create Machine" : "Create Machine",
+    "Create Machine" : "Create",
     
-    "machinelink" : "Machine Link",
-    "createmachinefailed" : "Create Machine Failed",
+    "machinelink" : "Order Link",
+    "createmachinefailed" : "Create Order Failed",
     
     "Machine View" : "View the Order",
 
@@ -340,8 +340,8 @@ let common = {
     // new CAASIFY
     "Locations" : "Locations",
     "in" : "in",
-    "machinecreatesuccessfully" : "Machine Create Successfully",
-    "createanothermachine" : "Create Another Machine",
+    "machinecreatesuccessfully" : "Order Create Successfully",
+    "createanothermachine" : "Create Another Order",
     "ID" : "ID",
     "Alive" : "Alive from",
     "Price" : "Price",
@@ -356,7 +356,7 @@ let common = {
     "No valid Controller Founded" : "No valid Controller Founded",
     "Confirmation" : "Confirmation",
     "You are going to" : "You are going to ",
-    "your machine, are you sure ?" : " your machine, are you sure ?",
+    "your machine, are you sure ?" : " your Order, are you sure ?",
     "Something is in queue !" : "Something is in queue !",
 
 
@@ -382,10 +382,10 @@ let common = {
 
 
     "MoreThanMax" : "Not valid: it is more than allowed charge, call your admin",
-    "DeleteIsNotAllowed" : "You are not allowed to DELETE this machine in DEMO Mode",
-    "CreateDemoText" : "You are not allowed to create machine in DEMO",
+    "DeleteIsNotAllowed" : "You are not allowed to DELETE this Order in DEMO Mode",
+    "CreateDemoText" : "You are not allowed to create Order in DEMO",
     "TrafficAlert" : "It may take more than 10 minutes",
-    "Machine Info" : "Machine Info",
+    "Machine Info" : "Order Info",
     
     
     
@@ -431,7 +431,7 @@ let common = {
     "amounttochargereal" : "Charge amount in Real €",
     "doTransaction" : "Transact",
     "BalanceIsLow" : "Your account Balance is low",
-    "MachienWouldDelete" : "Your machine would be Deleted in near future",
+    "MachienWouldDelete" : "Your Order would be Deleted in near future",
     "hours or less" : "hours or less remain",
     "an hour or less" : "an hour or less remain",
     "24 hours or less" : "24 hours or less remain",
@@ -577,6 +577,9 @@ let common = {
     "3GB" : "3GB",
     "GB" : "GB",
     "MB" : "MB",
+    
+    // new
+    "You have selected" : "You have selected",
 
 }
 

@@ -86,13 +86,13 @@ let common = {
         "lastactionpending" : "درخواست آخر شما هنوز در حال اجرا است ... !",
         
         "waitforsetup" : "لطفاً منتظر پایان تنظیمات باشید ... !",
-        "orderisinstalling" : "ماشین شما در حال نصب",
+        "orderisinstalling" : "سفارش شما در حال نصب",
         "dontclose" : "لطفاً این پنجره را نبندید و منتظر پایان تنظیمات باشید ... !",
         "willtake" : "این ممکن است چند دقیقه طول بکشد",
         "goingtoinstall" : "شما در حال نصب",
-        "onyourorder" : "بر روی ماشین‌ هستید!",
+        "onyourorder" : "بر روی سفارش خود هستید!",
         "installationalert" : "در طول نصب، داده‌های شما به طور دائمی حذف خواهند شد.",
-        "destroyalert" : "با عمل حذف ماشین، تمامی اطلاعات ماشین به صورت همیشگی پاک می شود",
+        "destroyalert" : "با عمل حذف سفارش، تمامی اطلاعات ماشین به صورت همیشگی پاک می شود",
         "clearandinstall" : "پاک‌سازی و نصب",
         "alert" : "هشدار",
         "installing" : "در حال نصب",
@@ -159,7 +159,7 @@ let common = {
     // end from Product
 
     // Unique for this cloud
-        "todeleteyourorder" : "برای حذف ماشین‌تان، باید عبارت",
+        "todeleteyourorder" : "برای حذف سفارش باید عبارت",
         "writedestroy" : "'destroy'",
         "intheboxbelow" : "را در کادر زیر بنویسید و چند ثانیه منتظر بمانید",
         "typehere" : "عبارت را اینجا تایپ کنید:",
@@ -182,12 +182,12 @@ let common = {
 
 // index page
     "clicktoseeadmin" : "مدیریت بالانس کاربر",
-    "orderlist": "لیست ماشین‌ها",
+    "orderlist": "لیست سفارشات",
     "topup": "افزایش اعتبار",
-    "listofactiveorders": "لیست ماشین‌های فعال",
-    "noactiveorder": "برای ایجاد ماشین جدید لطفا اینجا کلیک کنید",
+    "listofactiveorders": "لیست سفارشات فعال",
+    "noactiveorder": "برای ایجاد سفارش جدید لطفا اینجا کلیک کنید",
     "address": "آدرس",
-    "hostnameontable": "نام ماشین",
+    "hostnameontable": "نام سفارش",
     "templateontable": "قالب",
     "viewontable": "مشاهده جزییات",
     "statusontable": "وضعیت",
@@ -248,7 +248,7 @@ let common = {
 
 
 // create order page
-    "backtoorderlist" : "بازگشت به لیست ماشین‌ها",
+    "backtoorderlist" : "بازگشت به لیست سفارشات",
     "datacenters" : "مراکز داده",
     "locationlist" : "کشور",
     "chooseregion" : "انتخاب منطقه جغرافیایی قرارگیری مرکز داده",
@@ -259,24 +259,24 @@ let common = {
     "bandwidth" : "پهنای باند: ",
     "operationsystem" : "سیستم‌عامل *",
     "selectatemplate" : "یک قالب انتخاب کنید",
-    "nameofhost" : "نام ماشین *",
-    "enteraname" : "یک نام برای ماشین مجازی وارد کنید",
+    "nameofhost" : "نام سفارش *",
+    "enteraname" : "یک نام برای سفارش وارد کنید",
     "Addssh" : "افزودن کلید عمومی SSH",
     "extraresource" : "منابع مازاد",
     "orderextra" : "شما می‌توانید منابع مازاد را بر اساس نیازهای خود سفارش دهید",
     "totalcost" : "هزینه کل ",
-    "totalcostis" : "هزینه کل ایجاد ماشین ",
+    "totalcostis" : "هزینه کل ایجاد سفارش ",
     "firstselectone": "لطفاً ابتدا یکی از محصولات بالا را انتخاب کنید",
-    "createorder" : "ایجاد ماشین",
+    "createorder" : "ایجاد سفارش",
     "hourly" : "ساعتی",
     "cancel": "لغو",
-    "createthisorder": "ایجاد این ماشین",
-    "youarecreating" : "شما در حال ایجاد ماشین با تنظیمات زیر هستید!",
+    "createthisorder": "ایجاد این سفارش",
+    "youarecreating" : "شما در حال ایجاد سفارش با تنظیمات زیر هستید!",
     "makesure" : "اطمینان حاصل کنید که تمام اطلاعات مورد نیاز را درج کرده باشید",
     "notprovideallinformation" : "شما تمامی اطلاعات مورد نیاز را وارد یا انتخاب نکرده اید!",
     "datacentermissed" : "مرکز داده انتخاب نشده است",
     "productmissed" : "محصول مشخصی انتخاب نشده است",
-    "templatemissed" : "قالب ماشین انتخاب نشده است",
+    "templatemissed" : "قالب انتخاب نشده است",
     "allinfoprovided" : "تمامی اطلاعات فراهم شده است",
     "name" : "نام",
     "datacenter" : "مرکز داده: ",
@@ -289,12 +289,12 @@ let common = {
     "entersshkey" : "کلید را وارد کنید",
     "required" : "ضروری",
     "balance" : "موجودی کیف پول",
-    "orderlink": "مشاهده ماشین",
-    "ordercreatesuccessfully": "ماشین با موفقیت ایجاد شد!",
+    "orderlink": "مشاهده سفارش",
+    "ordercreatesuccessfully": "سفارش شما با موفقیت ایجاد شد!",
     "currentplan" : "هزینه سرویس",
-    "createorderfailed" : "متاسفانه ساخت این ماشین با خطا مواجه شده است. لطفا دوباره تلاش کنید. اگر این خطا دوباره روی داد، لطفا با پشتیبانی تماس بگیرید.",
-    "createanotherorder" : "ساخت یک ماشین دیگر",
-    "createsuccessmsg": "شما می توانید از طریق لینک زیر ماشین خود را مشاهده کنید. همینطور می توانید یک ماشین دیگر سفارش دهید.",
+    "createorderfailed" : "متاسفانه ساخت این سفارش با خطا مواجه شده است. لطفا دوباره تلاش کنید. اگر این خطا دوباره روی داد، لطفا با پشتیبانی تماس بگیرید.",
+    "createanotherorder" : "ساخت یک سفارش دیگر",
+    "createsuccessmsg": "شما می توانید از طریق لینک زیر سفارش خود را مشاهده کنید. همینطور می توانید یک سفارش دیگر ثبت کنید.",
     "onlyenglishletters": "فقط حروف انگلیسی قابل قبول است",
 
     "cpucore" : "هسته پردازنده",
@@ -302,7 +302,7 @@ let common = {
     "configuration" : "پیکربندی",
     "configinyourfavor" : "این محصول را بر اساس نیاز خود پیکربندی کنید",
     "pleaseselectaplan" : "لطفاً ابتدا یک مصحول را از لیست بالا انتخاب کنید",
-    "balanceisnotenough" : "موجودی حساب ابری شما برای ساخت ماشین کافی نیست، برای ادامه نیاز هست که حساب خود را شارژ کنید",
+    "balanceisnotenough" : "موجودی حساب ابری شما برای ساخت سفارش کافی نیست، برای ادامه نیاز هست که حساب خود را شارژ کنید",
     "billsummary" : "خلاصه صورتحساب",
     "seeyourorderdetails" : "جزئیات سفارش و هزینه‌ها را ببینید",
     "costoneip" : "هزینه هر آدرس آی‌پی",
@@ -321,7 +321,7 @@ let common = {
     "ipv" : "انتخاب نسخه پروتکل",
     "ipvversion4" : "نسخه چهار",
     "ipvversion6" : "نسخه شش",
-    "Create Machine" : "ساخت ماشین",
+    "Create Machine" : "ساخت",
     "Machine View" : "مشاهده سفارش",
 // create order page
 
@@ -334,8 +334,8 @@ let common = {
     // new CAASIFY
     "Locations" : "موقعیت جغرافیایی",
     "in" : " ",
-    "machinecreatesuccessfully" : "ماشین با موفقیت ساخته شد",
-    "createanothermachine" : "ساخت یک ماشین",
+    "machinecreatesuccessfully" : "سفارش با موفقیت ساخته شد",
+    "createanothermachine" : "ساخت سفارش دیگر",
     "ID" : "شناسه",
     "Alive" : "کارکرد",
     "Price" : "قیمت",
@@ -350,7 +350,7 @@ let common = {
     "No valid Controller Founded" : "هیچ کنترلری پیدا نشد",
     "Confirmation" : "تاییدیه",
     "You are going to" : "شما در حال ",
-    "your machine, are you sure ?" : " کردن ماشین هستید، آیا مطمئن هستید؟",
+    "your machine, are you sure ?" : " کردن سفارش خود هستید، آیا مطمئن هستید؟",
     "Something is in queue !" : "عملیات دیگری در حال انجام است. لطفا صبر کنید",
     
 
@@ -373,13 +373,13 @@ let common = {
     "FAILED" : "خطای ارسال",
     "PENDING" : "در حال پردازش",
     "Marketplace" : "بازارچه",
-    "createmachinefailed" : "ساخت ماشین با مشکل مواجه شده است",
+    "createmachinefailed" : "ساخت سفارش با مشکل مواجه شده است",
     "Warning" : "اخطار",
 
     "MoreThanMax" : "این مقدار از حداکثر مبلغ اجازه شارژ بیشتر است",    
-    "DeleteIsNotAllowed" : "در حالت دمو، اجازه حذف ماشین را ندارید",    
+    "DeleteIsNotAllowed" : "در حالت دمو، اجازه حذف سفارش را ندارید",    
     "TrafficAlert" : "ممکن است زمان زیادی طول بکشد",    
-    "Machine Info" : "اطلاعات ماشین",
+    "Machine Info" : "اطلاعات سفارش",
     
     
     
@@ -422,7 +422,7 @@ let common = {
     "doTransaction" : "ثبت تراکنش",
 
     "BalanceIsLow" : "اعتبار اکانت کلاد شما بسیار کم است",
-    "MachienWouldDelete" : "ماشین شما ممکن است حذف شود و اطلاعات شما پاک شود",
+    "MachienWouldDelete" : "سفارش شما ممکن است حذف شود و اطلاعات شما پاک شود",
     "hours or less" : "(مدت باقی مانده کمتر از یک ساعت است)",
     "an hour or less" : "(مدت باقی مانده یک ساعت یا کمتر است)",
     "24 hours or less" : "(مدت باقی مانده، کمتر از ۲۴ ساعت است)",
@@ -455,7 +455,7 @@ let common = {
 
     "Cloud invoices" : "فاکتورها",
     "Select a Date" : "یک تاریخ را انتخاب کنید",
-    "Order Name" : "نام ماشین",
+    "Order Name" : "نام سفارش",
     "Expenses in" : "تراکنش های ماه  ",
     "Amount" : "هزینه",
 
@@ -569,6 +569,8 @@ let common = {
     "3GB" : "۳ گیگابایت",
     "GB" : "گیگابایت",
 
+    // new
+    "You have selected" : "جزییات سفارش",
 }
 
 const words = {

@@ -21,26 +21,9 @@
             <div class="accordion-body">
                 <p>
                     <strong>App:</strong> 
-                    <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">V2RayN</a>
+                    <a href="https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Windows-Setup-x64.Msi" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Hiddify</a>
                 </p>
-        
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using Subscription Link</p>
-                    <ol>
-                        <li>Open V2RayN and go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Subscription > Add</span></li>
-                        <li>Paste the subscription link and update the nodes</li>
-                        <li>Select a server and connect</li>
-                    </ol>
-                </div>
-
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using QR Code</p>
-                    <ol>
-                        <li>In V2RayN, go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Servers > Scan QR Code</span></li>
-                        <li>Scan the QR code using your camera</li>
-                        <li>Select a server and connect</li>
-                    </ol>
-                </div>
+                <?php  include('./includes/viewparts/turor.php') ?>
             </div>
         </div>
     </div>
@@ -56,30 +39,9 @@
             <div class="accordion-body">
                 <p>
                     <strong>App:</strong> 
-                    <a href="https://github.com/Cenmrev/V2RayX" target="_blank" class="btn btn-primary btn-sm px-4 mx-2">V2RayX</a>
-                    <span>
-                        or 
-                    </span>
-                    <a href="https://github.com/Qv2ray/Qv2ray" target="_blank" class="btn btn-primary btn-sm px-4 mx-2">Qv2ray</a>
+                    <a href="https://play.google.com/store/apps/details?id=app.hiddify.com" target="_blank" class="btn btn-primary btn-sm px-4 mx-2">Hiddify</a>
                 </p>
-        
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using Subscription Link</p>
-                    <ol>
-                        <li>Open V2RayN and go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Subscription</span></li>
-                        <li>Add the subscription link</li>
-                        <li>Update nodes, select a server, and connect</li>
-                    </ol>
-                </div>
-
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using QR Code</p>
-                    <ol>
-                        <li>In V2RayN, go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Servers > Scan QR Code</span></li>
-                        <li>Scan the QR code</li>
-                        <li>Select a server and connect</li>
-                    </ol>
-                </div>
+                <?php  include('./includes/viewparts/turor.php') ?>
             </div>
         </div>
     </div>
@@ -94,27 +56,9 @@
             <div class="accordion-body">
                 <p>
                     <strong>App:</strong> 
-                    <a href="https://apps.apple.com/us/app/foxray/id6448898396" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Foxray</a>
-                    <a href="https://apps.apple.com/us/app/streisand/id6450534064" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Streisand</a>
+                    <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532?platform=iphone" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Hiddify</a>
                 </p>
-        
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using Subscription Link</p>
-                    <ol>
-                        <li>Open the app and go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Settings</span><span class="mx-2">or</span><span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Subscription</span></li>
-                        <li>Paste the subscription link and update the node list</li>
-                        <li>Select a server and toggle on the VPN</li>
-                    </ol>
-                </div>
-
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using QR Code</p>
-                    <ol>
-                        <li>in the app, Go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Scan QR Code</span></li>
-                        <li>Scan the QR code</li>
-                        <li>Select a server and toggle on the VPN</li>
-                    </ol>
-                </div>
+                <?php  include('./includes/viewparts/turor.php') ?>
             </div>
         </div>
     </div>
@@ -129,26 +73,26 @@
             <div class="accordion-body">
                 <p>
                     <strong>App:</strong> 
-                    <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">V2RayNG</a>
+                    <a href="https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-MacOS.dmg" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Hiddify</a>
                 </p>
-        
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using Subscription Link</p>
-                    <ol>
-                        <li>Open the app and go to <span class="font-monospace bg-body-secondary p-1 px-3 mx-1">Subscription Settings</span>and paste the link</li>
-                        <li>Update the list of nodes</li>
-                        <li>Select a server and connect</li>
-                    </ol>
-                </div>
-
-                <div>
-                    <p class="fw-medium pt-3 pb-2 mb-0">Using QR Code</p>
-                    <ol>
-                        <li>In V2RayNG, go to <span class="font-monospace bg-body-secondary p-1 px-3 ms-1">Tap the QR code icon</span></li>
-                        <li>Scan the QR code.</li>
-                        <li>Connect to a server and verify the VPN is active.</li>
-                    </ol>
-                </div>
+                <?php  include('./includes/viewparts/turor.php') ?>
+            </div>
+        </div>
+    </div>
+    <!-- Linux -->
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Linux
+            </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <p>
+                    <strong>App:</strong> 
+                    <a href="https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Linux-x64.AppImage" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Hiddify</a>
+                </p>
+                <?php  include('./includes/viewparts/turor.php') ?>
             </div>
         </div>
     </div>

@@ -4,6 +4,14 @@ app = createApp({
 
     data() {
         return {
+            // mr
+            generatedCode: '',
+
+
+
+
+
+            // other
             readyToLoad: null,
             WhUserId: null,
             ChargeBtnClass: 'bg-primary text-primary',
@@ -46,7 +54,10 @@ app = createApp({
             UserOrders: null,
             UserOrdersIsLoaded: false,
             UserOrdersIsLoading: false,
-            
+
+
+            addPromotionCodeIsLoading: false,
+
 
 
 
@@ -61,10 +72,19 @@ app = createApp({
     },
     
     mounted() {
-        this.fetchModuleConfig();
-        this.getUserId();
-        this.loadPolling()
-        this.mountToolTips()
+        let path = document.baseURI;
+        
+        // TODO: mr for admin putput file
+        if(path.includes('adminoutput')){
+            this.addPromotionCode()
+            
+        } else {
+            // for client summery page
+            this.fetchModuleConfig();
+            this.getUserId();
+            this.loadPolling()
+            this.mountToolTips()
+        }
     },       
 
     watch: {
@@ -141,6 +161,66 @@ app = createApp({
     },
 
     methods: {
+        // TODO: sample
+        generateRandomCode() {
+            const prefix = "CAAS-";
+            const length = 9;
+            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let randomCode = "";
+    
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomCode += characters[randomIndex];
+            }
+            
+            this.generatedCode = prefix + randomCode;
+        },
+    
+        // TODO: mr
+        othermrcode(){
+            document.getElementById("type").addEventListener("change" , function (){
+                var value = document.getElementById("type").value;
+                var typeSignArea = document.getElementById("typeSign");
+        
+                if(value == "percent"){
+                    typeSignArea.innerHTML = "%";
+                }
+                else {
+                    typeSignArea.innerHTML = "€";
+                }
+            });
+        
+        
+            document.getElementById("type").addEventListener("change" , function (){
+                var value = document.getElementById("type").value;
+                var typeSignArea = document.getElementById("typeSign");
+        
+                if(value == "percent"){
+                    typeSignArea.innerHTML = "%";
+                }
+                else {
+                    typeSignArea.innerHTML = "€";
+                }
+            });
+        
+            document.getElementById("user_type").addEventListener("change" , function (){
+                var value = document.getElementById("user_type").value;
+        
+                var section = document.getElementById("userListSection");
+        
+                if(value == "specific_users"){
+                    section.style.display = "block";
+                }
+                else{
+                    section.style.display = "none";
+                }
+        
+            });
+        
+        },
+
+
+
 
         fetchModuleConfig() {
             this.configIsLoaded = false
@@ -368,6 +448,32 @@ app = createApp({
             setTimeout(() => {
                 clearInterval(intervalId);
             }, 25 * 1000); // 25 seconds = 25,000 milliseconds
+        },
+        async addPromotionCode() {
+            this.addPromotionCodeIsLoading = true
+            RequestLink = this.CreateRequestLink(action = 'admin_addPromotionCode');
+            if(RequestLink == null){
+                console.error('addPromotionCode: Creating the link cause error');
+                return 'addPromotionCode: Creating the link cause error'
+            }
+
+            let response = await axios.post(RequestLink , {
+
+            });
+            console.log(response);
+            
+            // if (response?.data){
+            //     this.addPromotionCodeIsLoading = false
+            // }
+
+            // if (response?.data?.data) {
+            //     this.addPromotionCodeIsLoading = true
+            // } else if (response?.data?.message) {
+            //     this.addPromotionCodeIsLoading = true
+            //     console.error('Adding PromotionCode Has an error : ' + response.data.message);
+            // } else {
+            //     console.error('Adding PromotionCode Has an exception');
+            // }
         },
     }
 });

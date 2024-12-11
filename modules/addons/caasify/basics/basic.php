@@ -807,3 +807,234 @@ function caasify_calculate_ratio_for_vpspricing(){
 
     return $response;
 }
+
+/**
+ * Checks if a user is new.
+ *
+ * A new user is defined as someone who has not made any payments yet.
+ *
+ * @param int $whUserId     The user ID in the WH system.
+ *
+ * @return bool             Returns true if the user is new, otherwise false.
+ */
+function caasify_is_user_new($whUserid)
+{
+    $query = Capsule::table("tblcaasify_invoices")->where("whuserid", $whUserid)->count();
+    if($query > 0)
+        return false;
+    else
+        return true;
+}
+
+
+function cassify_get_all_promotion_table(){
+    $hasTable = Capsule::schema()->hasTable('tblcaasify_promotions');
+
+    if(!empty($hasTable)) {
+        try {
+            // Fetch the latest 30 records, ordered by 'id' or 'created_at'
+            $invoices = Capsule::table('tblcaasify_promotions')
+                ->orderBy('id', 'desc') // Adjust the column name if necessary
+                ->limit(100)
+                ->get();
+            return ($invoices);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+function cassify_get_all_wh_users(){
+    $hasTable = Capsule::schema()->hasTable('tblusers');
+
+    if(!empty($hasTable)) {
+        try {
+            // Fetch the latest 30 records, ordered by 'id' or 'created_at'
+            $invoices = Capsule::table('tblusers')
+                ->get();
+            return ($invoices);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+
+/**
+ * Validates a promotion code and calculates the final price if valid.
+ *
+ * This function checks if the provided promotion code is still active,
+ * has not expired, meets usage limits, and satisfies the defined conditions.
+ * If the code is valid, it returns the increased final price for recharging.
+ *
+ * @param string $code      The promotion code to validate.
+ * @param float  $price     The initial price before applying the promotion.
+ * @param int    $WhUserId  The user ID from the WH table, used to track individual usage.
+ *
+ * @return array            [bool isValid, string message, float final_price]
+ *                           - isValid: True if promotion is applicable, otherwise false.
+ *                           - message: Explanation of validation result.
+ *                           - final_price: The adjusted price after applying the promotion,
+ *                               or the original price if the promotion is invalid.
+ */
+function caasify_promotion_validation($code , $price , $WhUserId){
+    $promotion = Capsule::table('tblcaasify_promotions')->where('code' , $code );
+
+    if($promotion->exists()){
+
+        $promotion = $promotion->first();
+
+        $now = ( new DateTime("now") ) -> format("Y-m-d");
+
+        //check if promotion is active
+        if($promotion->status == 0){
+            return [ false , "1001 : This promotion code has expired and is no longer available for use." , $price];
+
+        }
+
+        // Check if the promotion falls within the acceptable usage date range (start_date to expiration_date).
+        if( $promotion->start_date <= $now && $promotion->expiration_date >= $now ){
+
+            if($promotion->max_use != 0 and $promotion->uses >= $promotion->max_use)
+            {
+                return [ false , "1003 : This promotion code has reached its usage limit and can no longer be used." , $price];
+            }
+            else {
+                // Check if the promotion meets the price limitations (e.g., minimum or maximum price).
+                if($promotion->conditions != null){
+
+                    $conditions = unserialize($promotion->conditions);
+
+                    if( isset($conditions["min_amount"]) and $conditions["min_amount"] != 0 ){
+                        if($price < $conditions["min_amount"]){
+                            return [ false , "1004 : The purchase amount does not meet the minimum required for this promotion code." , $price];
+                        }
+                    }
+
+                    if( isset($conditions["max_amount"]) and $conditions["max_amount"] != 0 ){
+                        if($price > $conditions["max_amount"]){
+                            return [ false , "1005 : The purchase amount exceeds the maximum allowed for this promotion code." , $price];
+                        }
+                    }
+                }
+
+                if($promotion->recurring_no > 0){
+                    $repetitionCount = Capsule::table("tblcaasify_promotions_used") -> where( 'promotion_id' , $promotion->id) -> where('user_id' , $WhUserId ) ->count();
+
+                    if($promotion->recurring_no <= $repetitionCount){
+                        return [ false , "1006 : You have already used this promotion code the maximum allowed number of times." , $price];
+
+                    }
+
+                }
+
+                // Proceed to the next step, as all base requirements have been met. Now, check if the promotion code is valid for the user!
+                if($promotion->user_type == "all_users")
+                {
+                    return [ true , "Successful" , caasify_calculate_promotion_final_price($price , $promotion->type , $promotion->value) ];
+                }
+                else if($promotion->user_type == "new_users"){
+                    if(caasify_is_user_new($WhUserId) == true)
+                    {
+                        return [ true , "Successful" , caasify_calculate_promotion_final_price($price , $promotion->type , $promotion->value) ];
+                    }
+                    else
+                    {
+                        return [ false , "1007 : This promotion code is only available for new users." , $price];
+                    }
+                }
+                else if($promotion->user_type == "specific_users"){
+
+                    if($promotion->user_list != null){
+
+                        $user_list = unserialize($promotion->user_list);
+
+                        if(in_array($WhUserId, $user_list)){
+                             return [ true , "Successful" , caasify_calculate_promotion_final_price($price , $promotion->type , $promotion->value) ];
+                        }
+                        else{
+                            return [ false , "1008 : This promotion code is not valid." , $price];
+                        }
+                    }
+                    else{
+                        return [ false , "1009 : This promotion code is not valid." , $price];
+                    }
+                }
+            }
+        }
+        else {
+            return [ false , "10010 : This promotion code has expired and is no longer available for use." , $price];
+        }
+    }
+    else {
+        return [ false , "10011 :The promotion code entered does not exist. Please check and try again." , $price];
+    }
+
+}
+
+/**
+ * Applies a promotion code to calculate the final price for an account recharge.
+ *
+ * This function first validates the promotion code by calling the `caasify_promotion_validation` function.
+ * If the code is valid, it records the usage in the database, updates the promotion's usage count,
+ * and returns the adjusted price for the recharge. If invalid, it returns the original price.
+ *
+ * @param string $code       The promotion code to validate and apply.
+ * @param float  $price      The initial price before applying the promotion.
+ * @param int    $WhUserId   The user ID from the WH table, used to track individual usage.
+ * @param int    $invoice_id The invoice ID associated with this promotion application.
+ *
+ * @return array             [bool isOk, float final_price]
+ *                            - isOk: True if promotion is applicable, otherwise false.
+ *                            - final_price: The adjusted price after applying the promotion,
+ *                              or the original price if the promotion is invalid.
+ */
+function caasify_use_promotion($code , $price , $WhUserId , $invoice_id)
+{
+    $validation = caasify_promotion_validation($code , $price , $WhUserId);
+
+    if($validation[0] === true)
+    {
+        $promotion = Capsule::table('tblcaasify_promotions')->where('code' , $code );
+
+        Capsule::table("tblcaasify_promotions_used")->insert([
+            'invoice_id' => $invoice_id,
+            'user_id' => $WhUserId,
+            'promotion_id' => $promotion->first()->id
+        ]);
+
+        $promotion->update([
+            "uses" => $promotion->uses + 1
+        ]);
+
+        return [true , $validation[2]];
+    }
+    else {
+        return [false , $price];
+    }
+}
+/**
+ * Calculates the final price after applying a promotion.
+ *
+ * This function applies a fixed or percentage-based promotion to an initial price and
+ * returns the adjusted price rounded to two decimal places.
+ *
+ * @param float  $price     The initial price before applying the promotion.
+ * @param string $type      The type of promotion ("fixed" or "percent").
+ * @param float  $value     The promotion amount. If type is "fixed", this is added directly;
+ *                          if "percent", this is treated as a percentage.
+ *
+ * @return float            The adjusted price after applying the promotion, rounded to two decimal places.
+ */
+function caasify_calculate_promotion_final_price($price, $type, $value){
+    if ($type == "fixed") {
+        return number_format($price + $value, 2, '.', '');
+    }
+
+    $increase = $price * $value / 100;
+    return number_format($price + $increase, 2, '.', '');
+}

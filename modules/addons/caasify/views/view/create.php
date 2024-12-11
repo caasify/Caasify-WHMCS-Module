@@ -6,14 +6,14 @@
     <div id="app" class="row px-1 px-md-2 py-2 mx-auto" style="max-width: 1200px;">
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak v-if="CommissionIsValid">
             <?php include('./includes/baselayout/balancealertmodal.php');       ?>
-            <?php  include('./includes/baselayout/backflash.php');              ?>
+            <?php  //include('./includes/baselayout/backflash.php');              ?>
             <?php  include('./includes/createparts/modalconfigs.php');          ?>
             <?php  include('./includes/createparts/modalcreate.php');           ?>
             <?php  include('./includes/createparts/filtersmodal.php');          ?>
             <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                 <?php  include('./includes/baselayout/modaldemo.php');     ?>
             <?php endif ?>
-            <div class="col-12 bg-white rounded-4 m-0 p-0 mt-5"
+            <div class="col-12 bg-light rounded-4 m-0 p-0 mt-2"
                 style="min-height: 1800px">
                 <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                     <?php  include('./includes/baselayout/demoheader.php');   ?>

@@ -14,19 +14,19 @@
         :style="thePlansStyle(plan)"
         @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#configModal"
         >
-            <div class="row justify-content-between align-items-center flex-wrap">
-                <div class="col-12 col-sm-6 col-lg-3 py-2">
+            <div class="d-flex flex-row justify-content-between align-items-center flex-wrap gap-3">
+                <div class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Netherlands, Germany, Turkey, USA, Australia">
                     <span class="text-secondary">
                         {{ lang('Locations') }}
                     </span>
                     <span class="px-1">
                         :
                     </span>
-                    <span>
-                        {{ lang('Germany, Netherland') }}
+                    <span >
+                        {{ lang('NL, DE, TR, US, AU') }}
                     </span>
                 </div>
-                <div v-if="plan?.traffic_limit" class="col-12 col-sm-6 col-lg-3 py-2">
+                <div v-if="plan?.traffic_limit" class="">
                     <span class="text-secondary">
                         {{ lang('Free Traffic') }}
                     </span>
@@ -34,10 +34,10 @@
                         :
                     </span>
                     <span>
-                        {{ plan?.traffic_limit }} {{ lang('MB') }} {{ lang('monthly') }}
+                        {{ Number(plan?.traffic_limit)/1000 }} {{ lang('GB') }}
                     </span>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-3 py-2">
+                <div class="">
                     <span class="text-secondary">
                         {{ lang('Duration') }}
                     </span>
@@ -48,7 +48,18 @@
                         {{ lang('Unlimited') }}
                     </span>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-3 py-2">
+                <div class="">
+                    <span class="text-secondary">
+                        {{ lang('Cost') }}
+                    </span>
+                    <span class="px-1">
+                        :
+                    </span>
+                    <span>
+                        {{ formatPlanPrice(plan?.price) }} {{ userCurrencySymbolFromWhmcs }}
+                    </span>
+                </div>
+                <div class="">
                     <span class="text-secondary">
                         {{ lang('Traffic Price') }}
                     </span>
@@ -56,7 +67,7 @@
                         :
                     </span>
                     <span>
-                        {{ formatTotalMachinePrice(plan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} /{{ lang('GB') }}
+                        {{ formatPlanPrice(plan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} /{{ lang('GB') }}
                     </span>
                 </div>
             </div>

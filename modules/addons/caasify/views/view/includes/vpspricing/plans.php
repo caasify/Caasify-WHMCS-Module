@@ -23,7 +23,7 @@
                         </thead>
                     </table>
                     <div class="m-0 p-0" :style="'opacity: ' + opacity">
-                        <table class="table table-borderless align-middle">
+                        <table class="table table-borderless align-middle table-light">
                             <tbody class="text-center">
                                 <tr v-for="i in Array.from({ length: 3 }, (v, k) => k + 1)">
                                     <td class="m-0 p-0 pe-1 py-1">
@@ -83,7 +83,7 @@
         </div>
         <!-- order details -->
         <div v-if="plansAreLoaded" class="row mt-2 text-start">
-            <table class="table">
+            <table class="table table-light">
                 <thead>
                     <tr>
                         <th scope="col" class="fs-6 fw-medium">
@@ -116,7 +116,7 @@
                         </p>
                     </div>
                 </div>
-                <table v-if="AllPlansSorted" class="table table-borderless align-middle">
+                <table v-if="AllPlansSorted" class="table table-borderless align-middle table-light">
                     <tbody class="text-center">
                         <div class="" v-if="AllPlansSorted">
                             <tr v-for="plan, key in AllPlansSorted" :id="key" v-show="isAvailableByCapacity(plan)">
