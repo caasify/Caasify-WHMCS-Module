@@ -1,6 +1,7 @@
 <?php
 use WHMCS\Database\Capsule;
 use WHMCS\Service\Service;
+use PG\Request\Request;
 use WHMCS\User\Client;
 
 $path = dirname(__FILE__);
@@ -75,6 +76,47 @@ function caasify_activate(){
 function caasify_config(){
 
     $SystemUrl = caasify_get_systemUrl();
+
+    $fields = caasify_get_array('fields', $_POST);
+
+    if ($fields) {
+
+        $caasify = caasify_get_array('caasify', $fields);
+
+        if ($caasify) {
+
+            $caasifyUrl = caasify_get_array('BackendUrl', $caasify);
+            $caasifyToken = caasify_get_array('ResellerToken', $caasify);
+
+            $caasifySubject = caasify_get_array('EmailSubject', $caasify);
+            $caasifyContent = caasify_get_array('EmailContent', $caasify);
+            $caasifyFromName = caasify_get_array('EmailFromName', $caasify);
+
+            if ($caasifyUrl) {
+
+                $address = [
+                    $caasifyUrl, 'api', 'reseller', 'templates', 'save'
+                ];
+
+                $headers = [
+                    'Accept' => 'application/json',
+                    'Authorization' => "Bearer {$caasifyToken}"
+                ];
+
+                $params = [
+                    'subject' => $caasifySubject, 
+                    'content' => $caasifyContent, 
+                    'from_name' => $caasifyFromName
+                ];
+
+                Request::instance()
+                    ->setAddress($address)
+                    ->setHeaders($headers)
+                    ->setParams($params)->getResponse();
+            }
+        }
+    }
+    
     // Variables
     $CurrencyOptions = caasify_create_currency_options();
     $LanguageOptions = array (
@@ -177,6 +219,10 @@ function caasify_config(){
 
             "VPNSectionEnabled" => array ("FriendlyName" => "VPN selling Enable", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $VPNSectionEnabledLabel, "Default" => 'on'),
             "VPNSectionMenuTitle" => array ("FriendlyName" => "VPN Menu Title", "Type" => "text", "Size" => "31", "Description" => $VPNSectionMenuTitleLabel, "Default" => "VPN"),
+
+            "EmailSubject" => array("FriendlyName" => "Email Subject", "Type" => "text"),
+            "EmailContent" => array("FriendlyName" => "Email Content", "Type" => "textarea"),
+            "EmailFromName" => array("FriendlyName" => "Email From Name", "Type" => "text")
         ));
 
     return $configarray;
