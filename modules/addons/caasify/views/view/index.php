@@ -103,8 +103,9 @@ foreach ($files as $file) {
 
 <!-- Active Orders -->
 <div v-if="isEmpty(activeorders)" class="card mb-4">
-    <div class="card-header bg-white fw-semibold p-3">
-        {{ lang('Your Active Orders') }}
+    <div class="card-header bg-white fw-semibold p-3 d-flex justify-content-between align-items-center">
+        <span>{{ lang('Your Active Orders') }}</span>
+        <button @click="openCreatePage" class="btn btn-sm btn-primary ms-auto">Create order</button>
     </div>
     <div class="card-body text-center">
         <img src="./includes/assets/img/default.jpg" width="64" class="mb-3">
@@ -118,8 +119,9 @@ foreach ($files as $file) {
 </div>
 
 <div v-else class="card mb-4">
-    <div class="card-header bg-white fw-semibold p-3">
-        {{ lang('Your Active Orders') }}
+    <div class="card-header bg-white fw-semibold p-3 d-flex justify-content-between align-items-center">
+        <span>{{ lang('Your Active Orders') }}</span>
+        <button @click="openCreatePage" class="btn btn-sm btn-primary ms-auto">Create order</button>
     </div>
     <div class="card-body text-center p-0">
         <div class="table-responsive">
