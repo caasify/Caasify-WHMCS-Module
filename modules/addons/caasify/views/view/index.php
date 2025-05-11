@@ -43,29 +43,30 @@ foreach ($files as $file) {
 
 
 <!-- Stats -->
-<div class="row g-3 mb-4">
+<div class="row g-4 mb-4">
 
 <!-- Balance -->
 <div class="col-md-3">
-    <div class="card text-center">
+    <div class="card text-center py-2">
         <div class="card-body">
-            <h3 class="text-primary">
+            <h2 class="text-primary mb-4">
                 {{ formatUserBalance(user?.available_balance) }}
-            </h3>
-            <p class="text-muted mb-0">
+            </h2>
+            <p class="fs-5 text-muted mb-4">
                 {{ userCurrencySymbolFromWhmcs }}
             </p>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chargeModal">TopUp</button>
         </div>
     </div>
 </div>
 
 <div class="col-md-3">
-    <div class="card text-center">
+    <div class="card text-center py-5">
         <div class="card-body">
-            <h3 class="text-primary">
+            <h2 class="text-primary">
                 {{ WhmcsUserInfo?.tickets }}
-            </h3>
-            <p class="text-muted mb-0">
+            </h2>
+            <p class="fs-5 text-muted mb-0">
                 {{ lang('Tickets') }}
             </p>
         </div>
@@ -73,12 +74,12 @@ foreach ($files as $file) {
 </div>
 
 <div class="col-md-3">
-    <div class="card text-center">
+    <div class="card text-center py-5">
         <div class="card-body">
-            <h3 class="text-primary">
+            <h2 class="text-primary">
                 {{ totalOrders }}
-            </h3>
-            <p class="text-muted mb-0">
+            </h2>
+            <p class="fs-5 text-muted mb-0">
                 {{ lang('Orders') }}
             </p>
         </div>
@@ -86,12 +87,12 @@ foreach ($files as $file) {
 </div>
   
 <div class="col-md-3">
-    <div class="card text-center">
+    <div class="card text-center py-5">
         <div class="card-body">
-            <h3 class="text-primary">
+            <h2 class="text-primary">
                 {{ formatUserBalance(totalExpense) }}
-            </h3>
-            <p class="text-muted mb-0">
+            </h2>
+            <p class="fs-5 text-muted mb-0">
                 {{ lang('Total Spend') }}
             </p>
         </div>
