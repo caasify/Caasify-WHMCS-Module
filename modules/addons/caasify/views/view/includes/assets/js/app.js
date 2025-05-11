@@ -147,6 +147,9 @@ app = createApp({
             userHasNoOrder: false,
             ConstUserId: null,
 
+            totalOrders: 0,
+            totalExpense: 0,
+
             chargeAmountinWhmcs: null,
             ConstChargeamountInWhmcs: null,
             chargeAmountAdminInput: null,
@@ -355,13 +358,13 @@ app = createApp({
                         this.LoadCaasifyResellerUser();
                         setTimeout(() => {
                             this.LoadUserOrders();
+                            this.LoadUserTotalOrders();
+                            this.LoadUserTotalExpense();
                             setTimeout(() => {
                                 this.LoadWhmcsUser();
+                                this.loadWhmcsUserTickets();
                                 setTimeout(() => {
                                     this.LoadWhmcsCurrencies();
-                                    setTimeout(() => {
-                                        this.loadPollingIndex();
-                                    }, 0.5 * 1000);
                                 }, 0.5 * 1000);
                             }, 0.5 * 1000);
                         }, 0.5 * 1000);
@@ -1389,6 +1392,30 @@ app = createApp({
             return RequestLink;
         },
 
+        async LoadUserTotalOrders() {
+
+            let RequestLink = this.CreateRequestLink(action = 'UserTotalOrders');
+            let response = await axios.get(RequestLink);
+
+            if (response?.data?.total) {
+                this.totalOrders = response.data.total;
+            }
+
+            return null;
+        },
+
+        async LoadUserTotalExpense() {
+
+            let RequestLink = this.CreateRequestLink(action = 'UserTotalExpense');
+            let response = await axios.get(RequestLink);
+
+            if (response?.data?.total) {
+                this.totalExpense = response.data.total;
+            }
+
+            return null;
+        },
+
         async LoadUserOrders() {
             let RequestLink = this.CreateRequestLink(action = 'UserOrders');
             let response = await axios.get(RequestLink);
@@ -1425,6 +1452,28 @@ app = createApp({
             } else if (response?.data?.message) {
                 // console.error('CaasifyUserInfo: ' + response.data.message);
             }
+        },
+
+        async loadWhmcsUserTickets() {
+
+            RequestLink = this.CreateRequestLink(action = 'WhmcsUserTickets'); 
+            
+            let response = await axios.get(RequestLink);
+
+            if (response?.data) {
+                this.WhmcsUserTickets = response.data
+            } else {
+                console.error('WhmcsUserTickets:no response');
+            }
+        },
+
+        valueIs(status, value) {
+
+            if (status == value) {
+                return true;
+            }
+
+            return false;
         },
 
         async LoadWhmcsUser() {
@@ -1715,6 +1764,15 @@ app = createApp({
                 base = this.systemUrl
             }
             let address = base + '/index.php?m=caasify&action=pageIndex'
+            window.open([address], "_top")
+        },
+
+        openTicketPage() {
+            let base = ''
+            if (this.systemUrl != null) {
+                base = this.systemUrl
+            }
+            let address = base + '/submitticket.php'
             window.open([address], "_top")
         },
 
@@ -2058,25 +2116,25 @@ app = createApp({
 
         formatUserBalanceInEuro(UserBalnce) {
             if (isNaN(UserBalnce) || UserBalnce == null) {
-                return NaN
+                return 0
             }
 
             let FloatUserBalnce = parseFloat(UserBalnce);
             if (isNaN(FloatUserBalnce) || FloatUserBalnce == null) {
                 console.error('FloatUserBalnce is not Float')
-                return NaN
+                return 0
             }
 
             let UserBalnceWithCommission = this.addCommision(FloatUserBalnce)
             if (isNaN(UserBalnceWithCommission) || UserBalnceWithCommission == null) {
                 console.error('UserBalnceWithCommission is null')
-                return NaN
+                return 0
             }
 
             let FormattedUserBalance = this.showBalanceCloudUnit(UserBalnceWithCommission)
             if (isNaN(FormattedUserBalance) || FormattedUserBalance == null) {
                 console.error('FormattedUserBalance is null')
-                return NaN
+                return 0
             }
 
             return FormattedUserBalance
@@ -2085,31 +2143,31 @@ app = createApp({
         
         formatUserBalance(UserBalnce) {
             if (isNaN(UserBalnce) || UserBalnce == null) {
-                return NaN
+                return 0
             }
 
             let FloatUserBalnce = parseFloat(UserBalnce);
             if (isNaN(FloatUserBalnce) || FloatUserBalnce == null) {
                 console.error('FloatUserBalnce is not Float')
-                return NaN
+                return 0
             }
 
             let UserBalnceWithCommission = this.addCommision(FloatUserBalnce)
             if (isNaN(UserBalnceWithCommission) || UserBalnceWithCommission == null) {
                 console.error('UserBalnceWithCommission is null')
-                return NaN
+                return 0
             }
 
             let UserBalanceInWhCurrency = this.ConvertFromCaasifyToWhmcs(UserBalnceWithCommission)
             if (isNaN(UserBalanceInWhCurrency) || UserBalanceInWhCurrency == null) {
                 console.error('UserBalanceInWhCurrency is null')
-                return NaN
+                return 0
             }
 
             let FormattedUserBalance = this.showBalanceWhmcsUnit(UserBalanceInWhCurrency)
             if (isNaN(FormattedUserBalance) || FormattedUserBalance == null) {
                 console.error('FormattedUserBalance is null')
-                return NaN
+                return 0
             }
             
             return FormattedUserBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

@@ -433,6 +433,29 @@ function caasify_get_user_token_from_api($BackendUrl, $UserEmail, $password){
     return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
 }
 
+function caasify_get_whmcs_user_tickets($WhUserId)
+{
+    $command = 'GetTickets';
+
+    $postData = array(
+        'clientid' => $WhUserId,
+        'limitnum' => 2
+    );
+
+    $results = localAPI($command, $postData);
+
+    $exists = array_key_exists('tickets', $results);
+
+    $tickets = [];
+
+    if ($exists) {
+        
+        $tickets = $results['tickets']['ticket'];
+    }
+
+    return $tickets;
+}
+
 function caasify_get_whmcs_user($WhUserId)
 {
     $command = 'GetClientsDetails';
@@ -447,11 +470,13 @@ function caasify_get_whmcs_user($WhUserId)
         $currency = $results['currency_code'];
         $userCurrencyId = $results['currency'];
         $countrycode = $results['countrycode'];
+        $tickets = $results['stats']['numactivetickets'];
         $response = array(
             'credit' => $credit,
             'currency' => $currency,
             'userCurrencyId' => $userCurrencyId,
             'countrycode' => $countrycode,
+            'tickets' => $tickets
         );
         return $response; 
     } else {

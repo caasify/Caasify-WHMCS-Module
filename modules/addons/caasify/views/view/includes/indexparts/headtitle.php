@@ -3,9 +3,6 @@
 <?php include_once('failmodal.php'); ?>
 <div class="mt-5 px-3 px-md-4 d-block d-md-none">
     <div class="d-flex flex-row justify-content-between align-items-center ms-3">
-        <p class="m-0 p-0 h3 fw-bolder text-dark">
-            {{ lang('Cloud Account') }}
-        </p>
         <div class="text-dark d-flex flex-row justify-content-center align-items-center p-0 mb-1" style="--bs-bg-opacity: 0.2">
             <?php include('./includes/baselayout/langbtn.php'); ?>
         </div>
@@ -15,9 +12,6 @@
     <div class="row d-none d-md-block ms-3">
         <div class="d-flex flex-row justify-content-start align-items-center mt-5">
             <div class="row me-4">
-                <p class="m-0 p-0 h3 fw-bolder text-dark">
-                    {{ lang('Cloud Account') }}
-                </p>
             </div>
         </div>
     </div>    

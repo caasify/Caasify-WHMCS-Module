@@ -65,6 +65,15 @@ class ClientCaasifyController
         $this->response($response);
     }
 
+    public function WhmcsUserTickets()
+    {
+        $WhUserId = $this->WhUserId;
+
+        $response = caasify_get_whmcs_user_tickets($WhUserId);
+
+        $this->response($response);
+    }
+
     public function WhmcsUserInfo()
     {
         $WhUserId = $this->WhUserId;
@@ -76,6 +85,56 @@ class ClientCaasifyController
     {
         $response = caasify_get_Whmcs_Currencies();
         $this->response($response);
+    }
+
+    public function UserTotalOrders()
+    {
+        $UserToken = $this->UserToken;
+
+        $response = $this->sendUserTotalOrdersRequest($UserToken);
+
+        $this->response($response);
+    }
+
+    public function sendUserTotalOrdersRequest($UserToken)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $UserToken
+        ];
+
+        $address = [
+            $BackendUrl, 'api', 'report', 'order', 'active'
+        ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+
+    public function UserTotalExpense()
+    {
+        $UserToken = $this->UserToken;
+
+        $response = $this->sendUserTotalExpenseRequest($UserToken);
+
+        $this->response($response);
+    }
+
+    public function sendUserTotalExpenseRequest($UserToken)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $UserToken
+        ];
+
+        $address = [
+            $BackendUrl, 'api', 'report', 'expense', 'total'
+        ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
     public function UserOrders()

@@ -571,6 +571,39 @@ let common = {
 
     // new
     "You have selected" : "جزییات سفارش",
+
+    "Tickets": "تیکت ها",
+    "Orders": "سفارشات",
+    "Total Spend": "هزینه ها",
+
+    "Your Active Orders": "سفارشات فعال شما",
+    "No Active Orders Found": "سفارشی یافت نشد",
+    "Place New Order": "ایجاد سفارش جدید",
+
+    "Type": "نوع",
+    "View": "مشاهده",
+
+    "Recent Support Tickets": "آخرین تیکت ها",
+    "No Tickets Found": "تیکتی یافت نشد",
+    "Open Ticket": "ایجاد تیکت جدید",
+
+    "Subject": "موضوع",
+    "Priority": "اهمیت",
+
+    "Low": "کم",
+    "Medium": "متوسط",
+    "High": "زیاد",
+
+    "Open": "باز",
+    "Answered": "پاسخ داده شده",
+    "Customer Reply": "پاسخ مشتری",
+    "On Hold": "در انتظار",
+    "In Progress": "در حال بررسی",
+    "Closed": "بسته شده",
+
+    "Register Domain": "ثبت دامین",
+    "Transfer Domain": "انتقال دامین",
+    "Register Domain": "ثبت دامین"
 }
 
 const words = {
