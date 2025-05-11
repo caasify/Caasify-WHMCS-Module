@@ -24,7 +24,7 @@ foreach ($files as $file) {
 </div>
 
 <!-- Order -->
-<div v-else class="container py-4">
+<div v-else class="p-4">
 
 <!-- Header -->
 <div class="mt-3 mb-4">
