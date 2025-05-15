@@ -15,6 +15,11 @@ app = createApp({
             VpnPlansAreLoading: true,
             noVpnPlanToShow: false,
             VpnPlans: [],
+
+            HostPlansAreLoaded: false,
+            HostPlansAreLoading: true,
+            noHostPlanToShow: false,
+            HostPlans: [],
             
             val:{"CPU":"0","Ram":"0","Disk":"0","Traffic":"0"},
             favoritPlans: [],
@@ -422,7 +427,7 @@ app = createApp({
             this.config.DemoMode = NewCaasifyConfigs.DemoMode
             this.config.Commission = parseFloat(atob(NewCaasifyConfigs.Commission)) 
             this.config.MyCaasifyStatus = parseFloat(NewCaasifyConfigs.MyCaasifyStatus)
-            
+
             if (NewCaasifyConfigs.VPNSectionEnabled === 'on') {
                 this.parentCategories.splice(1, 0, {
                     name: NewCaasifyConfigs.VPNSectionMenuTitle,
@@ -490,6 +495,22 @@ app = createApp({
                     }, 0.5 * 1000);
                 }, 0.5 * 1000);
                 setInterval(this.LoadVpnShow, 150 * 1000)
+            } else if(this.thisOrder?.type == 'host'){
+                setTimeout(() => {
+                    this.LoadCaasifyUser();
+                    setTimeout(() => {
+                        this.LoadWhmcsUser();
+                        setTimeout(() => {
+                            this.LoadWhmcsCurrencies();
+                            setTimeout(() => {
+                                this.LoadOrderViews();
+                                setTimeout(() => {
+                                    this.LoadActionsHistory();
+                                }, 0.5 * 1000);
+                            }, 1 * 1000);
+                        }, 0.5 * 1000);
+                    }, 0.5 * 1000);
+                }, 0.5 * 1000);
             }
         },
 
@@ -544,7 +565,7 @@ app = createApp({
         parentCategories(){ 
             return [ 
                     { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650', key: 'vps' },
-                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon', key: 'kas' },
+                    { name : this.lang('Host'), icon: this.createIconAddr('host.png'), enabled: true, msg:'New Products', key: 'host' },
                     { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon', key: 'aig' },
                     // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon', key: 'daas' },
                     // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon', key: 's3s' },
@@ -3200,6 +3221,10 @@ app = createApp({
             if(this.SelectedCategory?.key == 'vpn'){
                 this.loadVpnPlans()
             }
+
+            if(this.SelectedCategory?.key == 'host'){
+                this.loadHostPlans()
+            }
         },
 
         isCategory(Category) {
@@ -3424,6 +3449,34 @@ app = createApp({
                     this.VpnPlansAreLoaded = true;
                     this.noVpnPlanToShow = false
                     this.VpnPlans = response?.data?.data                
+                }
+            }
+        },
+
+        async loadHostPlans() {
+            if(this.HostPlans.length > 0){
+                // do nothing
+            } else {
+                this.HostPlansAreLoaded = false;
+                this.HostPlansAreLoading = true
+                HostPlans = []
+
+                let response = ''
+                RequestLink = this.CreateRequestLink(action = 'CaasifyGetHostPlans');
+                response = await axios.get(RequestLink);
+                
+                if (response?.data?.message) {
+                    this.HostPlansAreLoading = false;
+                    this.HostPlansAreLoaded = true;
+                    console.error('HostPlans Error: ' + response?.data?.message);
+                    this.noHostPlanToShow = true
+                }
+
+                if (response?.data?.data) {
+                    this.HostPlansAreLoading = false;
+                    this.HostPlansAreLoaded = true;
+                    this.noHostPlanToShow = false
+                    this.HostPlans = response?.data?.data                
                 }
             }
         },

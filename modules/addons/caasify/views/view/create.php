@@ -57,8 +57,12 @@
                     </div>
                 </div>
                 <!-- vpn parts -->
-                <div v-else class="row m-0 p-0">
+                <div v-if="SelectedCategory?.key == 'vpn'" class="row m-0 p-0">
                     <?php  include('./includes/createparts/vpnproductlist.php');         ?>
+                </div>
+                <!-- host parts -->
+                <div v-if="SelectedCategory?.key == 'host'" class="row m-0 p-0">
+                    <?php  include('./includes/createparts/hostproductlist.php');         ?>
                 </div>
             </div>
         </div>

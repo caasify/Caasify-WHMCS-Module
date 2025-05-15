@@ -10,5 +10,9 @@
         <div v-if="SelectedPlan?.type == 'vpn'" class="modal-content border-0">
             <?php  include('./includes/createparts/vpncreatemodal.php');    ?>
         </div>
+        <!-- host -->
+        <div v-if="SelectedPlan?.type == 'host'" class="modal-content border-0">
+            <?php  include('./includes/createparts/hostcreatemodal.php');    ?>
+        </div>
     </div>
 </div>

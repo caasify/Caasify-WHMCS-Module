@@ -29,21 +29,9 @@
 
 
                 <!-- Type: Text -->
-                <div v-if="field.type == 'text'" class="row m-0 p-0">
-                    <div class="col-12 m-0 p-0 px-lg-4" style="--bs-bg-opacity: 0.1;">
-                        <div class="m-0 p-0">
-                            <div class="m-0 p-0">
-                                <div class="m-0 p-0" style="min-width: 250px;">
-                                    <p class="text-dark h3 m-0 p-0">
-                                        {{ PlanConfigSelectedOptions[field.label] }}
-                                    </p>
-                                    <input v-model="PlanConfigSelectedOptions[field.name].options"
-                                        @input="validateInput" type="text" class="form-control bg-white fs-6 py-2"
-                                        style="--bs-bg-opacity: 0.5;" placeholder="Public key">
-                                </div>
-                                <p v-if="SshNameValidationError" class="mt-4 w-50 small text-danger">not valid</p>
-                            </div>
-                        </div>
+                <div v-if="field.type == 'text'" class="d-flex flex-row justify-content-start align-items-start">
+                    <div style="min-width:160px">
+                        <input :name="field.name" class="form-control py-2 bg-white fs-6 ps-4" v-model="PlanConfigSelectedOptions[field.name].options">
                     </div>
                 </div>
 

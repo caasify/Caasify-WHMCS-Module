@@ -26,6 +26,10 @@
                 <?php include('./includes/viewparts/hostname.php');  ?>
                 <?php include('./includes/viewparts/userview.php');  ?>
             </div>
+            <div v-else-if="thisOrder?.type == 'host'">
+                <?php include('./includes/viewparts/apiview.php');   ?>
+                <?php include('./includes/viewparts/userview.php');  ?>
+            </div>
         </div>
     </div>
 </div>

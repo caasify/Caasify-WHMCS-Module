@@ -1162,6 +1162,32 @@ class ClientCaasifyController
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
+    public function CaasifyGetHostPlans()
+    {
+        $ResellerToken = $this->ResellerToken;
+        $response = null;
+
+        if($ResellerToken){
+            $response = $this->sendCaasifyGetHostPlansRequest($ResellerToken);
+        }
+
+        $this->response($response);
+    }
+
+    public function sendCaasifyGetHostPlansRequest($ResellerToken)
+    {
+        $BackendUrl = $this->BackendUrl;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $ResellerToken
+        ];
+
+        $address = [ $BackendUrl, 'api', 'candy', 'common', 'products', "?type=host" ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+
 
     public function CaasifyVpnShow()
     {
