@@ -15,11 +15,14 @@ foreach ($files as $file) {
 <div v-if="CurrenciesRatioCloudToWhmcs == null" class="container py-4">
 
     <div class="d-flex justify-content-center">
-    
-        <?php
-            require_once('./includes/baselayout/threespinner.php');
-        ?>
-
+        <div class="d-flex flex-row justify-content-center align-items-center text-primary">
+            <p class="h5 me-2">
+                {{ lang('Loading') }}
+            </p>
+            <span>
+                <?php include('./includes/baselayout/threespinner.php'); ?>
+            </span>
+        </div>
     </div>
 </div>
 

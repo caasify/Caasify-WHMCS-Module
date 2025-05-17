@@ -603,7 +603,9 @@ let common = {
 
     "Register Domain": "ثبت دامین",
     "Transfer Domain": "انتقال دامین",
-    "Register Domain": "ثبت دامین"
+    "Register Domain": "ثبت دامین",
+
+    "Loading": "در حال بارگزاری"
 }
 
 const words = {
