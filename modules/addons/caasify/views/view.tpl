@@ -1,4 +1,4 @@
-<iframe src="{$systemUrl}modules/addons/caasify/views/view/view.php?id={$smarty.get.id}" class="caasify"></iframe>
+<iframe src="{$systemUrl}modules/addons/caasify/views/view/view.php?id={$smarty.get.id}" class="caasify" id="myIframe" onload="initResize()"></iframe>
 <style type="text/css">
     .caasify {
         width: 100%;
@@ -6,3 +6,27 @@
         border: none;
     }
 </style>
+
+
+
+<script>
+function initResize() {
+  const iframe = document.getElementById('myIframe');
+  const iframeDoc = iframe.contentWindow.document;
+
+  const resize = () => {
+    iframe.style.height = (iframeDoc.body.scrollHeight + 100) + 'px';
+  };
+
+  // Observe changes inside iframe
+  const observer = new iframe.contentWindow.MutationObserver(resize);
+  observer.observe(iframeDoc.body, {
+    attributes: true,
+    childList: true,
+    subtree: true
+  });
+
+  // Initial resize
+  resize();
+}
+</script>
