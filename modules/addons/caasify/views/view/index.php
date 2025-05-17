@@ -47,15 +47,14 @@ foreach ($files as $file) {
 
 <!-- Balance -->
 <div class="col-md-3">
-    <div class="card text-center py-2">
+    <div class="card text-center py-4">
         <div class="card-body">
-            <h2 class="text-primary mb-4">
-                {{ formatUserBalance(user?.available_balance) }}
+            <h2 class="text-primary mb-5">
+                {{ formatUserBalance(user?.available_balance) }} <span class="fs-5 text-secondary">{{ userCurrencySymbolFromWhmcs }}</span>
             </h2>
-            <p class="fs-5 text-muted mb-4">
-                {{ userCurrencySymbolFromWhmcs }}
-            </p>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chargeModal">TopUp</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chargeModal">
+                <i class="bi bi-wallet2 me-1"></i> TopUp
+            </button>
         </div>
     </div>
 </div>
