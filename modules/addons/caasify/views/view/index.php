@@ -11,6 +11,8 @@ foreach ($files as $file) {
 
 <div id="app">
 
+<div v-cloak>
+
 <!-- Loading -->
 <div v-if="CurrenciesRatioCloudToWhmcs == null" class="container py-4">
 
@@ -296,6 +298,7 @@ foreach ($files as $file) {
 
 </div>
 
+</div>
 </div>
 </div>
 <style>
