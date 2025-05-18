@@ -34,27 +34,27 @@
                                             style="--bs-bg-opacity: 0.1; --bs-text-opacity: 0.2; direction:ltr">
                                             <div class="col-12">
                                                 <div class="row">
-                                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                         <p class="m-0 p-0"> CPU: <span class="text-primary" style="--bs-text-opacity: 0.2;">2 Core </span> Intel-Shared</p>
                                                     </div>
-                                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                         <p class="m-0 p-0"> Memory: <span class="text-primary" style="--bs-text-opacity: 0.2;">4GB</span></p>
                                                     </div>
-                                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                                                        <p class="m-0 p-0"> Disk: <span class="text-primary" style="--bs-text-opacity: 0.2;">20GB</span> SSD NVMe</p>
+                                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                                        <p class="m-0 p-0"> Disk: <span class="text-primary" style="--bs-text-opacity: 0.2;">20GB</span> SSD</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="row">
-                                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                                                        <p class="m-0 p-0">Turkey-Istanbul-SPOT</p>
+                                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                                        <p class="m-0 p-0">Turkey-Istanbul</p>
                                                     </div>
-                                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                         <p class="m-0 p-0"> Traffic: 1TB </p>
                                                     </div>
-                                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                                                        <p class="m-0 p-0"> IP Version: IPv4, IPv6</p>
+                                                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                                        <p class="m-0 p-0"> IP Version: IPv4</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,17 +133,17 @@
                                         >
                                         <div class="col-12 py-2">
                                             <div class="row">
-                                                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                         <span :class="thePlansTextClass(plan)"> {{ plan.detail.cpu_core }} Core </span> {{ plan.detail.cpu_type }}
                                                     </p>
                                                 </div>
-                                                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                         Memory: <span :class="thePlansTextClass(plan)">{{ plan.detail.memory_size }}GB</span>
                                                     </p>
                                                 </div>
-                                                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                         Disk: <span :class="thePlansTextClass(plan)">{{ plan.detail.disk_size }}GB</span> {{ plan.detail.disk_type }}
                                                     </p>
@@ -152,17 +152,17 @@
                                         </div>
                                         <div class="col-12 py-1">
                                             <div class="row">
-                                                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                     {{ plan.detail.dc_country }}-{{ plan.detail.dc_city }}-{{ plan.detail.dc_name }}
                                                     </p>
                                                 </div>
-                                                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                         Traffic: <span :class="thePlansTextClass(plan)">{{ plan.traffic_limit/1000 }}TB</span>
                                                     </p>
                                                 </div>
-                                                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                         IP Version: <span :class="thePlansTextClass(plan)">{{ plan.detail.ip_type }}</span>
                                                     </p>

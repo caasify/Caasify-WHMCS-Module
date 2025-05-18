@@ -1,6 +1,6 @@
 <!-- Data Centers -->
 <div class="row">
-    <div v-for="Category in parentCategories" class="col-12 col-md-6 col-lg-3 m-0 p-0 mb-2">
+    <div v-for="Category in parentCategories" class="col-12 col-md-3 col-lg-3 m-0 p-0 mb-2">
         <div class="d-flex flex-row align-items-center border border-2 mx-1 rounded-4 p-3" 
         style="--bs-bg-opacity: 0.5 !important;"
         :style="isCategory(Category) ?  'cursor: pointer' : 'color: #a2a2a2'"
