@@ -26,11 +26,11 @@
                         </thead>
                     </table>
                     <div class="m-0 p-0" :style="'opacity: ' + opacity">
-                        <table class="table table-borderless table-light align-middle">
+                        <table class="align-middle" style="width:100%;">
                             <tbody class="text-center">
                                 <tr v-for="i in Array.from({ length: 3 }, (v, k) => k + 1)">
                                     <td class="m-0 p-0 pe-1 py-1">
-                                        <div class="row w-100 border rounded-3 bg-white text-dark shadow-sm py-2 px-2 bg-body-secondary plans-childs btn my-1"
+                                        <div class="row w-100 border rounded-3 bg-white text-dark shadow-sm py-2 px-2 bg-white plans-childs btn my-1"
                                             style="--bs-bg-opacity: 0.1; --bs-text-opacity: 0.2; direction:ltr">
                                             <div class="col-12">
                                                 <div class="row">
@@ -119,7 +119,7 @@
                         </p>
                     </div>
                 </div>
-                <table v-if="AllPlansSorted" class="table table-borderless align-middle table-light">
+                <table v-if="AllPlansSorted" class="align-middle" style="width:100%;">
                     <tbody class="text-center">
                         <div class="" v-if="AllPlansSorted">
                             <tr v-for="plan, key in AllPlansSorted" :id="key" v-show="isAvailableByCapacity(plan)">
@@ -153,8 +153,8 @@
                                         <div class="col-12 py-1">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                                    <p class="m-0 p-0">
-                                                    {{ plan.detail.dc_country }}-{{ plan.detail.dc_city }}-{{ plan.detail.dc_name }}
+                                                    <p class="m-0 p-0 d-flex align-items-center gap-2">
+                                                        <img :src="`./includes/assets/img/countries/${plan.detail.dc_country}.svg`" width="20" :title="plan.detail.dc_country" :alt="plan.detail.dc_country"> {{ plan.detail.dc_city }} - {{ plan.detail.dc_name }}
                                                     </p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
@@ -236,4 +236,3 @@
     </div>
 </div>
 <!-- end plan -->
-<!-- <div id="configsPoint"></div> -->

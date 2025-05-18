@@ -2,7 +2,7 @@
 <?php  include('./config.php');   ?>
 <?php  include('./includes/baselayout/header.php');   ?>
 
-<body class="p-1 p-md-3" style="background-color: #ff000000 !important;width:99%;">
+<body class="p-1 p-md-3" style="background:none; width:100%;">
     <div id="app" class="row px-1 px-md-2 py-2 mx-auto" style="max-width: 1200px;">
         <div class="p-0 m-0" :class="{ loading: CreateIsLoading }" v-cloak v-if="CommissionIsValid">
             <?php include('./includes/baselayout/balancealertmodal.php');       ?>
@@ -13,7 +13,7 @@
             <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                 <?php  include('./includes/baselayout/modaldemo.php');     ?>
             <?php endif ?>
-            <div class="col-12 bg-light rounded-4 m-0 p-0 mt-2"
+            <div class="col-12 rounded-4 m-0 p-0 mt-2"
                 style="min-height: 1800px">
                 <?php if(isset($DemoMode) && $DemoMode == 'on' ): ?>
                     <?php  include('./includes/baselayout/demoheader.php');   ?>

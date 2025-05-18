@@ -6,15 +6,13 @@
 <div class="col-12 p-0 mt-1">    
     <hr class="w-100 text-dark pt-0 pb-0 mt-0">
     <div v-if="HostPlansAreLoaded && !noHostPlanToShow && !HostPlansAreLoading" >
-        <div 
-        v-for="plan in HostPlans" 
-        class="bg-secondary w-100 border rounded-3 text-dark shadow-sm py-3 px-3 px-md-4 plans-childs btn my-1 position-relative" 
-        style="--bs-bg-opacity: 0.01;"
+        <div v-for="plan in HostPlans" 
+        class="bg-white w-100 border rounded-3 text-dark shadow-sm py-3 px-3 px-md-4 plans-childs btn my-2 position-relative" 
         :class="thePlansClass(plan)"
         :style="thePlansStyle(plan)"
         @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#configModal"
         >
-            <div class="d-flex flex-row justify-content-between align-items-center flex-wrap gap-3">
+            <div class="d-flex flex-row justify-content-between align-items-center flex-wrap gap-5">
 
                 <div class="d-flex flex-row justify-content-between align-items-center flex-wrap gap-5" v-html="plan.description"></div>
                 

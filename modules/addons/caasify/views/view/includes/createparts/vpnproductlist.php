@@ -8,66 +8,47 @@
     <div v-if="VpnPlansAreLoaded && !noVpnPlanToShow && !VpnPlansAreLoading" >
         <div 
         v-for="plan in VpnPlans" 
-        class="bg-secondary w-100 border rounded-3 text-dark shadow-sm py-3 px-3 px-md-4 plans-childs btn my-1 position-relative" 
-        style="--bs-bg-opacity: 0.01;"
+        class="bg-secondary w-100 border rounded-3 text-dark shadow-sm py-3 px-3 px-md-4 plans-childs btn my-2 position-relative" 
         :class="thePlansClass(plan)"
         :style="thePlansStyle(plan)"
         @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#configModal"
         >
             <div class="d-flex flex-row justify-content-between align-items-center flex-wrap gap-3">
-                <div class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Netherlands, Germany, Turkey, USA, Australia">
+                <div class="d-flex flex-column gap-2">
                     <span class="text-secondary">
                         {{ lang('Locations') }}
                     </span>
-                    <span class="px-1">
-                        :
-                    </span>
-                    <span >
-                        {{ lang('NL, DE, TR, US, AU') }}
-                    </span>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="./includes/assets/img/countries/USA.svg" width="20" title="US" alt="US">
+                        <img src="./includes/assets/img/countries/Turkey.svg" width="20" title="Turkey" alt="TR">
+                        <img src="./includes/assets/img/countries/Netherlands.svg" width="20" title="Netherlands" alt="NL">
+                        <img src="./includes/assets/img/countries/Germany.svg" width="20" title="Germany" alt="DE">
+                        <img src="./includes/assets/img/countries/Australia.svg" width="20" title="Australia" alt="AU">
+                    </div>
                 </div>
                 <div v-if="plan?.traffic_limit" class="">
                     <span class="text-secondary">
-                        {{ lang('Free Traffic') }}
-                    </span>
-                    <span class="px-1">
-                        :
+                        {{ lang('Free Traffic') }}:
                     </span>
                     <span>
                         {{ Number(plan?.traffic_limit)/1000 }} {{ lang('GB') }}
                     </span>
                 </div>
-                <div class="">
+                <div v-if="plan?.traffic_limit" class="">
                     <span class="text-secondary">
-                        {{ lang('Duration') }}
-                    </span>
-                    <span class="px-1">
-                        :
+                        {{ lang('Duration') }}:
                     </span>
                     <span>
-                        {{ lang('Unlimited') }}
+                        Unlimited
                     </span>
                 </div>
                 <div class="">
                     <span class="text-secondary">
-                        {{ lang('Cost') }}
-                    </span>
-                    <span class="px-1">
-                        :
+                        {{ lang('Extra traffic Price') }}:
                     </span>
                     <span>
-                        {{ formatPlanPrice(plan?.price) }} {{ userCurrencySymbolFromWhmcs }}
-                    </span>
-                </div>
-                <div class="">
-                    <span class="text-secondary">
-                        {{ lang('Traffic Price') }}
-                    </span>
-                    <span class="px-1">
-                        :
-                    </span>
-                    <span>
-                        {{ formatPlanPrice(plan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} /{{ lang('GB') }}
+                        {{ formatPlanPrice(plan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} / {{ lang('GB') }}
                     </span>
                 </div>
             </div>

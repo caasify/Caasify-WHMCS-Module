@@ -2422,7 +2422,7 @@ app = createApp({
             } else if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
                 return 'bg-success border-success'
             } else {
-                return 'bg-secondary'
+                return 'bg-white'
             }
         },
         
@@ -2433,8 +2433,6 @@ app = createApp({
                 return '--bs-bg-opacity: 0.04; --bs-border-opacity: 0.2;'
             } else if(plan?.detail?.vm_type.toLowerCase() == 'spot'){
                 return '--bs-bg-opacity: 0.02; --bs-border-opacity: 0.4;'
-            } else {
-                return '--bs-bg-opacity: 0.01; '
             }
         },
 
