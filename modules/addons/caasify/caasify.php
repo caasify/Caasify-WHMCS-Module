@@ -228,50 +228,19 @@ function caasify_config(){
     return $configarray;
 }
 
-// Show in admin panel in addon menu page
 function caasify_output($vars) {
 
-    // show error if config is empty or there is any error
-    $ModuleConfigArray = caasify_get_config_decoded();
-    if($ModuleConfigArray['errorMessage']){
-        $text = '<pre><p style="color:red" class="h5">' . $ModuleConfigArray['errorMessage'] . '</p></pre>';
-        echo($text);
-    }
-    
-    $configs = caasify_get_config_decoded();
-    $systemUrl = $configs['systemUrl'];
-    if(empty($systemUrl)){
-        $systemUrl = '/';
+    // Fetch WHMCS configurations
+    $config = caasify_get_config_decoded();
+
+    // Fetch system URL 
+    $systemUrl = caasify_get_array('systemUrl', $config);
+
+    if (!$systemUrl) {
+        exit('Could not find system URL.');
     }
 
-    if(!empty($vars['version'])){
-        $version = $vars['version'];
-        $text = '<h2> Version : ' . $version . '</h2>';
-        echo($text);
-    }
-    
-    $text = '
-            <p>
-                <span style="font-weight: 800 !important;">Caasify</span> is an unique solution for Data Centers and Hosting companies to meet in unified hosting marketplace.
-            </p>
-        ';
-    echo($text);
-
-    
-    $text = '
-                <a href="https://github.com/caasify/Caasify-WHMCS-Module" style="font-weight: 800 !important;" target="_blank" class="btn btn-primary">Git Repo</a>
-                <a href="https://caasify.com/documentation?topic=3#topic" style="font-weight: 800 !important;" target="_blank" class="btn btn-primary">Documentation</a> 
-                <a href="https://update.caasify.com/whmcs/howtoinstall.pdf" style="font-weight: 800 !important;" target="_blank" class="btn btn-primary">Installation tutor</a>
-            ';
-    echo($text);
-
-
-
-    // Admin output 
-    $iframe = '<iframe src="' . $systemUrl . '/modules/addons/caasify/views/view/adminoutput.php" frameborder="0" class="iframe"></iframe><style>.iframe{width:100%; height: 2000px; padding-top:30px;}</style>';
-    echo $iframe;
-    
-
+    require('admin/iframe.php');
 }
 
 // Create Client Panel Controller
