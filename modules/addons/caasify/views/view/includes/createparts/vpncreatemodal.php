@@ -43,7 +43,10 @@
                                 {{ lang('Duration') }}
                             </span>
                             <span class="px-1">:</span>
-                            <span>
+                            <span v-if="SelectedPlan?.is_monthly">
+                                {{ lang('Monthly') }}
+                            </span>
+                            <span v-else>
                                 {{ lang('Unlimited') }}
                             </span>
                         </div>

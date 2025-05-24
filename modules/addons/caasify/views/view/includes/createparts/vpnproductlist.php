@@ -39,13 +39,27 @@
                     <span class="text-secondary">
                         {{ lang('Duration') }}:
                     </span>
-                    <span>
-                        Unlimited
+                    <span v-if="plan?.is_monthly">
+                        {{ lang('Monthly') }}:
+                    </span>
+                    <span v-else>
+                        {{ lang('Unlimited') }}:
                     </span>
                 </div>
                 <div class="">
                     <span class="text-secondary">
-                        {{ lang('Extra traffic Price') }}:
+                        {{ lang('Price') }}:
+                    </span>
+                    <span v-if="plan?.is_monthly">
+                        {{ formatPlanPrice(plan?.price) }} {{ userCurrencySymbolFromWhmcs }}
+                    </span>
+                    <span v-else>
+                        {{ lang('Free') }}:
+                    </span>
+                </div>
+                <div class="">
+                    <span class="text-secondary">
+                        {{ lang('Extra Traffic') }}:
                     </span>
                     <span>
                         {{ formatPlanPrice(plan?.traffic_price) }} {{ userCurrencySymbolFromWhmcs }} / {{ lang('GB') }}
