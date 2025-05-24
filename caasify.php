@@ -87,13 +87,7 @@ class CaasifyController
 
     public function writeToFile($file, $content)
     {
-        $exists = file_exists($file);
-
-        if ($exists) {
-            return file_put_contents($file, $content);
-        }
-
-        return false;
+        return file_put_contents($file, $content);
     }
 
     public function createLocalPath($name = null)
