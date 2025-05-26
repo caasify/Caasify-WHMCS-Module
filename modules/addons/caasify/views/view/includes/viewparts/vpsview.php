@@ -40,7 +40,7 @@
                 <span class="input-group-text" id="basic-addon1" style="width: 100px;">
                     {{ lang('username') }}
                 </span>
-                <input type="text" class="form-control" value="root" disabled>
+                <input type="text" class="form-control" value="Linux: root    |    Windows: administrator" disabled>
             </div>
             <div class="input-group mb-4">
                 <span class="input-group-text" id="basic-addon1" style="width: 100px;">
