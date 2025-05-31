@@ -334,7 +334,7 @@ app = createApp({
             }, 4000);
         },
 
-        thisOrder() {
+        __thisOrder() {
             this.findValidControllers();
         },
 
@@ -397,7 +397,8 @@ app = createApp({
                 } else if (newFielName == "view.php") {
 
                     this.orderId();
-                    setTimeout(() => { this.LoadTheOrder(); }, 0.3 * 1000);
+                    
+                    this.handleOrder();
                     
                 } else if (newFielName == "finance.php") {
                     this.LoadExpenseDates()
@@ -453,7 +454,7 @@ app = createApp({
             }, 15 * 1000);
         },
         
-        thisOrder(newthisOrder) {
+        __thisOrder(newthisOrder) {
             this.findValidControllers();
             if(this.thisOrder?.type == 'vps'){
                 setTimeout(() => {
@@ -1018,7 +1019,42 @@ app = createApp({
 
     methods: {
 
+        async handleOrder() {
 
+            await this.LoadTheOrder();
+
+            await this.LoadCaasifyUser();
+            await this.LoadWhmcsUser();
+            await this.LoadWhmcsCurrencies();
+
+
+            if (this.thisOrder?.type == 'vps') {
+
+                await this.LoadOrderViews();
+                await this.LoadActionsHistory();
+                await this.LoadOrderTraffics();
+
+                this.loadPollingViewMachine();
+            }
+
+            if (this.thisOrder?.type == 'vpn') {
+
+                await this.LoadVpnShow();
+                await this.LoadActionsHistory();
+
+                this.loadPollingViewVpn();
+            }
+
+            if (this.thisOrder?.type == 'host') {
+
+                await this.LoadOrderViews();
+                await this.LoadActionsHistory();
+
+                this.loadPollingViewHost();
+            }
+
+            this.findValidControllers();
+        },
 
         orderTypeClass(type){
             if(type == 'vpn'){
@@ -2096,6 +2132,10 @@ app = createApp({
         acceptConfirmDialog() {
             this.actionWouldBeHappened = null
             this.confirmResolve(true)
+
+            if (this.thisOrder) {
+                this.LoadActionsHistory();
+            }
         },
 
         closeConfirmDialog() {
@@ -2966,6 +3006,14 @@ app = createApp({
             setInterval(this.CheckData, 20 * 1000)
             setInterval(this.LoadVpnShow, 120 * 1000)
             setInterval(this.LoadActionsHistory, 120 * 1000)
+        },
+
+        loadPollingViewHost() {
+            setInterval(this.LoadTheOrder, 170 * 1000)
+            setInterval(this.LoadRequestNewView, 120 * 1000)
+            setInterval(this.LoadOrderViews, 130 * 1000)
+            setInterval(this.LoadActionsHistory, 40 * 1000)
+            setInterval(this.CheckData, 20 * 1000)
         },
         
         loadPollingViewMachine() {
