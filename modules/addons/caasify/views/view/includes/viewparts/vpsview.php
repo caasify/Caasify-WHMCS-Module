@@ -160,6 +160,9 @@
                     <thead>
                         <tr>
                             <th scope="col" class="text-secondary fw-light">
+                                {{ lang('ID') }}
+                            </th>
+                            <th scope="col" class="text-secondary fw-light">
                                 {{ lang('Action') }}
                             </th>
                             <th scope="col" class="text-secondary fw-light">
@@ -174,6 +177,9 @@
                         <tr v-if="ActionHistory"
                             v-for="(action, index) in ActionHistory.slice(0, 5)" :key="index">
                             <td>
+                                {{ action.id }}
+                            </td>
+                            <td>
                                 {{ lang(action.button.name.toUpperCase()) }}
                             </td>
                             <td>
@@ -187,6 +193,10 @@
                                         {{ lang(action.status.toUpperCase()) }}
                                     </span>
                                     <span v-if="action.status == 'pending'" class="spinner-grow my-auto mb-0 ms-1 align-middle" style="--bs-spinner-width: 5px; --bs-spinner-height: 5px; --bs-spinner-animation-speed: 1s;"></span>
+                                </span>
+
+                                <span v-if="action?.button?.type == 'setup'" class="btn btn-sm bg-primary text-primary py-1 small disabled mx-1" style="--bs-bg-opacity: 0.2;">
+                                    {{ lang('It may take few minutes') }}
                                 </span>
                             </td>
                             <td> {{ convertTime(action.created_at) }} </td>
