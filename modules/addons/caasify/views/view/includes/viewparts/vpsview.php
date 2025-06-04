@@ -1,6 +1,6 @@
 
 <!-- right: OrderDetails for vps -->
-<div v-if="thisOrder?.type == 'vps'" class="col-12 col-xl-6 p-0 m-0 mb-2 flex-grow-1 pe-xl-1">
+<div v-if="thisOrder?.type == 'vps'" class="col-lg-8 col-sm-12 p-0 m-0 mb-2">
     <div class="border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0 me-xl-1 pb-5 h-100">
         <div class="m-0 p-0">
             <!-- machine Info -->
@@ -141,6 +141,69 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div v-if="thisOrder?.type == 'vps'" class="col-lg-4 col-sm-12 p-0 m-0 mb-2">
+    <div class="border border-2 rounded-4 bg-white m-0 p-0 py-4 px-4 mx-0 me-xl-1 pb-5 h-100 ms-lg-4">
+        <div class="m-0 p-0">
+
+            <div class="m-0 p-0 mb-4 d-flex flex-row justify-content-between">
+                <span class="m-0 p-0">
+                    <i class="bi bi-hdd-network text-secondary pe-3 fs-5"></i>
+                    <span class="m-0 p-0 text-secondary ps-2 fs-5">
+                        Traffic Stats
+                    </span>
+                </span>
+            </div>
+
+<div class="text-start m-0 p-0 py-2">
+    <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
+        <div class="m-0 p-0">
+            <span class="text-secondary fs-6 align-middle m-0 p-0">
+                Inbound
+            </span>
+        </div>
+        <div class="m-0 p-0">
+            <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
+                {{ TrafficInbound }}
+            </span>
+        </div>
+    </div>
+</div>           
+
+
+<div class="text-start m-0 p-0 py-2">
+    <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
+        <div class="m-0 p-0">
+            <span class="text-secondary fs-6 align-middle m-0 p-0">
+                Outbound
+            </span>
+        </div>
+        <div class="m-0 p-0">
+            <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
+                {{ TrafficOutbound }}
+            </span>
+        </div>
+    </div>
+</div>      
+
+<div class="text-start m-0 p-0 py-2">
+    <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
+        <div class="m-0 p-0">
+            <span class="text-secondary fs-6 align-middle m-0 p-0">
+                Total
+            </span>
+        </div>
+        <div class="m-0 p-0">
+            <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
+                {{ TrafficTotal }}
+            </span>
+        </div>
+    </div>
+</div>      
+
         </div>
     </div>
 </div>

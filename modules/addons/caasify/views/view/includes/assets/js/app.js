@@ -84,9 +84,9 @@ app = createApp({
 
             thisOrderTraffic: null,
             trafficsIsLoaded: false,
-            TrafficInbound: false,
-            TrafficOutbound: false,
-            TrafficTotal: false,
+            TrafficInbound: 0,
+            TrafficOutbound: 0,
+            TrafficTotal: 0,
 
             CaasifyUserIsNull: null,
             WhmcsUserIsNull: null,
