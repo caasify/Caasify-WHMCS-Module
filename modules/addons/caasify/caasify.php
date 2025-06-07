@@ -146,7 +146,8 @@ function caasify_config(){
 
     $MenuPlaceOptions = array (
         'MainMenu' => 'Main Menu',
-        'InsideServices' => 'Inside Services'
+        'InsideServices' => 'Inside Services',
+        'Hidden' => 'Hidden'
     );
 
 
