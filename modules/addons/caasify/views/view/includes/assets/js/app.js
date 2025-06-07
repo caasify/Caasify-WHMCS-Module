@@ -2545,7 +2545,7 @@ app = createApp({
                         this.createActionSucced = true
                         this.createActionFailed = false
                         this.newMachineCreated = response?.data?.data
-                        this.NewMcahineCreatedViewLink = this.systemUrl + '/index.php?m=caasify&action=pageView.php&id=' + this.newMachineCreated.id
+                        this.NewMcahineCreatedViewLink = this.systemUrl + '/index.php?m=caasify&action=pageView&id=' + this.newMachineCreated.id
                     } else if (response?.data?.message) {
                         this.userClickedCreationBtn = true
                         this.CreateIsLoading = false;
