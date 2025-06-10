@@ -108,7 +108,7 @@
                     </tr>
                 </thead>
             </table>
-            <div class="m-0 p-0" style="max-height: 1450px; overflow: scroll;">
+            <div class="m-0 p-0">
                 <div v-if="noPlanToShow" class="row mt-3 ps-1">
                     <div class="col-12">
                         <p class="alert alert-primary">
@@ -149,8 +149,8 @@
                                         <div class="col-12 py-1">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                                                    <p class="m-0 p-0">
-                                                    {{ plan.detail.dc_country }}-{{ plan.detail.dc_city }}-{{ plan.detail.dc_name }}
+                                                    <p class="m-0 p-0 d-flex align-items-center gap-2">
+                                                        <img :src="`./includes/assets/img/countries/${plan.detail.dc_country}.svg`" width="20" :title="plan.detail.dc_country" :alt="plan.detail.dc_country"> {{ plan.detail.dc_city }} - {{ plan.detail.dc_name }}
                                                     </p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 col-md-6 col-lg-4">

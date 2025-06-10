@@ -17,6 +17,17 @@ vpsapp = createApp({
             noRecomPlanToShow: false,
             recomPlans: [],
 
+
+            VpnPlansAreLoaded: false,
+            VpnPlansAreLoading: true,
+            noVpnPlanToShow: false,
+            VpnPlans: [],
+
+            HostPlansAreLoaded: false,
+            HostPlansAreLoading: true,
+            noHostPlanToShow: false,
+            HostPlans: [],
+
             checkBoxesStatus: {},
             onlyUnlimitedTrafficCheckbox: false,
             noPlanToShow: false,
@@ -39,14 +50,6 @@ vpsapp = createApp({
             expenses: {},
             expensesAreLoaded: false,
 
-            parentCategories: 
-                [ 
-                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650' },
-                    { name : this.lang('Kubernetes As A Service'), icon: this.createIconAddr('kubernetes.png'), enabled: false, msg:'Coming soon' },
-                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon' },
-                    // { name : this.lang('Database As A Service'), icon: this.createIconAddr('database.png'), enabled: false, msg:'Coming soon' },
-                    // {name : 'S3 Storage', icon: this.createIconAddr('storage.png'), enabled: false, msg:'Coming soon' },
-                ],
             SelectedCategory: null,
 
             newMachineCreated: null,
@@ -436,7 +439,8 @@ vpsapp = createApp({
                     name: NewCaasifyConfigs.VPNSectionMenuTitle,
                     icon: this.createIconAddr('vpn.png'),
                     enabled: true,
-                    msg:'New products'
+                    msg:'New products',
+                    key: 'vpn'
                 });
             } else {
                 this.parentCategories.splice(1, 0, {
@@ -474,7 +478,7 @@ vpsapp = createApp({
         this.initializeTooltips();
     },
 
-    mounted() {
+    async mounted() {
         const interval = setInterval(() => {
             if (this.increasing) {
                 this.opacity += 0.05;
@@ -493,12 +497,20 @@ vpsapp = createApp({
         
         // this.mountToolTips();
         this.scrollToTop();
-        this.fetchModuleConfig();
+        await this.fetchModuleConfig();
         this.selectCategory(this.parentCategories[0])
-        
     },
 
     computed: {
+
+        parentCategories() {
+          
+            return [ 
+                    { name : this.lang('Virtual Machine'), icon: this.createIconAddr('vm.png'), enabled: true, msg: '3650', key: 'vps' },
+                    { name : this.lang('Host'), icon: this.createIconAddr('host.png'), enabled: true, msg:'New Products', key: 'host' },
+                    { name : this.lang('AI GPU'), icon: this.createIconAddr('aigpu.png'), enabled: false, msg:'Coming soon', key: 'aig' }
+                ];
+        },
         
         findZone(){
             if(this.thisOrder){
@@ -915,6 +927,63 @@ vpsapp = createApp({
 
     methods: {
 
+        async loadVpnPlans() {
+
+            if(this.VpnPlans.length > 0){
+                // do nothing
+            } else {
+                this.VpnPlansAreLoaded = false;
+                this.VpnPlansAreLoading = true
+                VpnPlans = []
+
+                let response = ''
+                RequestLink = this.createRequestLinkForVPSPricing('GetVPNPlans');
+                response = await axios.get(RequestLink);
+                
+                if (response?.data?.message) {
+                    this.VpnPlansAreLoading = false;
+                    this.VpnPlansAreLoaded = true;
+                    console.error('VpnPlans Error: ' + response?.data?.message);
+                    this.noVpnPlanToShow = true
+                }
+
+                if (response?.data?.data) {
+                    this.VpnPlansAreLoading = false;
+                    this.VpnPlansAreLoaded = true;
+                    this.noVpnPlanToShow = false
+                    this.VpnPlans = response?.data?.data                
+                }
+            }
+        },
+
+         async loadHostPlans() {
+            if(this.HostPlans.length > 0){
+                // do nothing
+            } else {
+                this.HostPlansAreLoaded = false;
+                this.HostPlansAreLoading = true
+                HostPlans = []
+
+                let response = ''
+                RequestLink = this.createRequestLinkForVPSPricing('GetHostPlans');
+                response = await axios.get(RequestLink);
+                
+                if (response?.data?.message) {
+                    this.HostPlansAreLoading = false;
+                    this.HostPlansAreLoaded = true;
+                    console.error('HostPlans Error: ' + response?.data?.message);
+                    this.noHostPlanToShow = true
+                }
+
+                if (response?.data?.data) {
+                    this.HostPlansAreLoading = false;
+                    this.HostPlansAreLoaded = true;
+                    this.noHostPlanToShow = false
+                    this.HostPlans = response?.data?.data                
+                }
+            }
+        },
+
         convertZone(dcname){
             dcList = ['DGO', 'BigCore', 'Hetzner', 'Webyne', 'Linode', 'Vultr', 'Ratin', 'KSC', 'SPOT' ]
             if(dcList.indexOf(dcname) !== -1){
@@ -1223,9 +1292,9 @@ vpsapp = createApp({
             this.fileName = filename;
         },
 
-        fetchModuleConfig() {
+        async fetchModuleConfig() {
             this.configIsLoaded = false
-            fetch('configApi.php')  // Use a relative path to reference the PHP file
+            await fetch('configApi.php')  // Use a relative path to reference the PHP file
                 .then(response => response.json())
                 .then(data => {
                     this.configIsLoaded = true
@@ -3058,6 +3127,14 @@ vpsapp = createApp({
             if(Category.enabled){
                 this.SelectedCategory = Category
             }
+
+            if (Category.key == 'vpn') {
+                this.loadVpnPlans();
+            }
+
+            if (Category.key == 'host') {
+                this.loadHostPlans();
+            }
         },
 
         isCategory(Category) {
@@ -3529,14 +3606,12 @@ vpsapp = createApp({
         },
 
         createIconAddr(name){
-            return 'https://caasify.com/views/assets/img/services/' + name
+            return this.systemUrl + '/modules/addons/caasify/views/view/includes/assets/img/services/' + name
         },
 
         showRegisterModal() {
             $('#Register').modal('show');
         },
-
-
 
         // VPSPricing
         async loadConfigForVPSPricing(){

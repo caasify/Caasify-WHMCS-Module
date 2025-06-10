@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <!-- filters -->
-                <div class="row m-0 p-0">
+                <div v-if="SelectedCategory?.key == 'vps'" class="row m-0 p-0">
                     <div class="col-12 col-md-3 px-2 px-md-0 py-1 pe-md-1 d-none d-md-block">
                         <div class="rounded-4 px-0 px-md-2 pt-4 bg-primary" style="min-height: 330px; --bs-bg-opacity: 0.06;">
                             <?php  include('./includes/vpspricing/filterterms.php');   ?>
@@ -91,6 +91,22 @@
                     <div class="col-12 col-md-9 px-0 px-md-0 py-1 ps-md-1">
                         <div class="rounded-4 px-0 px-md-2 py-4" style="min-height: 330px;">
                             <?php  include('./includes/vpspricing/plans.php');         ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="SelectedCategory?.key == 'vpn'" class="row m-0 p-0">
+                    <div class="col-12 col-md-12 px-0 px-md-0 py-1 ps-md-1">
+                        <div class="rounded-4 px-0 px-md-2 py-4" style="min-height: 330px;">
+                            <?php  include('./includes/vpspricing/vpnplans.php');         ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="SelectedCategory?.key == 'host'" class="row m-0 p-0">
+                    <div class="col-12 col-md-12 px-0 px-md-0 py-1 ps-md-1">
+                        <div class="rounded-4 px-0 px-md-2 py-4" style="min-height: 330px;">
+                            <?php  include('./includes/vpspricing/hostplans.php');         ?>
                         </div>
                     </div>
                 </div>

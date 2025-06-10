@@ -27,6 +27,14 @@ if (isset($_GET['action'])) {
             $url = "https://api.caasify.com/api/candy/common/products"; 
             GetPlansFromFiltersTerm($url, $token, $formData);
             break;
+        case 'GetVPNPlans':
+            $url = "https://api.caasify.com/api/candy/common/products?type=vpn"; 
+            GetPlansList($url, $token);
+            break;
+        case 'GetHostPlans':
+            $url = "https://api.caasify.com/api/candy/common/products?type=host"; 
+            GetPlansList($url, $token);
+            break;
         case 'GetRecomPlansForContinent':
             $formData = $_POST;
             $url = "https://api.caasify.com/api/candy/common/suggestion"; 
@@ -39,6 +47,29 @@ if (isset($_GET['action'])) {
 }
 
 function loadFilterTerms($url, $token){
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $token"
+    ]);
+
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo json_encode(['error' => curl_error($ch)]);
+        curl_close($ch);
+        exit;
+    }
+
+    curl_close($ch);
+    echo $response;
+} 
+
+
+function GetPlansList($url, $token){
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
 
