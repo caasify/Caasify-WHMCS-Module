@@ -110,7 +110,7 @@ if($userLogedIn == true) {
                 array(
                     'name' => 'VPS-Pricing',
                     'label' => $VpsPricingMenuTitle,
-                    'uri' => 'vpspricing.php',
+                    'uri' => 'marketplace.php',
                     'order' => 99,
                     'icon' => '',
                 )

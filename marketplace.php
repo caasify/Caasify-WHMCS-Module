@@ -8,9 +8,9 @@ define('CLIENTAREA', true);
 require __DIR__ . '/init.php';
 
 $ca = new ClientArea();
-$ca->setPageTitle('VPS Pricing');
+$ca->setPageTitle('Marketplace');
 $ca->addToBreadCrumb('index.php', Lang::trans('globalsystemname'));
-$ca->addToBreadCrumb('vpspricing.php', 'VPS Pricing');
+$ca->addToBreadCrumb('marketplace.php', 'Marketplace');
 $ca->initPage();
 
 # Define the template filename to be used without the .tpl extension
