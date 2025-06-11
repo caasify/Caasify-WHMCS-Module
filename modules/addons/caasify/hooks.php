@@ -940,9 +940,9 @@ add_hook('ClientAreaPageViewInvoice', 1, function($vars) {
     
     if (isset($_SESSION[$KeyStatus])) {
         if ($_SESSION[$KeyStatus] == "fail") {
-            echo($FailMsg);
+            //echo($FailMsg);
         } else if ($_SESSION[$KeyStatus] == "success"){
-            echo($SuccessMsg);
+            //echo($SuccessMsg);
         }
     }
 
