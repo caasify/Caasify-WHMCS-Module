@@ -50,7 +50,7 @@
             
             <!-- delete btn for vpn -->
             <div v-if="thisOrder?.type == 'vpn'" class="m-0 p-0">
-                <div class="m-0 p-0 d-none d-md-block ms-2" v-for="(button, index) in ValidControllerItems">
+                <div class="m-0 p-0 ms-2" v-for="(button, index) in ValidControllerItems">
                     <button data-bs-toggle="modal" data-bs-target="#actionsModal"
                         class="btn btn-danger px-4 py-2 fw-medium mx-1 btn-sm"
                         @click="PushButtonController(button.id, button.name)" :key="index" :id="index">
