@@ -156,6 +156,7 @@ let common = {
         "failactionmsg" : "آخرین عملیات نتوانسته کامل شود و هنوز در حالت (ناتمام) قرار دارد. لطفا یک بار دیگر برای عملیاتی جدید تلاش کنید",
         "snapshot" : "اسنپ شات",
         "traffic" : "ترافیک",
+        "Total Expenses": "مجموع هزینه ها",
     // end from Product
 
     // Unique for this cloud

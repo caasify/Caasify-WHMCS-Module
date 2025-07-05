@@ -141,6 +141,33 @@
                     </div>
                 </div>
             </div>
+            <div class="m-0 p-0 px-1 mt-3">
+                <div class="m-0 p-0 mt-0">
+                    <!-- user balance -->
+                    <div class="row m-0 p-0 align-items-center" v-if="CurrenciesRatioCloudToWhmcs">
+                        <div class="col-auto m-0 p-0" style="min-width: 120px;">
+                            <span class="text-secondary align-middle m-0 p-0">
+                                {{ lang('Total Expenses') }}
+                            </span>
+                        </div>
+                        <div class="col-auto m-0 p-0">
+                            <span class="text-secondary align-middle m-0 p-0 fw-medium">
+                                <span v-if="CommissionIsValid">
+                                    <span>
+                                        {{ formatUserBalance(thisOrder?.total_expenses) }}
+                                    </span>
+                                    <span v-if="userCurrencySymbolFromWhmcs" class="ms-1">
+                                        {{ userCurrencySymbolFromWhmcs }}
+                                    </span>
+                                </span>
+                                <span v-else>
+                                    NAN
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
