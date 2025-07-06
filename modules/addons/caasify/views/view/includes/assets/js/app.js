@@ -11,6 +11,8 @@ app = createApp({
             qrcodeIsLoaded: false,
             BtnCopyVpnPushed: false,
 
+            waitingForPassword: false,
+
             VpnPlansAreLoaded: false,
             VpnPlansAreLoading: true,
             noVpnPlanToShow: false,
@@ -575,15 +577,41 @@ app = createApp({
 
         PasswordInHistory(){
             let result = null
-            if(this.views !== null){
-                for (const history of this.views) {
+            if(this.ActionHistory !== null){
+                for (const history of this.ActionHistory) {
                     for (const ref of history.references) {
                         if (ref?.reference && ref?.reference?.type === "password") {
-                            result = ref.value;
+                        
+                            if (ref?.value == 'PENDING') {
+                                result = 'Pending'
+                                this.waitingForPassword = true
+                            } else {
+                                result = ref.value
+                                this.waitingForPassword = false
+                            }
                         }
                     }
                 }
             }
+
+            if (this.views !== null) {
+
+                const history = this.views.shift()
+
+                for (const ref of history.references) {
+                    if (ref?.reference && ref?.reference?.type === "password") {
+
+                        if (ref?.value == 'PENDING') {
+                            result = 'Pending'
+                            this.waitingForPassword = true
+                        } else {
+                            result = ref.value
+                            this.waitingForPassword = false
+                        }
+                    }
+                }
+            }
+
             return result
         },
 
@@ -1028,8 +1056,8 @@ app = createApp({
 
             if (this.thisOrder?.type == 'vps') {
 
-                await this.LoadOrderViews();
                 await this.LoadActionsHistory();
+                await this.LoadOrderViews();
                 await this.LoadOrderTraffics();
 
                 this.loadPollingViewMachine();
@@ -3018,8 +3046,8 @@ app = createApp({
             setInterval(this.LoadTheOrder, 170 * 1000)
             setInterval(this.LoadOrderTraffics, 180 * 1000)
             setInterval(this.LoadRequestNewView, 120 * 1000)
-            setInterval(this.LoadOrderViews, 130 * 1000)
             setInterval(this.LoadActionsHistory, 40 * 1000)
+            setInterval(this.LoadOrderViews, 40 * 1000)
             setInterval(this.CheckData, 20 * 1000)
         },
 
