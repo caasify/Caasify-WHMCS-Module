@@ -575,13 +575,11 @@ app = createApp({
 
         PasswordInHistory(){
             let result = null
-            if(this.ActionHistory !== null){
-                for (const history of this.ActionHistory) {
-                    if (history?.button?.name.toLowerCase() ===  'setup') {
-                        for (const ref of history.references) {
-                            if (ref?.reference && ref?.reference?.type === "password") {
-                                result = ref.value;
-                            }
+            if(this.views !== null){
+                for (const history of this.views) {
+                    for (const ref of history.references) {
+                        if (ref?.reference && ref?.reference?.type === "password") {
+                            result = ref.value;
                         }
                     }
                 }
@@ -2781,7 +2779,7 @@ app = createApp({
                 formData.append('orderID', orderID);
                 RequestLink = this.CreateRequestLink(action = 'CaasifyActionsHistory');
                 let response = await axios.post(RequestLink, formData);
-
+ 
                 if (response?.data?.message) {
                     this.ActionHistoryIsLoaded = true
                     console.error('Action History Erro: ' + response?.data?.message);
