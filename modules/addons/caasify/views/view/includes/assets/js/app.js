@@ -598,15 +598,17 @@ app = createApp({
 
                 const history = this.views.shift()
 
-                for (const ref of history.references) {
-                    if (ref?.reference && ref?.reference?.type === "password") {
+                if (history) {
+                    for (const ref of history?.references) {
+                        if (ref?.reference && ref?.reference?.type === "password") {
 
-                        if (ref?.value == 'PENDING') {
-                            result = 'Pending'
-                            this.waitingForPassword = true
-                        } else {
-                            result = ref.value
-                            this.waitingForPassword = false
+                            if (ref?.value == 'PENDING') {
+                                result = 'Pending'
+                                this.waitingForPassword = true
+                            } else {
+                                result = ref.value
+                                this.waitingForPassword = false
+                            }
                         }
                     }
                 }
