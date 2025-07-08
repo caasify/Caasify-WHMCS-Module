@@ -50,6 +50,10 @@ foreach ($files as $file) {
 <!-- Stats -->
 <div class="row g-4 mb-4">
 
+<div class="col-md-12">
+    <span class="mr-2 text-primary font-bold">UserID:</span> {{user?.id }}
+</div>
+
 <!-- Balance -->
 <div class="col-md-3">
     <div class="card text-center py-4">
