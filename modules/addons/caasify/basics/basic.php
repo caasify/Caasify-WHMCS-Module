@@ -365,10 +365,10 @@ function caasify_get_invoice_info_from_invoiceid($invoiceId){
 
 
 // create ordinary user 
-function caasify_create_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password){
-    
+function caasify_create_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password, $country = null){
+     
     $params = [
-        'name' => $UserFullName, 'email' => $UserEmail, 'password' => $password
+        'name' => $UserFullName, 'email' => $UserEmail, 'password' => $password, 'country' => $country
     ];
 
     $headers = [
@@ -384,10 +384,10 @@ function caasify_create_user($BackendUrl, $ResellerToken, $UserFullName, $UserEm
 }
 
 // Create Reseller user for MyCaasify
-function caasify_create_reseller_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password){
+function caasify_create_reseller_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password, $country = null){
     
     $params = [
-        'name' => $UserFullName, 'email' => $UserEmail, 'password' => $password
+        'name' => $UserFullName, 'email' => $UserEmail, 'password' => $password, 'country' => $country
     ];
 
     $headers = [
@@ -529,14 +529,14 @@ function caasify_get_token_by_handling($ResellerToken, $BackendUrl, $WhUserId)
         $password = caasify_createPassword();
         if($MyCaasifyStatus == 'on'){
             if($BackendUrl != null && $ResellerToken != null && $UserFullName != null && $UserEmail != null && $password != null){   
-                $CreateResponse = caasify_create_reseller_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password);
+                $CreateResponse = caasify_create_reseller_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password, $client->country);
             } else {
                 echo('something is missing');
                 return false;
             }
         } else {
             if($BackendUrl != null && $ResellerToken != null && $UserFullName != null && $UserEmail != null && $password != null){   
-                $CreateResponse = caasify_create_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password);
+                $CreateResponse = caasify_create_user($BackendUrl, $ResellerToken, $UserFullName, $UserEmail, $password, $client->country);
             } else {
                 echo('something is missing');
                 return false;
