@@ -91,8 +91,8 @@
                                 <span>
                                     {{ lang('Product Details') }}
                                 </span>
-                                <button class="btn btn-outline-primary btn-sm ms-3 px-4 d-block d-md-none" data-bs-toggle="modal" data-bs-target="#filtersModal">
-                                    {{ lang('Filter') }}
+                                <button class="btn btn-primary px-4 mx-3 d-block d-md-none rounded-0 py-2 rounded-2" data-bs-toggle="modal" data-bs-target="#filtersModal"> 
+                                    {{ lang('Filter Products') }}
                                 </button>
                             </div>
                         </th>

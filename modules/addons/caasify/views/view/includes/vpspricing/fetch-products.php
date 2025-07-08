@@ -2,6 +2,10 @@
 require_once('../../config.php');
 $token = caasify_get_reseller_token();
 
+$config = caasify_get_config_decoded();
+
+$BackendUrl = $config['BackendUrl'];
+
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
     $origin = $_POST['origin'];
@@ -16,7 +20,7 @@ if (isset($_GET['action'])) {
             break;
         case 'loadFilterTerms':
             if($origin){
-                $url = "https://api.caasify.com/api/common/terms";
+                $url = "{$BackendUrl}/api/common/terms";
                 loadFilterTerms($url, $token);
             } else {
                 die('request is not valid');
@@ -24,20 +28,20 @@ if (isset($_GET['action'])) {
             break;
         case 'GetPlansFromFiltersTerm':
             $formData = $_POST;
-            $url = "https://api.caasify.com/api/candy/common/products"; 
+            $url = "{$BackendUrl}/api/candy/common/products"; 
             GetPlansFromFiltersTerm($url, $token, $formData);
             break;
         case 'GetVPNPlans':
-            $url = "https://api.caasify.com/api/candy/common/products?type=vpn"; 
+            $url = "{$BackendUrl}/api/candy/common/products?type=vpn"; 
             GetPlansList($url, $token);
             break;
         case 'GetHostPlans':
-            $url = "https://api.caasify.com/api/candy/common/products?type=host"; 
+            $url = "{$BackendUrl}/api/candy/common/products?type=host"; 
             GetPlansList($url, $token);
             break;
         case 'GetRecomPlansForContinent':
             $formData = $_POST;
-            $url = "https://api.caasify.com/api/candy/common/suggestion"; 
+            $url = "{$BackendUrl}/api/candy/common/suggestion"; 
             GetRecomPlansForContinent($url, $token, $formData);
             break;
         default:
