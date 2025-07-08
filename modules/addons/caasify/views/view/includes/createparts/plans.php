@@ -94,8 +94,8 @@
                                 <span>
                                     {{ lang('Product Details') }}
                                 </span>
-                                <button class="btn btn-primary fixed-bottom px-4 d-block d-md-none start-50 translate-middle-x rounded-0 py-2" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#filtersModal"> 
-                                    {{ lang('Filter') }}
+                                <button class="btn btn-primary px-4 mx-3 d-block d-md-none rounded-0 py-2 rounded-2" data-bs-toggle="modal" data-bs-target="#filtersModal"> 
+                                    {{ lang('Filter Products') }}
                                 </button>
                             </div>
                         </th>
@@ -111,7 +111,7 @@
                     </tr>
                 </thead>
             </table>
-            <div class="m-0 p-0" style="max-height: 1340px; overflow-y: scroll; overflow-x: visible">
+            <div class="m-0 p-0" style="">
                 <div v-if="noPlanToShow" class="row mt-3 ps-1">
                     <div class="col-12">
                         <p class="alert alert-primary">
