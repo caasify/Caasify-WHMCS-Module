@@ -189,6 +189,21 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
+                Allowed
+            </span>
+        </div>
+        <div class="m-0 p-0">
+            <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
+                {{ thisOrder.records[0].product.traffic_limit }} GB
+            </span>
+        </div>
+    </div>
+</div>      
+
+<div class="text-start m-0 p-0 py-2">
+    <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
+        <div class="m-0 p-0">
+            <span class="text-secondary fs-6 align-middle m-0 p-0">
                 Inbound
             </span>
         </div>
