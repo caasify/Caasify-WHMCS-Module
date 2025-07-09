@@ -148,7 +148,7 @@
                     <div class="row m-0 p-0 align-items-center" v-if="CurrenciesRatioCloudToWhmcs">
                         <div class="col-auto m-0 p-0" style="min-width: 120px;">
                             <span class="text-secondary align-middle m-0 p-0">
-                                {{ lang('Debt') }}
+                                {{ lang('User Debt') }}
                             </span>
                         </div>
                         <div class="col-auto m-0 p-0">
@@ -218,7 +218,7 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Allowed
+                Monthly Allowed
             </span>
         </div>
         <div class="m-0 p-0">
@@ -228,6 +228,44 @@
         </div>
     </div>
 </div>      
+
+<div class="text-start m-0 p-0 py-2">
+    <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
+        <div class="m-0 p-0">
+            <span class="text-secondary fs-6 align-middle m-0 p-0">
+                Daily allowed
+            </span>
+        </div>
+        <div class="m-0 p-0">
+            <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
+                {{ Number(thisOrder.records[0].product.traffic_limit / 30).toFixed() }} GB
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="text-start m-0 p-0 py-2">
+    <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
+        <div class="m-0 p-0">
+            <span class="text-secondary fs-6 align-middle m-0 p-0">
+                Traffic debt
+            </span>
+        </div>
+        <div class="m-0 p-0">
+            <span v-if="CommissionIsValid">
+                <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
+                    {{ formatUserBalance(thisOrder?.debt) }}
+                </span>
+                <span v-if="userCurrencySymbolFromWhmcs" class="text-primary ms-1 fw-medium m-0 p-0 fs-5 align-middle">
+                    {{ userCurrencySymbolFromWhmcs }}
+                </span>
+            </span>
+            <span v-else>
+                NAN
+            </span>
+        </div>
+    </div>
+</div>
 
 <div class="text-start m-0 p-0 py-2">
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
