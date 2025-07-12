@@ -10,6 +10,11 @@
 
 
 <script>
+
+setTimeout(function() {
+    location.reload()
+}, 60000);
+
 function initResize() {
   const iframe = document.getElementById('myIframe');
   const iframeDoc = iframe.contentWindow.document;
