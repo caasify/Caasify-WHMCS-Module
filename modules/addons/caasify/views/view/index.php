@@ -50,8 +50,15 @@ foreach ($files as $file) {
 <!-- Stats -->
 <div class="row g-4 mb-4">
 
-<div class="col-md-12">
-    <span class="mr-2 text-primary font-bold">UserID:</span> {{user?.id }}
+<div class="d-flex justify-content-between">
+    <div class="">
+        <span class="mr-2 text-primary font-bold">UserID:</span> {{user?.id }}
+    </div>
+    <div class="">
+        <button @click="openFinancePage" type="button" class="btn btn-primary">
+            <i class="bi bi-wallet2 me-1"></i> Finance
+        </button>
+    </div>
 </div>
 
 <!-- Balance -->

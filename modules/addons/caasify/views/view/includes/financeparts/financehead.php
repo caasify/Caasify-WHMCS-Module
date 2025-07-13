@@ -164,6 +164,10 @@
                                     <div class="">
                                         {{ lang('Amount') }} ({{ userCurrencySymbolFromWhmcs }})
                                     </div>
+                                    <!-- traffic -->
+                                    <div class="">
+                                        {{ lang('Traffic') }} ({{ userCurrencySymbolFromWhmcs }})
+                                    </div>
                                 </div>
                             </div>
 
@@ -179,7 +183,14 @@
                                     </div>
                                     <!-- amount -->
                                     <div class="">
-                                        {{ formatExpenseAmount(expense?.amount) }}
+                                        {{ formatPlanPrice(expense?.amount) }}
+                                    </div>
+                                    <!-- traffic -->
+                                    <div class="" v-if="expense.traffic">
+                                        {{ formatPlanPrice(expense?.traffic) }}
+                                    </div>
+                                    <div class="" v-else>
+                                        --
                                     </div>
                                 </div>
                             </div>
