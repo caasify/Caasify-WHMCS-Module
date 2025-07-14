@@ -2464,6 +2464,44 @@ app = createApp({
                 this.PlanSections = this.SelectedPlan?.sections
             }
             this.initPlanConfigSelectedOptions()
+
+            this.generateHumanReadableMachineName(plan)
+        },
+
+        generateRandomName(length = 2) {
+
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+
+            return result
+        },
+
+        generateHumanReadableMachineName(plan) {
+
+            let name = null
+
+            let randomName = this.generateRandomName(2)
+
+            if (plan?.type == 'vps') {
+            
+                name = `VPS_${plan?.detail?.memory_size}GB_${plan?.detail?.cpu_core}CPU_${plan?.detail?.dc_city}_${randomName}`
+            }
+
+            if (plan?.type == 'vpn') {
+            
+                name = `VPN_${randomName}`
+            }
+
+            if (plan?.type == 'host') {
+
+                name = `HOST_${randomName}`
+            }
+
+            this.themachinename = name.toUpperCase()
         },
 
         isPlan(plan) {
