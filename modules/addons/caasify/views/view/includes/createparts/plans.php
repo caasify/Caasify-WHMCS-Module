@@ -139,8 +139,11 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                                    <p class="m-0 p-0">
-                                                        Memory: <span :class="thePlansTextClass(plan)">{{ plan.detail.memory_size }}GB</span>
+                                                    <p class="m-0 p-0" v-if="plan.detail.memory_size >= 1">
+                                                        Memory: <span :class="thePlansTextClass(plan)">{{ plan.detail.memory_size }} GB</span>
+                                                    </p>
+                                                    <p class="m-0 p-0" v-else>
+                                                        Memory: <span :class="thePlansTextClass(plan)">512 MB</span>
                                                     </p>
                                                 </div>
                                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
