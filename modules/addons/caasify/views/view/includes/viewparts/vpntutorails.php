@@ -21,7 +21,7 @@
             <div class="accordion-body">
                 <p>
                     <strong>App:</strong> 
-                    <a href="https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Windows-Setup-x64.Msi" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Hiddify</a>
+                    <a href="https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Windows-Setup-x64.exe" target="_blank" class="btn btn-primary btn-sm px-4 ms-3">Hiddify</a>
                 </p>
                 <?php  include('./includes/viewparts/turor.php') ?>
             </div>
