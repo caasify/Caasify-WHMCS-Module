@@ -580,7 +580,7 @@ app = createApp({
             if(this.ActionHistory !== null){
                 for (const history of this.ActionHistory) {
                     for (const ref of history.references) {
-                        if (ref?.reference && ref?.reference?.type === "password") {
+                        if (ref?.reference && ref?.reference?.type === "password" && history?.button?.type != "console") {
                         
                             if (ref?.value == 'PENDING') {
                                 result = 'Pending'
