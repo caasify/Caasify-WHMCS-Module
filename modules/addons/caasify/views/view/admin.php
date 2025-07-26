@@ -158,6 +158,9 @@
                                                         {{ lang("ID") }}
                                                     </th>
                                                     <th scope="col" class="fw-light fs-6 text-secondary pb-3">
+                                                        {{ lang("Zone") }}
+                                                    </th>
+                                                    <th scope="col" class="fw-light fs-6 text-secondary pb-3">
                                                         {{ lang("name") }}
                                                     </th>
                                                     <th scope="col" class="fw-light fs-6 text-secondary pb-3">
@@ -174,6 +177,12 @@
                                                     <!-- ID -->
                                                     <td class="fw-medium">
                                                         <span v-if="order.id" class="text-dark fs-6 fw-medium">{{ order.id }}</span>
+                                                        <span v-else class="text-dark fs-6 fw-medium"> --- </span>
+                                                    </td>
+
+                                                    <!-- Zone -->
+                                                    <td class="fw-medium">
+                                                        <span v-if="order?.records[0]?.product?.detail?.dc_name" class="text-dark fs-6 fw-medium">{{ order.records[0]?.product?.detail?.dc_name }}</span>
                                                         <span v-else class="text-dark fs-6 fw-medium"> --- </span>
                                                     </td>
 
