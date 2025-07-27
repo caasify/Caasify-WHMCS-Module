@@ -564,14 +564,14 @@ class ClientCaasifyController
         }
 
         // Find user ID
-        $userId = autovm_get_array('userId', $params);
+        $userId = caasify_get_array('userId', $params);
 
         if (!$userId) {
             return $this->response(['message' => 'The user field is required']);
         }
 
         // Find ratio
-        $ratio = autovm_get_array('ratio', $params);
+        $ratio = caasify_get_array('ratio', $params);
 
         if (!$ratio) {
             return $this->response(['message' => 'The ratio field is required']);
@@ -585,7 +585,7 @@ class ClientCaasifyController
         $result = localAPI('CreateInvoice', $params);
 
         // Find invoice ID
-        $invoiceId = autovm_get_array('invoiceid', $result);
+        $invoiceId = caasify_get_array('invoiceid', $result);
 
         if (!$invoiceId) {
             return $this->response(['message' => 'Could not create invoice']);
