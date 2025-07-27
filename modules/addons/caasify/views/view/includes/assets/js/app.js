@@ -146,6 +146,17 @@ app = createApp({
             CaasifyUserInfo: null,
             WhmcsUserInfo: null,
 
+            WhmcsGateways: [],
+            SelectedGateway: null,
+
+            CaasifyCharges: [5, 10, 25, 50],
+            SelectedCharge: null,
+
+            ChargeFormError: null,
+            ChargeFormProcessing: false,
+
+            ChargeInvoiceId: null,
+
             // index
             OrdersLoaded: false,
 
@@ -369,6 +380,7 @@ app = createApp({
                             this.LoadUserTotalExpense();
                             setTimeout(() => {
                                 this.LoadWhmcsUser();
+                                this.loadWhmcsGateways();
                                 this.loadWhmcsUserTickets();
                                 setTimeout(() => {
                                     this.LoadWhmcsCurrencies();
@@ -530,6 +542,16 @@ app = createApp({
         SelectedExpenseDate() {
             this.loadExpenses()
         },
+
+        ChargeInvoiceId() {
+        
+            let address = [this.systemUrl, 'viewinvoice.php'].join('/')
+
+            let params = new URLSearchParams({'id': this.ChargeInvoiceId})
+                .toString()
+
+            window.open([address, params].join('?'))
+        }
     },
 
     updated() {
@@ -922,7 +944,7 @@ app = createApp({
                 } else {
                     let userCurrencyRatio = this.findRationFromId(userCurrencyId)
                     let CaasifyCurrencyRatio = this.findRationFromId(CaasifyCurrencyID)
-
+            
                     if (userCurrencyRatio != null && CaasifyCurrencyRatio != null) {
                         return userCurrencyRatio / CaasifyCurrencyRatio;
                     } else {
@@ -1559,6 +1581,98 @@ app = createApp({
             }
 
             return false;
+        },
+
+        async loadWhmcsGateways() {
+
+            let address = this.CreateRequestLink(action = 'WhmcsGateways');
+
+            let response = await axios.get(address)
+
+            if (response?.data) {
+                this.WhmcsGateways = response?.data?.data
+            }
+        },
+
+        selectGateway(gateway) {
+
+            this.SelectedGateway = gateway
+        },
+
+        isGatewaySelected(gateway) {
+
+            if (this.SelectedGateway == gateway) {
+                return true
+            }
+
+            return false;
+        },
+
+        selectCharge(charge) {
+
+            this.SelectedCharge = this.getCurrencyAmount(charge)
+        },
+
+        isChargeSelected(charge) {
+
+            if (this.SelectedCharge == this.getCurrencyAmount(charge)) {
+                return true
+            }
+
+            return false
+        },
+
+        async startPayment() {
+
+            this.ChargeFormError = null
+            this.ChargeFormProcessing = true
+
+            let address = this.CreateRequestLink(action = 'CreateChargeInvoice')
+
+            let params = {
+                gateway: this.SelectedGateway,
+                amount: this.SelectedCharge,
+
+                userId: this.CaasifyUserInfo?.id,
+
+                ratio: this.CurrenciesRatioWhmcsToCloud
+            }
+
+            let response = await axios.post(address, params)
+
+            response = response.data
+
+            if (response?.message) {
+
+                this.ChargeFormError = response.message
+            }
+
+            if (response?.id) {
+
+                this.ChargeInvoiceId = response?.id
+            }
+
+            this.ChargeFormProcessing = false
+        },
+
+        getCurrencyAmount(amount) {
+
+            if (this.CurrenciesRatioCloudToWhmcs) {
+
+                amount *= this.CurrenciesRatioCloudToWhmcs
+            }
+
+            return amount
+        },
+
+        formatCurrencyAmount(amount) {
+
+            if (this.CurrenciesRatioCloudToWhmcs) {
+
+                amount *= this.CurrenciesRatioCloudToWhmcs
+            }
+
+            return Number(amount)
         },
 
         async LoadWhmcsUser() {

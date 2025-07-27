@@ -340,3 +340,46 @@ foreach ($files as $file) {
 }
 
 ?>
+<style>
+.c-box{
+    float: left;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+    .c-box-left,
+    .c-box-right{
+        float: left;
+    }
+
+    .c-box-right,
+    .c-box-text{
+        padding: 10px;
+    }
+
+    .c-box-text{
+        text-align: center;
+    }
+
+    .c-box-left{
+        width: 60px;
+        padding: 10px;
+        border-radius: 5px 0 0 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+        .c-box-left-blue{
+            background:rgb(171, 212, 252);
+        }
+
+        .c-box-left-purple{
+            background:rgb(254, 212, 254);
+        }
+
+.c-box-selected{
+    border: 2px solid #0a58ca;
+}
+</style>

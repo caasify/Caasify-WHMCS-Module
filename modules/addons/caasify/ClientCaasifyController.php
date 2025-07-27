@@ -65,6 +65,13 @@ class ClientCaasifyController
         $this->response($response);
     }
 
+    public function WhmcsGateways()
+    {
+        $response = caasify_get_whmcs_gateways();
+
+        $this->response(['data' => $response]);
+    }
+
     public function WhmcsUserTickets()
     {
         $WhUserId = $this->WhUserId;
@@ -529,6 +536,70 @@ class ClientCaasifyController
         ];
 
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+
+    protected function getJsonParamsFromRequest()
+    {
+        $data = file_get_contents('php://input');
+
+        return json_decode($data, true);
+    }
+
+    public function CreateChargeInvoice()
+    {
+        $params = $this->getJsonParamsFromRequest();
+
+        // Find amount
+        $amount = caasify_get_array('amount', $params);
+
+        if (empty($amount)) {
+            return $this->response(['message' => 'The amount field is required']);
+        }
+
+        // Find gateway
+        $gateway = caasify_get_array('gateway', $params);
+
+        if (empty($gateway)) {
+            return $this->response(['message' => 'The gateway field is required']);
+        }
+
+        // Find user ID
+        $userId = autovm_get_array('userId', $params);
+
+        if (!$userId) {
+            return $this->response(['message' => 'The user field is required']);
+        }
+
+        // Find ratio
+        $ratio = autovm_get_array('ratio', $params);
+
+        if (!$ratio) {
+            return $this->response(['message' => 'The ratio field is required']);
+        }
+
+        // Create invoice
+        $params = [
+            'userid' => $this->WhUserId, 'paymentmethod' => $gateway, 'itemamount1' => $amount, 'itemdescription1' => 'CsfUserBalance'
+        ];
+
+        $result = localAPI('CreateInvoice', $params);
+
+        // Find invoice ID
+        $invoiceId = autovm_get_array('invoiceid', $result);
+
+        if (!$invoiceId) {
+            return $this->response(['message' => 'Could not create invoice']);
+        }
+
+        // Create invoice
+        $params = [
+            'whuserid' => $this->WhUserId, 'caasifyid' => $userId, 'ratio' => $ratio, 'invoiceid' => $invoiceId, 'chargeamount' => $amount
+        ];
+
+        Capsule::table('tblcaasify_invoices')
+            ->insert($params);
+
+        return $this->response(['id' => $invoiceId]);
     }
 
     public function CreateNewUnpaidInvoice()

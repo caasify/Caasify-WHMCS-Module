@@ -608,7 +608,17 @@ let common = {
 
     "Loading": "در حال بارگزاری",
 
-    "It may take few minutes": "ممکن است چند دقیقه زمان ببرد"
+    "It may take few minutes": "ممکن است چند دقیقه زمان ببرد",
+
+    "Select Gateway": "انتخاب درگاه پرداخت",
+    "Select Amount": "انتخاب مبلغ",
+    "Or enter your custom amount": "و یا مبلغ دلخواه خود را وارد کنید",
+
+    "Pay Now": "پرداخت کنید",
+    "Processing": "منتظر بمانید",
+
+    "The amount field is required": "مبلغ را انتخاب نکرده اید",
+    "The gateway field is required": "درگاه پرداخت را انتخاب نکرده اید"
 }
 
 const words = {

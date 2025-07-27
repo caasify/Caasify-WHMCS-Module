@@ -304,7 +304,6 @@ function caasify_GetDefaulLanguage(){
     } else {
         $DefLang = 'English';
     }
-    
   
 
     // Manage Cookies
@@ -431,6 +430,21 @@ function caasify_get_user_token_from_api($BackendUrl, $UserEmail, $password){
     ];
     
     return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
+}
+
+function caasify_get_whmcs_gateways()
+{
+    $command = 'GetPaymentMethods';
+
+    $result = localAPI($command, $postData);
+
+    $exists = array_key_exists('paymentmethods', $result);
+
+    if ($exists) {
+        $result = $result['paymentmethods']['paymentmethod'];
+    }
+
+    return $result;
 }
 
 function caasify_get_whmcs_user_tickets($WhUserId)
