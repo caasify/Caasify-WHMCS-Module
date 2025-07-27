@@ -32,7 +32,7 @@
                                     </div>
 
                                     <div class="c-box-right">
-                                        {{ gateway.displayname }}
+                                        {{ gateway.name }}
                                     </div>
                                 </div>
                             </div>

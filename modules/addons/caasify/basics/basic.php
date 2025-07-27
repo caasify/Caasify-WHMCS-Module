@@ -434,17 +434,38 @@ function caasify_get_user_token_from_api($BackendUrl, $UserEmail, $password){
 
 function caasify_get_whmcs_gateways()
 {
-    $command = 'GetPaymentMethods';
+    $records = Capsule::table('tblpaymentgateways')->get();
 
-    $result = localAPI($command, $postData);
+    $gateways = [];
 
-    $exists = array_key_exists('paymentmethods', $result);
+    foreach ($records as $record) {
 
-    if ($exists) {
-        $result = $result['paymentmethods']['paymentmethod'];
+        // It's exists
+        $exists = in_array($record->gateway, $gateways);
+
+        if ($exists) continue;
+
+        // It's not hidden
+        $show = Capsule::table('tblpaymentgateways')->where('gateway', $record->gateway)->where('setting', 'visible')->where('value', 'on')->first();
+
+        if ($show) {
+            $gateways[] = $record->gateway;
+        }
     }
 
-    return $result;
+    $listGateways = [];
+
+    foreach ($gateways as $gateway) {
+
+        // Find name
+        $name = Capsule::table('tblpaymentgateways')->where('gateway', $gateway)->where('setting', 'name')->first();
+
+        if ($name) {
+            $listGateways[] = ['name' => $name->value, 'module' => $gateway];
+        }
+    }
+
+    return $listGateways;
 }
 
 function caasify_get_whmcs_user_tickets($WhUserId)
