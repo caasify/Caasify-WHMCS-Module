@@ -192,7 +192,7 @@ function caasify_config(){
         "version" => "2.1.2",
         "author" => "Caasify",
         "fields" => array(
-            "BackendUrl" => array ("FriendlyName" => "Backend URL", "Type" => "dropdown", "Options" => 'https://cas.payacloud.online', "Description" => $BackendUrlLabel, "Default" => 'https://api.caasify.com'),
+            "BackendUrl" => array ("FriendlyName" => "Backend URL", "Type" => "dropdown", "Options" => 'https://api.caasify.com', "Description" => $BackendUrlLabel, "Default" => 'https://api.caasify.com'),
             "ResellerToken" => array ("FriendlyName" => "Reseller Token", "Type" => "text", "Size" => "31", "Description" => $ResellerTokenLabel, "Default" => ""),
             "DefLang" => array ("FriendlyName" => "Panel Language", "Type" => "dropdown", "Options" => $LanguageOptions, "Description" => $DefLangLabel, "Default" => "English"),
             "CaasifyCurrency" => array ("FriendlyName" => "<strong>Caasify Currency</strong>", "Type" => "dropdown", "Options" => $CurrencyOptions, "Description" => $CaasifyCurrencyLabel, "Default" => 'USD'),
