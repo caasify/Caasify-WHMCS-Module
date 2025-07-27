@@ -372,11 +372,11 @@ foreach ($files as $file) {
     }
 
         .c-box-left-blue{
-            background:rgb(171, 212, 252);
+            background:rgb(251, 251, 251);
         }
 
         .c-box-left-purple{
-            background:rgb(254, 212, 254);
+            background:rgb(255, 195, 55);
         }
 
 .c-box-selected{
