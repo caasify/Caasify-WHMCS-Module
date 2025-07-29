@@ -174,7 +174,7 @@ foreach ($files as $file) {
                             </span>
                         </td>
                         <td>
-                            <button class="btn btn-sm text-capitalize" :class="orderTypeClass(order.type)">
+                            <button class="btn btn-sm text-uppercase" :class="orderTypeClass(order.type)">
                                 {{ order.type }}
                             </button>
                         </td>
