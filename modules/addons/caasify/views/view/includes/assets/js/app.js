@@ -543,6 +543,21 @@ app = createApp({
             this.loadExpenses()
         },
 
+        SelectedCharge() {
+
+            this.ChargeFormError = null
+
+            if (this.SelectedCharge < this.config.MinimumCharge) {
+
+                this.ChargeFormError = 'The amount is below the minimum allowed'
+            }
+
+            if (this.SelectedCharge > this.config.MaximumCharge) {
+
+                this.ChargeFormError = 'The amount exceeds the maximum allowed'
+            }
+        },
+
         ChargeInvoiceId() {
         
             let address = [this.systemUrl, 'viewinvoice.php'].join('/')

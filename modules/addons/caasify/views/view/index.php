@@ -52,25 +52,29 @@ foreach ($files as $file) {
 
 <div class="d-flex justify-content-between">
     <div class="">
-        <span class="mr-2 text-primary font-bold">UserID:</span> {{user?.id }}
+        <button type="button" class="btn btn-primary ms-1" data-bs-toggle="modal" data-bs-target="#chargeModal">
+            <i class="bi bi-wallet2 me-1"></i> {{ lang('Add Fund') }}
+        </button>
+        
+        <button @click="openFinancePage" type="button" class="btn btn-primary ms-1">
+            <i class="bi bi-wallet2 me-1"></i> {{ lang('Finance') }}
+        </button>
     </div>
     <div class="">
-        <button @click="openFinancePage" type="button" class="btn btn-primary">
-            <i class="bi bi-wallet2 me-1"></i> Finance
-        </button>
+        <span class="mr-2 text-primary font-bold">UserID:</span> {{user?.id }}
     </div>
 </div>
 
 <!-- Balance -->
 <div class="col-md-3">
-    <div class="card text-center py-4">
+    <div class="card text-center py-5">
         <div class="card-body">
-            <h2 class="text-primary mb-5">
+            <h2 class="text-primary">
                 {{ formatUserBalance(user?.available_balance) }} <span class="fs-5 text-secondary">{{ userCurrencySymbolFromWhmcs }}</span>
             </h2>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chargeModal">
-                <i class="bi bi-wallet2 me-1"></i> TopUp
-            </button>
+            <p class="fs-5 text-muted mb-0">
+                {{ lang('‌Balance') }}
+            </p>
         </div>
     </div>
 </div>
