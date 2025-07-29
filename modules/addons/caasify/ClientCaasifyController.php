@@ -547,6 +547,7 @@ class ClientCaasifyController
 
     public function CreateChargeInvoice()
     {
+        // Find params
         $params = $this->getJsonParamsFromRequest();
 
         // Find amount
@@ -554,6 +555,23 @@ class ClientCaasifyController
 
         if (empty($amount)) {
             return $this->response(['message' => 'The amount field is required']);
+        }
+
+        // Find config
+        $config = caasify_get_config_decoded();
+
+        // Check min charge
+        $minCharge = caasify_get_array('MinimumCharge', $config);
+
+        if ($amount < $minCharge) {
+            return $this->response(['message' => 'The amount is below the minimum allowed']);
+        }
+
+        // Check max charge
+        $maxCharge = caasify_get_array('MaximumCharge', $config);
+
+        if ($amount > $maxCharge) {
+            return $this->response(['message' => 'The amount exceeds the maximum allowed']);
         }
 
         // Find gateway

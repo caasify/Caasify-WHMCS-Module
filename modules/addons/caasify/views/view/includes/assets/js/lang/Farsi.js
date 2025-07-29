@@ -618,7 +618,9 @@ let common = {
     "Processing": "منتظر بمانید",
 
     "The amount field is required": "مبلغ را انتخاب نکرده اید",
-    "The gateway field is required": "درگاه پرداخت را انتخاب نکرده اید"
+    "The gateway field is required": "درگاه پرداخت را انتخاب نکرده اید",
+    "The amount is below the minimum allowed": "مبلغ وارد شده از مقدار مجاز کمتر است",
+    "The amount exceeds the maximum allowed": "مبلغ وارد شده از مقدار مجاز بیشتر است"
 }
 
 const words = {
