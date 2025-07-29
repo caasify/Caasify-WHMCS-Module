@@ -178,7 +178,18 @@ foreach ($files as $file) {
                                 {{ order.type }}
                             </button>
                         </td>
-                        <td>
+                        <td v-if="order?.installed < 100" >
+                        
+                            <div class="progress-title">
+                                {{ lang('Installing') }}
+                            </div>
+                            <div class="progress-layout">
+                                <div class="progress-line">
+                                    <div class="progress-blue" :style="progress(order.installed)"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td v-else>
                             <button @click="open(order)" class="btn btn-sm text-capitalize" :class="orderTypeClass(order.type)">
                                 {{ lang('View') }}
                             </button>
@@ -382,4 +393,26 @@ foreach ($files as $file) {
 .c-box-selected{
     border: 2px solid #0a58ca;
 }
+
+.progress-layout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .progress-line{
+        position: relative;
+        width: 100px;
+        background: #ccc;
+    }
+
+    .progress-line,
+    .progress-blue{
+        height: 8px;
+    }
+
+    .progress-blue{
+        position: absolute;
+        background: #0d6efd;
+    }
 </style>

@@ -1675,6 +1675,28 @@ app = createApp({
             return Number(amount)
         },
 
+        progress(percent) {
+
+            if (percent < 10) {
+                percent = 10
+            }
+
+            color = '#ffc337'
+
+            if (percent >= 50) {
+                color = '#ff9137'
+            }
+
+            if (percent >= 80) {
+                color = '#0d6efd'
+            }
+
+            return {
+                'background': color, 
+                'width': `${percent}%`
+            }
+        },
+
         async LoadWhmcsUser() {
             RequestLink = this.CreateRequestLink(action = 'WhmcsUserInfo'); 
             let response = await axios.get(RequestLink);

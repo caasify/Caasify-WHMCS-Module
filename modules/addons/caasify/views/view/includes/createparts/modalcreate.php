@@ -169,7 +169,7 @@
                                     </div>
                                     <div v-else class="row d-flex flex-row justify-content-end p-0 m-0">
                                         <a class="col-auto btn btn-primary px-4 py-2"
-                                            :href="NewMcahineCreatedViewLink"
+                                            href="<?php echo($systemUrl . '/index.php?m=caasify&action=pageIndex'); ?>"
                                             target='_top'>{{ lang('Machine View') }}</a>
                                     </div>
                                 </div>
