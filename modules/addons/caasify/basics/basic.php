@@ -296,7 +296,7 @@ function caasify_create_currency_options(){
 
 function caasify_GetDefaulLanguage(){
     $CaasifyConfig = caasify_get_config_decoded();
-    $allowedLanguages = ['English', 'Farsi', 'Turkish', 'Russian', 'French', 'Deutsch', 'Brizilian', 'Italian'];
+    $allowedLanguages = ['English', 'Farsi', 'Turkish', 'Spanish', 'Russian', 'French', 'Deutsch', 'Brizilian', 'Italian'];
     
     // Find DefLang
     if(!empty($CaasifyConfig) && !empty($CaasifyConfig['DefLang']) && in_array($CaasifyConfig['DefLang'], $allowedLanguages)){    

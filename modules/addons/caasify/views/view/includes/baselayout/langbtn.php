@@ -7,6 +7,7 @@
             'Farsi' => 'فارسی',
             'English' => 'English',
             'Turkish' => 'Türkçe',
+            'Spanish' => 'Española',
             'French' => 'Français',
             'Deutsch' => 'Deutsch',
             'Russian' => 'Pусский',

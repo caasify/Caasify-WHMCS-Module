@@ -123,6 +123,7 @@ function caasify_config(){
         'English' => 'English',
         'Farsi' => 'فارسی',
         'Turkish' => 'Türkçe',
+        'Spanish' => 'Española',
         'French' => 'Français',
         'Deutsch' => 'Deutsch',
         'Russian' => 'Pусский',
