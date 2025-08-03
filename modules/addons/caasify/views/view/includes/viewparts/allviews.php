@@ -33,3 +33,5 @@
         </div>
     </div>
 </div>
+
+<?php include('./includes/viewparts/failed.php');?>

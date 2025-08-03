@@ -620,7 +620,14 @@ let common = {
     "The amount field is required": "مبلغ را انتخاب نکرده اید",
     "The gateway field is required": "درگاه پرداخت را انتخاب نکرده اید",
     "The amount is below the minimum allowed": "مبلغ وارد شده از مقدار مجاز کمتر است",
-    "The amount exceeds the maximum allowed": "مبلغ وارد شده از مقدار مجاز بیشتر است"
+    "The amount exceeds the maximum allowed": "مبلغ وارد شده از مقدار مجاز بیشتر است",
+
+    "Something was wrong!": "متاسفانه خطایی اتفاق افتاده است",
+    "The order could not created successfully": "مشکلی در ایجاد این سفارش اتفاق افتاده است",
+    "Would you like to delete it?": "آیا تمایل دارید این سفارش را حذف کنید؟",
+    "Open Ticket": "باز کردن تیکت",
+    "Deleting": "در حال حذف",
+    "Delete": "حذف"
 }
 
 const words = {

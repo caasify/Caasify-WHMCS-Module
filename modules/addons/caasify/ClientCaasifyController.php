@@ -409,6 +409,33 @@ class ClientCaasifyController
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
+    public function CaasifyCancelOrder()
+    {
+        $userToken = $this->UserToken;
+
+        $orderId = caasify_get_post('orderId');
+
+        $response = $this->sendCaasifyCancelOrder($userToken, $orderId);
+
+        return $this->response($response);
+    }
+
+    protected function sendCaasifyCancelOrder($userToken, $orderId)
+    {
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $userToken
+        ];
+
+        $params = ['orderId' => $orderId];
+
+        $address = [
+            $this->BackendUrl, 'api', 'orders', $orderId, 'cancel'
+        ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->setParams($params)->getResponse()->asObject();
+    }
+
     public function CaasifyOrderDoAction()
     {
         $UserToken = $this->UserToken;

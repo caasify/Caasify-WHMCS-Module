@@ -32,6 +32,8 @@ app = createApp({
             noRecomPlanToShow: false,
             recomPlans: [],
 
+            isDeleting: false,
+
             checkBoxesStatus: {},
             onlyUnlimitedTrafficCheckbox: false,
             noPlanToShow: false,
@@ -1088,6 +1090,8 @@ app = createApp({
 
             await this.LoadTheOrder();
 
+            await this.CheckSetupAction();
+
             await this.LoadCaasifyUser();
             await this.LoadWhmcsUser();
             await this.LoadWhmcsCurrencies();
@@ -1974,6 +1978,46 @@ app = createApp({
             else {
                 console.error('can not find the invoice ID');
             }
+        },
+
+        async CheckSetupAction() {
+
+            let order = this.thisOrder
+
+            if (order?.status == 'active' && order?.setup?.status == 'failed') {
+
+                let modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                modal.show();
+            }
+        },
+
+        async deleteOrder() {
+
+            this.isDeleting = true
+
+            let requestLink = this.CreateRequestLink(action = 'CaasifyCancelOrder');
+
+            let formData = new FormData
+
+            formData.append('orderId', this.thisOrder?.id)
+
+            let response = await axios.post(requestLink, formData)
+
+            response = response.data
+
+            if (response?.data) {
+
+                window.location.reload();
+            }
+
+            this.isDeleting = false
+        },
+
+        openTicketPage() {
+
+            let address = this.systemUrl + '/submitticket.php'
+
+            window.open(address, '_top')
         },
         
         openCreatePage() {
