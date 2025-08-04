@@ -153,6 +153,7 @@ app = createApp({
 
             CaasifyCharges: [5, 10, 25, 50],
             SelectedCharge: null,
+            SelectedChargeInCaasifyCurrency: null,
 
             ChargeFormError: null,
             ChargeFormProcessing: false,
@@ -549,12 +550,14 @@ app = createApp({
 
             this.ChargeFormError = null
 
-            if (this.SelectedCharge < this.config.MinimumCharge) {
+            this.SelectedChargeInCaasifyCurrency = this.convertFromWhmcsToCloud(this.SelectedCharge)
+
+            if (this.SelectedChargeInCaasifyCurrency < this.config.MinimumCharge) {
 
                 this.ChargeFormError = 'The amount is below the minimum allowed'
             }
 
-            if (this.SelectedCharge > this.config.MaximumCharge) {
+            if (this.SelectedChargeInCaasifyCurrency > this.config.MaximumCharge) {
 
                 this.ChargeFormError = 'The amount exceeds the maximum allowed'
             }

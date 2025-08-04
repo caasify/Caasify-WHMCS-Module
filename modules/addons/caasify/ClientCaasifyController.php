@@ -585,21 +585,21 @@ class ClientCaasifyController
         }
 
         // Find config
-        $config = caasify_get_config_decoded();
+        //$config = caasify_get_config_decoded();
 
         // Check min charge
-        $minCharge = caasify_get_array('MinimumCharge', $config);
+        //$minCharge = caasify_get_array('MinimumCharge', $config);
 
-        if ($amount < $minCharge) {
-            return $this->response(['message' => 'The amount is below the minimum allowed']);
-        }
+        //if ($amount < $minCharge) {
+        //    return $this->response(['message' => 'The amount is below the minimum allowed']);
+        //}
 
         // Check max charge
-        $maxCharge = caasify_get_array('MaximumCharge', $config);
+        //$maxCharge = caasify_get_array('MaximumCharge', $config);
 
-        if ($amount > $maxCharge) {
-            return $this->response(['message' => 'The amount exceeds the maximum allowed']);
-        }
+        //if ($amount > $maxCharge) {
+        //    return $this->response(['message' => 'The amount exceeds the maximum allowed']);
+        //}
 
         // Find gateway
         $gateway = caasify_get_array('gateway', $params);
