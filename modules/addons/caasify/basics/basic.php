@@ -136,6 +136,7 @@ function get_config_array_temp(){
         'resellerMode' => null,
         'DevelopeMode' => null,
         'DemoMode' => null,        
+        'ShowDatacenterName' => null,
         
         'errorMessage' => null,
         

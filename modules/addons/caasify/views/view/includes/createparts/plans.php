@@ -155,11 +155,19 @@
                                         </div>
                                         <div class="col-12 py-1">
                                             <div class="row">
+                                                <?php if($showDatacenterName == 'off') {?>
                                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0 d-flex align-items-center gap-2">
                                                         <img :src="`./includes/assets/img/countries/${plan.detail.dc_country}.svg`" width="20" :title="plan.detail.dc_country" :alt="plan.detail.dc_country"> {{ plan.detail.dc_city }} - {{ plan.detail.dc_name }}
                                                     </p>
                                                 </div>
+                                                <?php } else {?>
+                                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                                    <p class="m-0 p-0 d-flex align-items-center gap-2">
+                                                        <img :src="`./includes/assets/img/countries/${plan.detail.dc_country}.svg`" width="20" :title="plan.detail.dc_country" :alt="plan.detail.dc_country"> {{ plan.detail.dc_city }} - {{ plan.detail.dc_real_name }}
+                                                    </p>
+                                                </div>
+                                                <?php }?>
                                                 <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                                     <p class="m-0 p-0">
                                                         Traffic: <span :class="thePlansTextClass(plan)">{{ plan.traffic_limit/1000 }}TB</span>

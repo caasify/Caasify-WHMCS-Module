@@ -214,6 +214,7 @@ function caasify_config(){
             "resellerMode" => array ("FriendlyName" => "<strong>Reseller Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $resellerModeLabel, "Default" => 'off'),
             "DevelopeMode" => array ("FriendlyName" => "<strong>Develope Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DevelopeModeLabel, "Default" => 'off'),
             "DemoMode" => array ("FriendlyName" => "<strong>DEMO Mode</strong>", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $DemoModeLabel, "Default" => 'off'),
+            "ShowDatacenterName" => array ("FriendlyName" => "Show Datacenter Name", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => "Customers will be able to see data-center of products", "Default" => 'off'),
 
             "VpsPricingEnabled" => array ("FriendlyName" => "VPS Pricing Enable", "Type" => "dropdown", "Options" => $YesNoOptions, "Description" => $VpsPricingEnabledLabel, "Default" => 'on'),
             "CaasifyCurrencyForVPSPricing" => array ("FriendlyName" => "VPS pricing currency", "Type" => "dropdown", "Options" => $CurrencyOptions, "Description" => $CaasifyCurrencyForVPSPricing, "Default" => 'EURO'),

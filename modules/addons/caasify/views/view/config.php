@@ -35,6 +35,13 @@ if(!isset($DevelopeMode)){
     $DevelopeMode = 'off';
 }
 
+// Show Datacenter Name
+$showDatacenterName = $configs['ShowDatacenterName'];
+
+if (!isset($showDatacenterName)) {
+    $showDatacenterName = 'off';
+}
+
 // VpsPricingEnabled
 $VpsPricingEnabled = $configs['VpsPricingEnabled'];
 if(!isset($VpsPricingEnabled)){
