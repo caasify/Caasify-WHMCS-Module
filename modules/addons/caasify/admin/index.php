@@ -51,6 +51,67 @@ Caasify is an unique solution for Data Centers and Hosting companies to meet in 
     </div>
 </div>
 
+<h5 class="mt-5 mb-3">List of Invoices</h5>
+
+<div class="table table-responsive">
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <th>Invoice ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Amount</th>
+            <th>Real Amount</th>
+            <th>Ratio</th>
+            <th>Commission</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            <tr v-for="invoice in invoices">
+                <td>
+                    {{ invoice.invoice_id }}
+                </td>
+                <td>
+                    {{ invoice.firstname }}
+                </td>
+                <td>
+                    {{ invoice.lastname }}
+                </td>
+                <td>
+                    {{ invoice.chargeamount }}
+                </td>
+                <td>
+                    {{ invoice.real_charge_amount }}
+                </td>
+                <td>
+                    {{ invoice.ratio }}
+                </td>
+                <td>
+                    {{ invoice.commission }}
+                </td>
+                <td>
+                    <span v-if="isPaid(invoice)" class="badge bg-primary mx-1">
+                        Paid
+                    </span>
+
+                    <span v-else class="badge bg-danger mx-1">
+                        Unpaid
+                    </span>
+
+                    <span v-if="isCompleted(invoice)" class="badge bg-success mx-1">
+                        Charged
+                    </span>
+
+                    <span v-else class="badge bg-danger mx-1">
+                        Not Charged
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 </div>
 
 </div>
@@ -60,4 +121,4 @@ Caasify is an unique solution for Data Centers and Hosting companies to meet in 
 <script src="./assets/js/vue.global.prod.js"></script>
 <script src="./assets/js/lodash.min.js"></script> 
 <script src="./assets/js/axios.min.js"></script>
-<script src="./assets/js/app.js"></script>
+<script src="./assets/js/app.js?v=1"></script>

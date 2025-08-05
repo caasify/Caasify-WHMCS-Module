@@ -8,6 +8,8 @@ app = createApp({
             localVersion: null,
             latestVersion: null,
 
+            invoices: [],
+
             isUpdating: false,
             isUpdatingPermission: false,
 
@@ -19,6 +21,8 @@ app = createApp({
         this.loadSystemUrl()
         this.loadLocalVersion()
         this.loadLatestVersion()
+
+        this.loadInvoices()
     },
 
     methods: {
@@ -50,6 +54,35 @@ app = createApp({
             if (response?.message) {
                 alert(response.message)
             }
+        },
+
+        async loadInvoices() {
+        
+            let response = await axios.get(this.systemUrl + '/caasify.php?action=invoices')
+
+            response = response.data
+
+            if (response?.data) {
+                this.invoices = response.data
+            }
+        },
+
+        isPaid(invoice) {
+
+            if (invoice?.invoice_status == 'Paid') {
+                return true
+            }
+
+            return false
+        },
+
+        isCompleted(invoice) {
+
+            if (invoice?.transactionid) {
+                return true
+            }
+
+            return false
         },
 
         async updateModule() {
