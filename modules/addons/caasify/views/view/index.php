@@ -73,7 +73,7 @@ foreach ($files as $file) {
                 {{ formatUserBalance(user?.available_balance) }} <span class="fs-5 text-secondary">{{ userCurrencySymbolFromWhmcs }}</span>
             </h2>
             <p class="fs-5 text-muted mb-0">
-                {{ lang('‌Balance') }}
+                {{ lang('Account Balance') }}
             </p>
         </div>
     </div>
@@ -124,7 +124,9 @@ foreach ($files as $file) {
 <div v-if="isEmpty(activeorders)" class="card mb-4">
     <div class="card-header bg-white fw-semibold p-3 d-flex justify-content-between align-items-center">
         <span>{{ lang('Your Active Orders') }}</span>
-        <button @click="openCreatePage" class="btn btn-sm btn-primary ms-auto">Create order</button>
+        <button @click="openCreatePage" class="btn btn-sm btn-primary ms-auto">
+            {{ lang('Create Order') }}
+        </button>
     </div>
     <div class="card-body text-center">
         <img src="./includes/assets/img/default.jpg" width="64" class="mb-3">
@@ -132,7 +134,7 @@ foreach ($files as $file) {
             {{ lang('No Active Orders Found') }}
         </p>
         <button type="button" @click="openCreatePage" class="btn btn-light text-primary text-decoration-none fw-semibold">
-            {{ lang('Place New Order') }}
+            {{ lang('Create Order') }}
         </button>
     </div>
 </div>
@@ -140,7 +142,9 @@ foreach ($files as $file) {
 <div v-else class="card mb-4">
     <div class="card-header bg-white fw-semibold p-3 d-flex justify-content-between align-items-center">
         <span>{{ lang('Your Active Orders') }}</span>
-        <button @click="openCreatePage" class="btn btn-sm btn-primary ms-auto">Create order</button>
+        <button @click="openCreatePage" class="btn btn-sm btn-primary ms-auto">
+            {{ lang('Create Order') }}
+        </button>
     </div>
     <div class="card-body text-center p-0">
         <div class="table-responsive">

@@ -627,7 +627,11 @@ let common = {
     "Would you like to delete it?": "آیا تمایل دارید این سفارش را حذف کنید؟",
     "Open Ticket": "باز کردن تیکت",
     "Deleting": "در حال حذف",
-    "Delete": "حذف"
+    "Delete": "حذف",
+
+    "Add Fund": "افزایش موجودی",
+    "Create Order": "ایجاد سفارش",
+    "Account Balance": "موجودی حساب"
 }
 
 const words = {
