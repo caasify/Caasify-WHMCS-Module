@@ -1684,7 +1684,7 @@ app = createApp({
                 amount *= this.CurrenciesRatioCloudToWhmcs
             }
 
-            return amount
+            return Math.ceil(amount)
         },
 
         formatCurrencyAmount(amount) {
@@ -1694,7 +1694,7 @@ app = createApp({
                 amount *= this.CurrenciesRatioCloudToWhmcs
             }
 
-            return Number(amount)
+            return Math.ceil(amount).toLocaleString()
         },
 
         progress(percent) {
