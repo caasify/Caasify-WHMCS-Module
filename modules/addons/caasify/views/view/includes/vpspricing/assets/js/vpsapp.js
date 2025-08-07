@@ -1667,7 +1667,7 @@ vpsapp = createApp({
             if (this.systemUrl != null) {
                 base = this.systemUrl
             }
-            let address = base + '/modules/addons/caasify/views/view/create.php'
+            let address = base + '/index.php?m=caasify&action=pageCreate'
             window.open([address], "_top")
         },
         
@@ -2304,7 +2304,7 @@ vpsapp = createApp({
         },
 
         selectPlan(plan) {
-            this.showRegisterModal() 
+            //this.showRegisterModal() 
 
             // this.scrollToConfig()
             // this.PlanConfigSelectedOptions = {}

@@ -100,4 +100,6 @@ if(!isset($MyCaasifyStatus) || $MyCaasifyStatus != 'on'){
     $MyCaasifyStatus = 'on';
 }
 
+$isLoggedIn = caasify_get_array('uid', $_SESSION);
+
 ?>

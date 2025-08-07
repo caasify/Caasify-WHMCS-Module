@@ -125,8 +125,11 @@
                                         class="row w-100 rounded-3 text-dark shadow-sm py-2 px-2 plans-childs btn my-1 position-relative text-start"
                                         :class="thePlansClass(plan)"
                                         :style="thePlansStyle(plan)"
-                                        @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#configModal"
-                                        >
+                                        <?php if($isLoggedIn) {?>
+                                        @click="openCreatePage">
+                                        <?php } else {?>
+                                        @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                        <?php }?>
                                         <div class="col-12 py-1">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6 col-md-6 col-lg-4">
@@ -198,19 +201,23 @@
                                         class="rounded-3 text-dark shadow-sm py-2 px-4 border border-2"
                                         :class="thePlansClass(plan)"
                                         :style="thePlansStyle(plan)"
-                                        @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#configModal" style="cursor: pointer;">
+                                        <?php if($isLoggedIn) {?>
+                                        @click="openCreatePage">
+                                        <?php } else {?>
+                                        @click="selectPlan(plan)" data-bs-toggle="modal" data-bs-target="#loginModal" style="cursor: pointer;">
+                                        <?php }?>
                                         <div class="row" v-if="CommissionIsValid">
                                             <div class="col-12 py-1">
                                                 <div class="row">
                                                     <p class="m-0 p-0" style="text-wrap: nowrap;">
-                                                        {{ formatPlanPriceForVPS(plan.price) }} Monthly
+                                                        {{ formatPlanPriceForVPS(plan.price) }} {{ lang('Monthly') }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="col-12 py-1">
                                                 <div class="row">
                                                     <p class="m-0 p-0 small" style="text-wrap: nowrap;">
-                                                        {{ formatPlanPriceForVPS(plan.hourly_price) }} Hourly
+                                                        {{ formatPlanPriceForVPS(plan.hourly_price) }} {{ lang('Hourly') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -231,8 +238,26 @@
 <!-- end plan -->
 
 <!-- Config modal -->
-<div class="modal fade modal-lg" id="configModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="false" ref="configModal">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-top" style="max-width: 650px !important; padding-top: 150px">
-        Config
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row text-center px-3 py-4 fs-6">
+                    <p class="m-0 p-0 h5">
+                        <span>
+                            {{ lang('To continue, please log in') }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer d-flex flex-row align-items-center justify-content-center">
+                <a class="btn btn-primary px-4" href="<?php echo $systemUrl;?>/register.php" target="_blanck">
+                    {{ lang('Register') }}
+                </a>
+                <a class="btn btn-primary px-4" href="<?php echo $systemUrl;?>/index.php?rp=/login" target="_blanck">
+                    {{ lang('Log in') }}
+                </a>
+            </div>
+        </div>
     </div>
 </div>
