@@ -221,14 +221,14 @@
                                             <div class="col-12 py-2">
                                                 <div class="row">
                                                     <p class="m-0 p-0" style="text-wrap: nowrap;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Based on 640 hours">
-                                                        {{ formatPlanPrice(plan.price) }} Monthly
+                                                        {{ formatPlanPrice(plan.price) }} {{ lang('Monthly') }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="col-12 py-1">
                                                 <div class="row">
                                                     <p class="m-0 p-0 small" style="text-wrap: nowrap;">
-                                                        {{ formatPlanPrice(plan.hourly_price) }} Hourly
+                                                        {{ formatPlanPrice(plan.hourly_price) }} {{ lang('Hourly') }}
                                                     </p>
                                                 </div>
                                             </div>

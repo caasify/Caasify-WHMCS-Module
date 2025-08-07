@@ -209,7 +209,7 @@
                 <span class="m-0 p-0">
                     <i class="bi bi-hdd-network text-secondary pe-3 fs-5"></i>
                     <span class="m-0 p-0 text-secondary ps-2 fs-5">
-                        Traffic Stats
+                        {{ lang('Traffic Stats') }}
                     </span>
                 </span>
             </div>
@@ -218,12 +218,12 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Monthly Allowed
+                {{ lang('Monthly Allowed') }}
             </span>
         </div>
         <div class="m-0 p-0">
             <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
-                {{ thisOrder.records[0].product.traffic_limit }} GB
+                {{ thisOrder.records[0].product.traffic_limit }} {{ lang('GB') }}
             </span>
         </div>
     </div>
@@ -233,12 +233,12 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Daily allowed
+                {{ lang('Daily Allowed') }}
             </span>
         </div>
         <div class="m-0 p-0">
             <span class="text-primary fw-medium m-0 p-0 fs-5 align-middle">
-                {{ Number(thisOrder.records[0].product.traffic_limit / 30).toFixed() }} GB
+                {{ Number(thisOrder.records[0].product.traffic_limit / 30).toFixed() }} {{ lang('GB') }}
             </span>
         </div>
     </div>
@@ -248,7 +248,7 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Traffic debt
+                {{ lang('Traffic Debt') }}
             </span>
         </div>
         <div class="m-0 p-0">
@@ -271,7 +271,7 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Inbound
+                {{ lang('Inbound') }}
             </span>
         </div>
         <div class="m-0 p-0">
@@ -287,7 +287,7 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Outbound
+                {{ lang('Outbound') }}
             </span>
         </div>
         <div class="m-0 p-0">
@@ -302,7 +302,7 @@
     <div class="d-flex flex-row justify-content-between align-items-center m-0 p-0">
         <div class="m-0 p-0">
             <span class="text-secondary fs-6 align-middle m-0 p-0">
-                Total
+                {{ lang('Total') }}
             </span>
         </div>
         <div class="m-0 p-0">

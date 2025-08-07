@@ -229,4 +229,10 @@
     </div>
 </div>
 <!-- end plan -->
-<!-- <div id="configsPoint"></div> -->
+
+<!-- Config modal -->
+<div class="modal fade modal-lg" id="configModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="false" ref="configModal">
+    <div class="modal-dialog modal-dialog-top" style="max-width: 650px !important; padding-top: 150px">
+        Config
+    </div>
+</div>

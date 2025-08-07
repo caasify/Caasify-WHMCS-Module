@@ -492,6 +492,21 @@ let common = {
     "Turkey": "ترکیه",
     "United Arab Emirates": "امارات متحده عربی",
     "United Kingdom": "بریتانیا",
+    "Finland": "فنلاند",
+    "Russia": "ایران",
+
+    "Monthly": "ماهانه",
+    "Hourly": "ساعتی",
+
+    "Traffic Stats": "اطلاعات ترافیک",
+    "Monthly Allowed": "مصرف مجاز ماهانه",
+    "Daily Allowed": "مصرف مجاز روزانه",
+    "Traffic Debt": "بدهی ترافیک",
+    "Inbound": "دریافت",
+    "Outbound": "ارسال",
+    "Total": "مجموع",
+    "GB": "گیگابایت",
+    "MB": "مگابایت",
     
     "IPV6" : "آی‌پی نسخه 6",
     "IPV4" : "آی‌پی نسخه 4",
