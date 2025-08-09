@@ -79,6 +79,24 @@ class CaasifyController
         $extractPath = $this->createLocalPath();
 
         $zip->extractTo($extractPath);
+
+        // Read marketplace file
+        $marketplaceFile = $zip->getFromName('templates/twenty-one/vpspricing.tpl');
+        
+        // Copy marketplace file to all templates
+        $templatesPath = $this->createLocalPath('templates/*');
+        
+        $folders = glob($templatesPath, GLOB_ONLYDIR);
+
+        foreach ($folders as $folder) {
+
+            $folderName = basename($folder);
+
+            $folderPath = $this->createLocalPath("templates/{$folderName}/vpspricing.tpl");
+
+            @file_put_contents($folderPath, $marketplaceFile);
+        }
+
         $zip->close();
 
         // Update was successful
