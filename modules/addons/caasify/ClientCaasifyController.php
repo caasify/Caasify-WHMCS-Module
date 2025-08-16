@@ -1171,7 +1171,14 @@ class ClientCaasifyController
 
     public function CaasifyGetPlansFromFiltersTerm()
     {
-        $ResellerToken = $this->ResellerToken;
+        $myCaasify = caasify_get_mycaasify_status();
+
+        if ($myCaasify == 'on') {
+            $ResellerToken = $this->UserToken;
+        } else {
+            $ResellerToken = $this->ResellerToken;
+        }
+
         $response = null;
 
         $termsArr = caasify_get_post_array_all();
