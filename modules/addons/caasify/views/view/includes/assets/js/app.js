@@ -1687,6 +1687,31 @@ app = createApp({
             return Math.ceil(amount)
         },
 
+        getOrderIP(order) {
+
+            ipv4 = null
+            ipv6 = null
+
+            order?.view?.references?.forEach(function(item) {
+
+                if (item.value && item.reference.type == 'ipv4') {
+
+                    ipv4 = item.value
+                }
+
+                if (item.value && item.reference.type == 'ipv6') {
+
+                    ipv6 = item.value
+                }
+            })
+
+            if (ipv4) {
+                return ipv4
+            }
+
+            return ipv6
+        },
+
         formatCurrencyAmount(amount) {
 
             if (this.CurrenciesRatioCloudToWhmcs) {

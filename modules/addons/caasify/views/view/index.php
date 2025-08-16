@@ -155,6 +155,9 @@ foreach ($files as $file) {
                             {{ lang('ID') }}
                         </th>
                         <th class="text-secondary">
+                            {{ lang('IP') }}
+                        </th>
+                        <th class="text-secondary">
                             {{ lang('Name') }}
                         </th>
                         <th class="text-secondary">
@@ -174,6 +177,7 @@ foreach ($files as $file) {
                 <tbody>
                     <tr v-for="order in activeorders">
                         <td>{{ order.id }}</td>
+                        <td>{{ getOrderIP(order) }}</td>
                         <td>{{ order.note }}</td>
                         <td>{{ order.created_at }}</td>
                         <td>
