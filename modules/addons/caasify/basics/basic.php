@@ -98,6 +98,22 @@ function caasify_get_session($name)
     return null;
 }
 
+function caasify_get_email_verification_is_enabled()
+{
+    $config = Capsule::table('tblconfiguration')->where('setting', 'EnableEmailVerification')->value('value');
+
+    return $config;
+}
+
+function caasify_get_client_email_is_verified()
+{
+    $userId = caasify_get_session('uid');
+
+    $client = Client::find($userId);
+
+    return $client->emailVerified;
+}
+
 function caasify_generate_string($length = 10)
 {
     $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';

@@ -1,5 +1,18 @@
-<!-- vpsconfig -->
-<!-- Modal Body -->
+<?php
+$verificationIsEnabled = caasify_get_email_verification_is_enabled();
+$isVerified = caasify_get_client_email_is_verified();
+
+if ($verificationIsEnabled && !$isVerified) {?>
+<div class="modal-body">
+    <div class="row text-center px-3 py-4 fs-6">
+        <p class="m-0 p-0 h5">
+            <span>
+                {{ lang('To continue, please verify your email') }}
+            </span>
+        </p>
+    </div>
+    </div>
+<?php } else {?>
 <div class="m-0 p-0">
     <div class="modal-body px-0 px-md-3 py-5" id="ConfigModalTop">
         <div class="row m-0 p-0">
@@ -33,3 +46,4 @@
         <?php  include('./includes/createparts/createbtn.php');    ?>
     </div>
 </div>
+<?php }?>

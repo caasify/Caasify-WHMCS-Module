@@ -527,6 +527,7 @@ let common = {
     "Reseller Info": "اطلاعات ریسلری",
 
     "To continue, please log in": "جهت سفارش، ابتدا وارد سایت شوید",
+    "To continue, please verify your email": "جهت سفارش، ابتدا ایمیل حساب خود را تایید کنید",
     "Register" : "ثبت نام",
     "Log in" : "ورود",
     "New Products" : "محصولات جدید",
