@@ -1646,6 +1646,10 @@ app = createApp({
 
         async startPayment() {
 
+            if (this.ChargeFormError) {
+                return null
+            }
+
             this.ChargeFormError = null
             this.ChargeFormProcessing = true
 
