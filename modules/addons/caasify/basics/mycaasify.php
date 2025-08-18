@@ -1,4 +1,4 @@
 <?php
 global $MyCaasifyIsEnabled;
 
-$MyCaasifyIsEnabled = true;
+$MyCaasifyIsEnabled = false;
