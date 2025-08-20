@@ -111,7 +111,11 @@ function caasify_get_client_email_is_verified()
 
     $client = Client::find($userId);
 
-    return $client->emailVerified;
+    if ($client->isEmailAddressVerified()) {
+        return true;
+    }
+
+    return false;
 }
 
 function caasify_generate_string($length = 10)
