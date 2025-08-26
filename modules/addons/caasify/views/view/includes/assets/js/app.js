@@ -1808,10 +1808,7 @@ app = createApp({
         },
 
         scrollToConfig() {
-            const Element = document.getElementById('configsPoint');
-            if (Element) {
-                Element.scrollIntoView({ behavior: 'smooth' });
-            }
+            window.parent.scrollTo({ top: 0, behavior: 'smooth' });
         },
 
         isIntOrFloat(value) {
