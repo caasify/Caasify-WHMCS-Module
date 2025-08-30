@@ -69,7 +69,7 @@
                 </span>
             </div>
             <div v-if="OrderStatus == 'offline'" class="m-0 p-0 d-none d-md-block ms-2">
-                <span class="btn bg-success text-success py-2 d-flex flex-row align-items-center px-2 ms-2 btn-sm"
+                <span class="btn bg-danger text-danger py-2 d-flex flex-row align-items-center px-2 ms-2 btn-sm"
                     style="--bs-bg-opacity: .2">
                     <span class="ms-1 pe-2 fw-medium">
                         {{ lang('offline') }}
