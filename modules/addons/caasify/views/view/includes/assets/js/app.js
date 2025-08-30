@@ -11,6 +11,8 @@ app = createApp({
             qrcodeIsLoaded: false,
             BtnCopyVpnPushed: false,
 
+            OrderStatus: null,
+
             waitingForPassword: false,
 
             VpnPlansAreLoaded: false,
@@ -1103,6 +1105,7 @@ app = createApp({
             if (this.thisOrder?.type == 'vps') {
 
                 await this.LoadActionsHistory();
+                await this.LoadOrderStatus();
                 await this.LoadOrderViews();
                 await this.LoadOrderTraffics();
 
@@ -2934,6 +2937,24 @@ app = createApp({
             }
 
             return ConfigPrice
+        },
+
+        async LoadOrderStatus() {
+
+            let orderID = this.orderID;
+
+            if (orderID != null) {
+                let formData = new FormData();
+                formData.append('orderID', orderID);
+
+                RequestLink = this.CreateRequestLink(action = 'CaasifyOrderStatus');
+                let response = await axios.post(RequestLink, formData);
+
+                if (response.data) {
+
+                    this.OrderStatus = response.data?.status
+                }
+            }
         },
 
         async LoadOrderTraffics() {

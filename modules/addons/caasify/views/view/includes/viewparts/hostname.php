@@ -60,6 +60,22 @@
                     </button>
                 </div>
             </div>
+            <div v-if="OrderStatus == 'online'" class="m-0 p-0 d-none d-md-block ms-2">
+                <span class="btn bg-success text-success py-2 d-flex flex-row align-items-center px-2 ms-2 btn-sm"
+                    style="--bs-bg-opacity: .2">
+                    <span class="ms-1 pe-2 fw-medium">
+                        {{ lang('online') }}
+                    </span>
+                </span>
+            </div>
+            <div v-if="OrderStatus == 'offline'" class="m-0 p-0 d-none d-md-block ms-2">
+                <span class="btn bg-success text-success py-2 d-flex flex-row align-items-center px-2 ms-2 btn-sm"
+                    style="--bs-bg-opacity: .2">
+                    <span class="ms-1 pe-2 fw-medium">
+                        {{ lang('offline') }}
+                    </span>
+                </span>
+            </div>
             <div class="m-0 p-0 d-none d-md-block ms-2">
                 <span class="btn bg-primary text-primary py-2 d-flex flex-row align-items-center px-4 btn-sm"
                     style="--bs-bg-opacity: .2">

@@ -51,6 +51,9 @@ let common = {
         "stopaction": "Stop",
         "consoleaction": "Console",
         "startaction": "Start",
+
+        "online": "Online",
+        "offline": "Offline",
     
         "rebooting": "Rebooting ...!",
         "stoping": "Stoping ...!",

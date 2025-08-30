@@ -534,6 +534,37 @@ class ClientCaasifyController
         return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
     }
 
+    public function CaasifyOrderStatus()
+    {
+        $UserToken = $this->UserToken;
+        $response = null;
+
+        $orderID = caasify_get_post('orderID');
+
+        if($UserToken && $orderID){
+            $response = $this->SendOrderStatus($UserToken, $orderID);
+        }
+
+        $this->response($response);
+    }
+
+    public function SendOrderStatus($UserToken, $orderID)
+    {
+
+        $headers = [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $UserToken
+        ];
+
+        $BackendUrl = $this->BackendUrl;
+
+        $address = [
+            $BackendUrl, 'api', 'monitoring', 'orders', $orderID, 'status'
+        ];
+
+        return Request::instance()->setAddress($address)->setHeaders($headers)->getResponse()->asObject();
+    }
+
     public function CaasifyOrderTraffics()
     {
         $UserToken = $this->UserToken;
