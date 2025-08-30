@@ -2036,10 +2036,11 @@ app = createApp({
 
             if (response?.data) {
 
-                window.location.reload();
+                this.goToHome()
+            } else {
+                
+                this.isDeleting = false
             }
-
-            this.isDeleting = false
         },
 
         openTicketPage() {
@@ -3120,9 +3121,7 @@ app = createApp({
                                 }
 
                                 if (button_name.toLowerCase() == 'delete') {
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    }, 6 * 1000);
+                                    this.goToHome()
                                 }
                             }
 
@@ -3144,6 +3143,12 @@ app = createApp({
                     }
                 }
             }
+        },
+
+        goToHome() {
+            let address = this.systemUrl + '/index.php?m=caasify&action=pageIndex'
+
+            window.parent.location.href = address
         },
 
         async PushButtonConsole() { 
