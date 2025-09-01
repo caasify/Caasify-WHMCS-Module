@@ -128,7 +128,7 @@
                         </p>
                         <div :id="'panelsStayOpen-collapse' + index" class="accordion-collapse collapse show border-0">
                             <div class="accordion-body bg-primary rounded-bottom-3" style="--bs-bg-opacity: 0.05;">
-                                <div v-for="(term, key) in filter?.terms" :key="key" class="form-check ms-1">
+                                <div data-bs-dismiss="modal" v-for="(term, key) in filter?.terms" :key="key" class="form-check ms-1">
                                     <input class="form-check-input" type="checkbox" 
                                         :disabled="plansAreLoading"
                                         :id="'termid-' + term?.id + '-' + term?.name"

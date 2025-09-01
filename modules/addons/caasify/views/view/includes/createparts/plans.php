@@ -1,3 +1,18 @@
+<div class="modal fade" id="regionModal" tabindex="-1" aria-labelledby="regionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <?php  include('./includes/createparts/filterterms.php'); ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+            {{ lang('close') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- plan-->
 <div class="row m-0 p-0 px-0 px-md-1 pt-2" id="plans">
     <div class="col-12" style="--bs-bg-opacity: 0.1;">
@@ -237,6 +252,13 @@
                                             Nan
                                         </div>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regionModal">
+                                        Load more
+                                    </button>
                                 </td>
                             </tr>
                         </div>
