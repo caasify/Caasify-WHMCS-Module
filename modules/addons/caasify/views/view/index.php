@@ -61,7 +61,7 @@ foreach ($files as $file) {
         </button>
     </div>
     <div class="">
-        <span class="mr-2 text-primary font-bold">UserID:</span> {{user?.id }}
+        <span class="mr-2 text-primary font-bold">UserID:</span> U{{user?.id }}
     </div>
 </div>
 
