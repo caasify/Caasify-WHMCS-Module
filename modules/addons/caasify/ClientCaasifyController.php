@@ -664,6 +664,12 @@ class ClientCaasifyController
                 return $this->response(['message' => 'The gift code is invalid']);
             }
 
+            $total = Capsule::table('tblcaasify_gift_invoice')->where('gift_id', $gift->id)->count();
+
+            if ($total >= $gift->total) {
+                return $this->response(['message' => 'The gift code is expired']);
+            }
+
             $amount = ($amount - (($amount / 100) * $gift->percent));
 
             if ($amount <= 0) {
@@ -721,6 +727,12 @@ class ClientCaasifyController
 
         if (!$gift) {
             return $this->response(['message' => 'The gift code is invalid']);
+        }
+
+        $total = Capsule::table('tblcaasify_gift_invoice')->where('gift_id', $gift->id)->count();
+
+        if ($total >= $gift->total) {
+            return $this->response(['message' => 'The gift code is expired']);
         }
 
         return $this->response(['percent' => $gift->percent]);

@@ -119,6 +119,87 @@ class CaasifyController
         return $currentDirectory;
     }
 
+    public function gifts()
+    {
+        $gifts = Capsule::table('tblcaasify_gifts')->get();
+
+        return $this->jsonResponse(['data' => $gifts]);
+    }
+
+    public function createGift()
+    {
+        $params = json_decode(
+            file_get_contents('php://input'), true);
+
+        $name = caasify_get_array('name', $params);
+
+        if (empty($name)) {
+            return $this->jsonMessage('The name field is required');
+        }
+
+        $code = caasify_get_array('code', $params);
+
+        if (empty($code)) {
+            return $this->jsonMessage('The code field is required');
+        }
+        
+        $percent = caasify_get_array('percent', $params);
+        
+        if (empty($percent)) {
+            return $this->jsonMessage('The percent field is required');
+        }
+        
+        $total = caasify_get_array('total', $params);
+        
+        if (empty($total)) {
+            return $this->jsonMessage('The total field is required');
+        }
+
+        if (!is_numeric($total)) {
+            return $this->jsonMessage('The total field must be a number');
+        }
+
+        if (!is_numeric($percent)) {
+            return $this->jsonMessage('The percent field must be a number');
+        }
+
+        $params = [
+            'name' => $name, 'code' => $code, 'percent' => $percent, 'total' => $total
+        ];
+
+        Capsule::table('tblcaasify_gifts')
+            ->insert($params);
+
+        $gift = Capsule::table('tblcaasify_gifts')
+            ->where('code', $code)->first();
+
+        return $this->jsonResponse(['data' => $gift]);
+    }
+
+    public function deleteGift()
+    {
+        $params = json_decode(
+            file_get_contents('php://input'), true);
+
+        $id = caasify_get_array('id', $params);
+
+        if (empty($id)) {
+            return $this->jsonMessage('The id field is required');
+        }
+
+        $gift = Capsule::table('tblcaasify_gifts')
+            ->where('id', $id)->first();
+
+        if (!$gift) {
+            return $this->jsonMessage('The gift not found');
+        }
+
+        Capsule::table('tblcaasify_gifts')
+            ->where('id', $id)->delete();
+
+        return $this->jsonResponse(['data' => $gift]);
+    }
+
     public function invoices()
     {
         $invoices = Capsule::select('SELECT c.firstname, c.lastname, a.id, a.ratio, a.chargeamount, a.real_charge_amount, a.commission, a.transactionid, b.id as invoice_id, b.status as invoice_status, y.percent as gift_percent FROM tblcaasify_invoices a INNER JOIN tblinvoices b ON b.id = a.invoiceid INNER JOIN tblclients c ON c.id = a.whuserid LEFT JOIN tblcaasify_gift_invoice x ON x.invoice_id = a.invoiceid LEFT JOIN tblcaasify_gifts y ON y.id = x.gift_id ORDER BY a.id DESC LIMIT 100');

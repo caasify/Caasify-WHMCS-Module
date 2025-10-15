@@ -10,6 +10,13 @@ app = createApp({
 
             invoices: [],
 
+            gifts: [],
+            giftForm: {},
+            giftFormError: null,
+
+            isCreating: false,
+            isDeleting: false,
+
             isUpdating: false,
             isUpdatingPermission: false,
 
@@ -23,6 +30,8 @@ app = createApp({
         this.loadLatestVersion()
 
         this.loadInvoices()
+
+        this.loadGifts()
     },
 
     methods: {
@@ -54,6 +63,55 @@ app = createApp({
             if (response?.message) {
                 alert(response.message)
             }
+        },
+
+        async loadGifts() {
+        
+            let response = await axios.get(this.systemUrl + '/caasify.php?action=gifts')
+
+            response = response.data
+
+            if (response?.data) {
+                this.gifts = response.data
+            }
+        },
+
+        async createGift() {
+        
+            this.isCreating = true
+
+            let response = await axios.post(this.systemUrl + '/caasify.php?action=createGift', this.giftForm)
+
+            response = response.data
+
+            if (response?.message) {
+                this.giftFormError = response.message
+            }
+
+            if (response?.data) {
+                window.location.reload();
+            }
+
+            this.isCreating = false
+        },
+
+        async deleteGift(id) {
+
+            this.isDeleting = true
+
+            let response = await axios.post(this.systemUrl + '/caasify.php?action=deleteGift', {id})
+
+            response = response.data
+            
+            if (response?.message) {
+                this.giftFormError = response.message
+            }
+
+            if (response?.data) {
+                window.location.reload();
+            }
+
+            this.isDeleting = false
         },
 
         async loadInvoices() {

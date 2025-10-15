@@ -51,6 +51,81 @@ Caasify is an unique solution for Data Centers and Hosting companies to meet in 
     </div>
 </div>
 
+<h5 class="mt-5 mb-3">List of Gifts</h5>
+
+<div class="table table-responsive">
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Percent</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            <tr v-for="gift in gifts">
+                <td>{{ gift.name }}</td>
+                <td>{{ gift.code }}</td>
+                <td>{{ gift.percent }}</td>
+                <td>{{ gift.total }}</td>
+                <td>
+                    <button v-if="isDeleting" class="btn btn-sm btn-danger" disabled>
+                        Deleting
+                    </button>
+
+                    <button v-else class="btn btn-sm btn-danger" @click="deleteGift(gift.id)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h5 class="mt-5 mb-3">Create Gift</h5>
+
+<div class="card">
+    <div class="card-body">
+
+        <div v-if="giftFormError" class="alert alert-danger">
+            {{ giftFormError }}
+        </div>
+
+        <form @submit.prevent="createGift">
+
+            <div class="form-group mb-2">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" v-model="giftForm.name" required>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="code">Code</label>
+                <input type="text" class="form-control" v-model="giftForm.code" required>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="percent">Percent</label>
+                <input type="number" class="form-control" v-model="giftForm.percent" required>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="total">Total</label>
+                <input type="number" class="form-control" v-model="giftForm.total" required>
+            </div>
+
+            <button v-if="isCreating" type="button" class="btn btn-primary" disabled>
+                Creating
+            </button>
+
+            <button v-else type="submit" class="btn btn-primary">
+                Create
+            </button>
+        </form>
+    </div>
+</div>
+
+
 <h5 class="mt-5 mb-3">List of Invoices</h5>
 
 <div class="table table-responsive">
