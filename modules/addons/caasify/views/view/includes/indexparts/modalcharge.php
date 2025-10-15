@@ -77,6 +77,37 @@
                                 </div>
                             </div>
 
+                            <div class="col-lg-12">
+                            
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        {{ lang('Enter gift code') }}
+                                    </span>
+
+                                    <input type="text" v-model="GiftCode" class="form-control px-4 py-2">
+
+                                    <button v-if="GiftCodeChecking" type="button" class="btn btn-primary" disabled>
+                                        {{ lang('Checking') }}
+                                    </button>
+
+                                    <button v-else type="button" @click="checkGiftCode" class="btn btn-primary">
+                                        Check    
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div v-if="GiftCodePercent" class="col-lg-12">
+
+                                <div class="alert alert-info mb-0">
+                                    {{ lang('Gift code applied') }}
+                                    
+                                    <span class="text-primary">
+                                        {{ GiftCodePercent }}%
+                                    </span>
+                                </div>
+                            </div>
+
                             <div v-if="ChargeFormError" class="col-lg-12">
 
                                 <div class="alert alert-danger mb-0">

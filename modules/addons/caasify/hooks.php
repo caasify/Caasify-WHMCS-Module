@@ -503,6 +503,17 @@ add_hook('InvoicePaid', 1, function($vars) {
         return false;
     }
 
+    $gift = Capsule::table('tblcaasify_gift_invoice')->where('invoice_id', $invoiceid)->first();
+
+    if ($gift) {
+
+        $gift = Capsule::table('tblcaasify_gifts')->where('id', $gift->gift_id)->first();
+
+        if ($gift) {
+            $RawAmountCharge = ($RawAmountCharge + (($RawAmountCharge / 100) * $gift->percent));
+        }
+    }
+
     $WhUserId = $invoice['userid'];
     if(!isset($WhUserId)){
         return false;

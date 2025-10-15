@@ -653,6 +653,24 @@ class ClientCaasifyController
             return $this->response(['message' => 'The ratio field is required']);
         }
 
+        // Find gift
+        $gift = caasify_get_array('giftCode', $params);
+
+        if ($gift) {
+
+            $gift = Capsule::table('tblcaasify_gifts')->where('code', $gift)->first();
+
+            if (!$gift) {
+                return $this->response(['message' => 'The gift code is invalid']);
+            }
+
+            $amount = ($amount - (($amount / 100) * $gift->percent));
+
+            if ($amount <= 0) {
+                return $this->response(['message' => 'The gift amount is greater than the invoice amount']);
+            }
+        }
+
         // Create invoice
         $params = [
             'userid' => $this->WhUserId, 'paymentmethod' => $gateway, 'itemamount1' => $amount, 'itemdescription1' => 'CsfUserBalance'
@@ -675,7 +693,37 @@ class ClientCaasifyController
         Capsule::table('tblcaasify_invoices')
             ->insert($params);
 
+        // Apply gift
+        if ($gift) {
+        
+            $params = [
+                'invoice_id' => $invoiceId, 'gift_id' => $gift->id
+            ];
+
+            Capsule::table('tblcaasify_gift_invoice')
+                ->insert($params);
+        }
+
         return $this->response(['id' => $invoiceId]);
+    }
+
+    public function CheckGiftCode()
+    {
+        $params = $this->getJsonParamsFromRequest();
+
+        $giftCode = caasify_get_array('giftCode', $params);
+
+        if (empty($giftCode)) {
+            return $this->response(['message' => 'The gift code field is required']);
+        }
+
+        $gift = Capsule::table('tblcaasify_gifts')->where('code', $giftCode)->first();
+
+        if (!$gift) {
+            return $this->response(['message' => 'The gift code is invalid']);
+        }
+
+        return $this->response(['percent' => $gift->percent]);
     }
 
     public function CreateNewUnpaidInvoice()

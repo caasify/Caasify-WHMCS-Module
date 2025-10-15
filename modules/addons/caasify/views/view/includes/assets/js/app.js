@@ -12,6 +12,9 @@ app = createApp({
             BtnCopyVpnPushed: false,
 
             OrderStatus: null,
+            GiftCode: null,
+            GiftCodePercent: null,
+            GiftCodeChecking: false,
 
             waitingForPassword: false,
 
@@ -1664,7 +1667,9 @@ app = createApp({
 
                 userId: this.CaasifyUserInfo?.id,
 
-                ratio: this.CurrenciesRatioWhmcsToCloud
+                ratio: this.CurrenciesRatioWhmcsToCloud,
+
+                giftCode: this.GiftCode,
             }
 
             let response = await axios.post(address, params)
@@ -1682,6 +1687,28 @@ app = createApp({
             }
 
             this.ChargeFormProcessing = false
+        },
+
+        async checkGiftCode() {
+
+            this.ChargeFormError = null
+            this.GiftCodeChecking = true
+
+            let RequestLink = this.CreateRequestLink(action = 'CheckGiftCode');
+            
+            let response = await axios.post(RequestLink, { giftCode: this.GiftCode });
+
+            response = response.data
+
+            if (response?.message) {
+                this.ChargeFormError = response.message
+            }
+
+            if (response?.percent) {
+                this.GiftCodePercent = response.percent;
+            }
+
+            this.GiftCodeChecking = false
         },
 
         getCurrencyAmount(amount) {

@@ -121,7 +121,7 @@ class CaasifyController
 
     public function invoices()
     {
-        $invoices = Capsule::select('SELECT c.firstname, c.lastname, a.id, a.ratio, a.chargeamount, a.real_charge_amount, a.commission, a.transactionid, b.id as invoice_id, b.status as invoice_status FROM tblcaasify_invoices a INNER JOIN tblinvoices b ON b.id = a.invoiceid INNER JOIN tblclients c ON c.id = a.whuserid ORDER BY a.id DESC LIMIT 100');
+        $invoices = Capsule::select('SELECT c.firstname, c.lastname, a.id, a.ratio, a.chargeamount, a.real_charge_amount, a.commission, a.transactionid, b.id as invoice_id, b.status as invoice_status, y.percent as gift_percent FROM tblcaasify_invoices a INNER JOIN tblinvoices b ON b.id = a.invoiceid INNER JOIN tblclients c ON c.id = a.whuserid LEFT JOIN tblcaasify_gift_invoice x ON x.invoice_id = a.invoiceid LEFT JOIN tblcaasify_gifts y ON y.id = x.gift_id ORDER BY a.id DESC LIMIT 100');
 
         return $this->jsonResponse(['data' => $invoices]);
     }

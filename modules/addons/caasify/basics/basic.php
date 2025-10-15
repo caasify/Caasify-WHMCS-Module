@@ -14,6 +14,26 @@ if (file_exists($MyCaasifyAddress)) {
     include($MyCaasifyAddress);
 }
 
+// Create gift table
+$hasTable = Capsule::schema()->hasTable('tblcaasify_gifts');
+
+if (!$hasTable) {
+
+    Capsule::schema()->create('tblcaasify_gifts', function ($table) {
+        $table->increments('id');
+        $table->string('name');
+        $table->string('code');
+        $table->decimal('percent', 10, 2);
+        $table->integer('total');
+    });
+
+    Capsule::schema()->create('tblcaasify_gift_invoice', function ($table) {
+        $table->increments('id');
+        $table->integer('invoice_id');
+        $table->integer('gift_id');
+    });
+}
+
 function caasify_get_mycaasify_status(){
     global $MyCaasifyIsEnabled;
     if(!isset($MyCaasifyIsEnabled) || $MyCaasifyIsEnabled != true){

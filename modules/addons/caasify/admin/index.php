@@ -65,6 +65,7 @@ Caasify is an unique solution for Data Centers and Hosting companies to meet in 
             <th>Real Amount</th>
             <th>Ratio</th>
             <th>Commission</th>
+            <th>Gift Percent</th>
             <th>Status</th>
         </thead>
         <tbody>
@@ -89,6 +90,9 @@ Caasify is an unique solution for Data Centers and Hosting companies to meet in 
                 </td>
                 <td>
                     {{ invoice.commission }}
+                </td>
+                <td>
+                    {{ invoice.gift_percent }}
                 </td>
                 <td>
                     <span v-if="isPaid(invoice)" class="badge bg-primary mx-1">
